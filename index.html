@@ -22,10 +22,9 @@
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Titiuu home">Titiuu</a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#about" data-i18n="nav.about">关于</a>
-        <a href="#blog" data-i18n="nav.blog">博客</a>
-        <a href="#projects" data-i18n="nav.projects">项目</a>
-        <a href="#contact" data-i18n="nav.contact">联系</a>
+        <a href="#tech" data-i18n="nav.tech">技术分享</a>
+        <a href="#papers" data-i18n="nav.papers">论文解读</a>
+        <a href="#projects" data-i18n="nav.projects">项目分享</a>
       </nav>
       <div class="language-switch" aria-label="Language switch">
         <button class="lang-button is-active" type="button" data-lang="zh">中文</button>
@@ -33,112 +32,139 @@
       </div>
     </header>
 
-    <main id="top">
-      <section class="hero section-shell" aria-labelledby="hero-title">
-        <div class="hero-kicker">AI Agent / LLM Engineering</div>
-        <div class="hero-grid">
-          <div>
-            <p class="eyebrow" data-i18n="hero.eyebrow">个人主页</p>
-            <h1 id="hero-title">Titiuu</h1>
-          </div>
-          <div class="hero-copy">
-            <figure class="avatar-frame">
-              <img src="https://github.com/Titiuu.png?size=512" alt="Titiuu avatar" />
-            </figure>
-            <p class="role" data-i18n="hero.role">AI工程师</p>
-            <p data-i18n="hero.summary">
-              一个在学点有趣的东西的开发者。专业是计算机 / 通信方向，目前是 Agent、大模型工程师。
-            </p>
-          </div>
-        </div>
-        <div class="hero-actions">
-          <a class="button primary" href="https://github.com/Titiuu" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a class="button secondary" href="mailto:lq122561@gmail.com">Email</a>
-        </div>
-      </section>
+    <main id="top" class="resume-layout">
+      <aside class="profile-card" aria-labelledby="profile-title">
+        <figure class="avatar-frame">
+          <img src="https://github.com/Titiuu.png?size=512" alt="Titiuu avatar" />
+        </figure>
 
-      <section id="about" class="section-shell split-section" aria-labelledby="about-title">
-        <div>
-          <p class="eyebrow" data-i18n="about.eyebrow">关于我</p>
-          <h2 id="about-title" data-i18n="about.title">计算机 / 通信背景下的大模型工程实践</h2>
-        </div>
-        <div class="section-copy">
-          <p data-i18n="about.body">
-            我关注 Agent、大模型应用工程和能够真实落地的 AI 系统，也会持续记录论文阅读、技术实验与项目复盘。
-          </p>
-          <div class="skills" aria-label="Skills">
-            <span>Python</span>
-            <span>C++</span>
-            <span>Java</span>
-          </div>
-        </div>
-      </section>
+        <p class="eyebrow" data-i18n="profile.eyebrow">个人主页</p>
+        <h1 id="profile-title">Titiuu</h1>
+        <p class="role" data-i18n="profile.role">AI工程师</p>
+        <p class="profile-summary" data-i18n="profile.summary">
+          一个在学点有趣的东西的开发者。专业是计算机 / 通信方向，目前是 Agent、大模型工程师。
+        </p>
 
-      <section id="blog" class="section-shell" aria-labelledby="blog-title">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="blog.eyebrow">个人博客</p>
-          <h2 id="blog-title" data-i18n="blog.title">即将写下的三类笔记</h2>
-          <p data-i18n="blog.note">
-            文章正文会以中文为主。首版先保留分类入口，等内容成熟后再补充链接或独立文章页。
+        <div class="profile-block">
+          <h2 data-i18n="profile.focusTitle">关注方向</h2>
+          <p data-i18n="profile.focus">
+            Agent、大模型应用工程，以及能够真实落地的 AI 系统。
           </p>
         </div>
 
-        <div class="card-grid">
-          <article class="blog-card is-pending">
-            <div class="card-meta">
-              <span>论文解读</span>
-              <time datetime="2026">即将更新</time>
-            </div>
-            <h3>读论文时留下问题，而不是只留下结论</h3>
-            <p>未来会记录 Agent、大模型、工程化相关论文的核心观点、实验脉络和个人理解。</p>
-          </article>
-
-          <article class="blog-card is-pending">
-            <div class="card-meta">
-              <span>技术分享</span>
-              <time datetime="2026">即将更新</time>
-            </div>
-            <h3>把技术细节讲到可以复现</h3>
-            <p>未来会分享 Python、C++、Java 以及大模型应用开发中的实践经验和踩坑记录。</p>
-          </article>
-
-          <article class="blog-card is-pending">
-            <div class="card-meta">
-              <span>项目分享</span>
-              <time datetime="2026">即将更新</time>
-            </div>
-            <h3>从想法到能跑起来的系统</h3>
-            <p>未来会整理个人项目的设计思路、关键实现、取舍过程和后续优化方向。</p>
-          </article>
+        <div class="skills" aria-label="Skills">
+          <span>Python</span>
+          <span>C++</span>
+          <span>Java</span>
         </div>
-      </section>
 
-      <section id="projects" class="section-shell" aria-labelledby="projects-title">
-        <div class="section-heading compact">
-          <p class="eyebrow" data-i18n="projects.eyebrow">项目</p>
-          <h2 id="projects-title" data-i18n="projects.title">项目会在这里慢慢补齐</h2>
-        </div>
-        <div class="project-panel">
-          <div>
-            <h3 data-i18n="projects.cardTitle">AI Agent 与大模型工程实践</h3>
-            <p data-i18n="projects.cardBody">
-              后续会补充可公开的 Agent、大模型应用或其他个人项目，包括目标、架构、实现要点和仓库链接。
-            </p>
-          </div>
-          <span class="status-pill" data-i18n="projects.status">待发布</span>
-        </div>
-      </section>
-
-      <section id="contact" class="section-shell contact-section" aria-labelledby="contact-title">
-        <div>
-          <p class="eyebrow" data-i18n="contact.eyebrow">联系</p>
-          <h2 id="contact-title" data-i18n="contact.title">欢迎交流 AI 工程、Agent 和技术写作</h2>
-        </div>
-        <div class="contact-links">
-          <a href="https://github.com/Titiuu" target="_blank" rel="noreferrer">github.com/Titiuu</a>
+        <div class="contact-links" aria-label="Contact links">
+          <a href="https://github.com/Titiuu" target="_blank" rel="noreferrer">GitHub</a>
           <a href="mailto:lq122561@gmail.com">lq122561@gmail.com</a>
+        </div>
+      </aside>
+
+      <section class="writing-board" aria-labelledby="writing-title">
+        <div class="board-heading">
+          <div>
+            <p class="eyebrow" data-i18n="board.eyebrow">个人博客</p>
+            <h2 id="writing-title" data-i18n="board.title">三类笔记，按时间倒序更新</h2>
+          </div>
+          <p data-i18n="board.note">
+            博客正文以中文为主。当前先创建只有标题的 Markdown 占位文件，链接均指向真实 GitHub 文件页。
+          </p>
+        </div>
+
+        <div class="columns">
+          <article id="tech" class="article-column">
+            <header>
+              <span class="column-index">01</span>
+              <h3 data-i18n="columns.tech">技术分享</h3>
+            </header>
+            <ol class="article-list">
+              <li>
+                <time datetime="2026-05-24">2026.05.24</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2026-05-24-llm-engineering-notes.md" target="_blank" rel="noreferrer">大模型工程笔记：占位标题 01</a>
+              </li>
+              <li>
+                <time datetime="2026-05-23">2026.05.23</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2026-05-23-agent-tool-calling.md" target="_blank" rel="noreferrer">Agent 工具调用实践：占位标题 02</a>
+              </li>
+              <li>
+                <time datetime="2026-05-22">2026.05.22</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2026-05-22-python-service-patterns.md" target="_blank" rel="noreferrer">Python 服务开发记录：占位标题 03</a>
+              </li>
+              <li>
+                <time datetime="2026-05-21">2026.05.21</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2026-05-21-cpp-systems-notes.md" target="_blank" rel="noreferrer">C++ 系统基础笔记：占位标题 04</a>
+              </li>
+              <li>
+                <time datetime="2026-05-20">2026.05.20</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2026-05-20-java-backend-notes.md" target="_blank" rel="noreferrer">Java 后端工程笔记：占位标题 05</a>
+              </li>
+            </ol>
+            <span class="more-mark">...</span>
+          </article>
+
+          <article id="papers" class="article-column">
+            <header>
+              <span class="column-index">02</span>
+              <h3 data-i18n="columns.papers">论文解读</h3>
+            </header>
+            <ol class="article-list">
+              <li>
+                <time datetime="2026-05-24">2026.05.24</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-24-agent-paper-reading.md" target="_blank" rel="noreferrer">Agent 论文阅读：占位标题 01</a>
+              </li>
+              <li>
+                <time datetime="2026-05-23">2026.05.23</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-23-llm-reasoning-paper.md" target="_blank" rel="noreferrer">大模型推理论文：占位标题 02</a>
+              </li>
+              <li>
+                <time datetime="2026-05-22">2026.05.22</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-22-rag-paper-notes.md" target="_blank" rel="noreferrer">RAG 论文笔记：占位标题 03</a>
+              </li>
+              <li>
+                <time datetime="2026-05-21">2026.05.21</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-21-multimodal-paper-notes.md" target="_blank" rel="noreferrer">多模态论文笔记：占位标题 04</a>
+              </li>
+              <li>
+                <time datetime="2026-05-20">2026.05.20</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-20-evaluation-paper-notes.md" target="_blank" rel="noreferrer">评测方法论文笔记：占位标题 05</a>
+              </li>
+            </ol>
+            <span class="more-mark">...</span>
+          </article>
+
+          <article id="projects" class="article-column">
+            <header>
+              <span class="column-index">03</span>
+              <h3 data-i18n="columns.projects">项目分享</h3>
+            </header>
+            <ol class="article-list">
+              <li>
+                <time datetime="2026-05-24">2026.05.24</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-24-agent-project-log.md" target="_blank" rel="noreferrer">Agent 项目记录：占位标题 01</a>
+              </li>
+              <li>
+                <time datetime="2026-05-23">2026.05.23</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-23-llm-app-project.md" target="_blank" rel="noreferrer">大模型应用项目：占位标题 02</a>
+              </li>
+              <li>
+                <time datetime="2026-05-22">2026.05.22</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-22-rag-demo-project.md" target="_blank" rel="noreferrer">RAG Demo 复盘：占位标题 03</a>
+              </li>
+              <li>
+                <time datetime="2026-05-21">2026.05.21</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-21-engineering-toolkit.md" target="_blank" rel="noreferrer">工程工具箱记录：占位标题 04</a>
+              </li>
+              <li>
+                <time datetime="2026-05-20">2026.05.20</time>
+                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-20-personal-site-build.md" target="_blank" rel="noreferrer">个人站点搭建：占位标题 05</a>
+              </li>
+            </ol>
+            <span class="more-mark">...</span>
+          </article>
         </div>
       </section>
     </main>

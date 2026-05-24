@@ -1,55 +1,39 @@
 const translations = {
   zh: {
-    "nav.about": "关于",
-    "nav.blog": "博客",
-    "nav.projects": "项目",
-    "nav.contact": "联系",
-    "hero.eyebrow": "个人主页",
-    "hero.role": "AI工程师",
-    "hero.summary":
+    "nav.tech": "技术分享",
+    "nav.papers": "论文解读",
+    "nav.projects": "项目分享",
+    "profile.eyebrow": "个人主页",
+    "profile.role": "AI工程师",
+    "profile.summary":
       "一个在学点有趣的东西的开发者。专业是计算机 / 通信方向，目前是 Agent、大模型工程师。",
-    "about.eyebrow": "关于我",
-    "about.title": "计算机 / 通信背景下的大模型工程实践",
-    "about.body":
-      "我关注 Agent、大模型应用工程和能够真实落地的 AI 系统，也会持续记录论文阅读、技术实验与项目复盘。",
-    "blog.eyebrow": "个人博客",
-    "blog.title": "即将写下的三类笔记",
-    "blog.note":
-      "文章正文会以中文为主。首版先保留分类入口，等内容成熟后再补充链接或独立文章页。",
-    "projects.eyebrow": "项目",
-    "projects.title": "项目会在这里慢慢补齐",
-    "projects.cardTitle": "AI Agent 与大模型工程实践",
-    "projects.cardBody":
-      "后续会补充可公开的 Agent、大模型应用或其他个人项目，包括目标、架构、实现要点和仓库链接。",
-    "projects.status": "待发布",
-    "contact.eyebrow": "联系",
-    "contact.title": "欢迎交流 AI 工程、Agent 和技术写作",
+    "profile.focusTitle": "关注方向",
+    "profile.focus": "Agent、大模型应用工程，以及能够真实落地的 AI 系统。",
+    "board.eyebrow": "个人博客",
+    "board.title": "三类笔记，按时间倒序更新",
+    "board.note":
+      "博客正文以中文为主。当前先创建只有标题的 Markdown 占位文件，链接均指向真实 GitHub 文件页。",
+    "columns.tech": "技术分享",
+    "columns.papers": "论文解读",
+    "columns.projects": "项目分享",
   },
   en: {
-    "nav.about": "About",
-    "nav.blog": "Blog",
+    "nav.tech": "Tech",
+    "nav.papers": "Papers",
     "nav.projects": "Projects",
-    "nav.contact": "Contact",
-    "hero.eyebrow": "Personal site",
-    "hero.role": "AI Engineer",
-    "hero.summary":
+    "profile.eyebrow": "Personal site",
+    "profile.role": "AI Engineer",
+    "profile.summary":
       "A developer learning interesting things. My background is in computer science and communications, and I currently work on agents and large language model engineering.",
-    "about.eyebrow": "About",
-    "about.title": "LLM engineering from a computer science and communications background",
-    "about.body":
-      "I focus on agents, LLM application engineering, and AI systems that can move from ideas into working products. I also use this site to collect paper notes, technical experiments, and project retrospectives.",
-    "blog.eyebrow": "Personal Blog",
-    "blog.title": "Three kinds of notes to come",
-    "blog.note":
-      "Blog posts will mainly be written in Chinese. This first version keeps the categories in place, with links or article pages added later.",
-    "projects.eyebrow": "Projects",
-    "projects.title": "Projects will be added here over time",
-    "projects.cardTitle": "AI Agent and LLM engineering practice",
-    "projects.cardBody":
-      "Public agent, LLM application, and personal engineering projects will be added here with goals, architecture notes, implementation details, and repository links.",
-    "projects.status": "Coming soon",
-    "contact.eyebrow": "Contact",
-    "contact.title": "Open to conversations about AI engineering, agents, and technical writing",
+    "profile.focusTitle": "Focus",
+    "profile.focus": "Agents, LLM application engineering, and AI systems that can become real products.",
+    "board.eyebrow": "Personal Blog",
+    "board.title": "Three note streams in reverse chronological order",
+    "board.note":
+      "Posts will mainly be written in Chinese. The current Markdown placeholders contain only titles, and every link points to a real GitHub file page.",
+    "columns.tech": "Tech Notes",
+    "columns.papers": "Paper Reading",
+    "columns.projects": "Project Logs",
   },
 };
 
