@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Titiuu 的个人主页，记录 AI Agent、大模型工程、论文解读、技术分享和项目实践。"
+    />
+    <title>Titiuu | AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Titiuu home">Titiuu</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about" data-i18n="nav.about">关于</a>
+        <a href="#blog" data-i18n="nav.blog">博客</a>
+        <a href="#projects" data-i18n="nav.projects">项目</a>
+        <a href="#contact" data-i18n="nav.contact">联系</a>
+      </nav>
+      <div class="language-switch" aria-label="Language switch">
+        <button class="lang-button is-active" type="button" data-lang="zh">中文</button>
+        <button class="lang-button" type="button" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-kicker">AI Agent / LLM Engineering</div>
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow" data-i18n="hero.eyebrow">个人主页</p>
+            <h1 id="hero-title">Titiuu</h1>
+          </div>
+          <div class="hero-copy">
+            <figure class="avatar-frame">
+              <img src="https://github.com/Titiuu.png?size=512" alt="Titiuu avatar" />
+            </figure>
+            <p class="role" data-i18n="hero.role">AI工程师</p>
+            <p data-i18n="hero.summary">
+              一个在学点有趣的东西的开发者。专业是计算机 / 通信方向，目前是 Agent、大模型工程师。
+            </p>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a class="button primary" href="https://github.com/Titiuu" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a class="button secondary" href="mailto:lq122561@gmail.com">Email</a>
+        </div>
+      </section>
+
+      <section id="about" class="section-shell split-section" aria-labelledby="about-title">
+        <div>
+          <p class="eyebrow" data-i18n="about.eyebrow">关于我</p>
+          <h2 id="about-title" data-i18n="about.title">计算机 / 通信背景下的大模型工程实践</h2>
+        </div>
+        <div class="section-copy">
+          <p data-i18n="about.body">
+            我关注 Agent、大模型应用工程和能够真实落地的 AI 系统，也会持续记录论文阅读、技术实验与项目复盘。
+          </p>
+          <div class="skills" aria-label="Skills">
+            <span>Python</span>
+            <span>C++</span>
+            <span>Java</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="blog" class="section-shell" aria-labelledby="blog-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="blog.eyebrow">个人博客</p>
+          <h2 id="blog-title" data-i18n="blog.title">即将写下的三类笔记</h2>
+          <p data-i18n="blog.note">
+            文章正文会以中文为主。首版先保留分类入口，等内容成熟后再补充链接或独立文章页。
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="blog-card is-pending">
+            <div class="card-meta">
+              <span>论文解读</span>
+              <time datetime="2026">即将更新</time>
+            </div>
+            <h3>读论文时留下问题，而不是只留下结论</h3>
+            <p>未来会记录 Agent、大模型、工程化相关论文的核心观点、实验脉络和个人理解。</p>
+          </article>
+
+          <article class="blog-card is-pending">
+            <div class="card-meta">
+              <span>技术分享</span>
+              <time datetime="2026">即将更新</time>
+            </div>
+            <h3>把技术细节讲到可以复现</h3>
+            <p>未来会分享 Python、C++、Java 以及大模型应用开发中的实践经验和踩坑记录。</p>
+          </article>
+
+          <article class="blog-card is-pending">
+            <div class="card-meta">
+              <span>项目分享</span>
+              <time datetime="2026">即将更新</time>
+            </div>
+            <h3>从想法到能跑起来的系统</h3>
+            <p>未来会整理个人项目的设计思路、关键实现、取舍过程和后续优化方向。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="projects" class="section-shell" aria-labelledby="projects-title">
+        <div class="section-heading compact">
+          <p class="eyebrow" data-i18n="projects.eyebrow">项目</p>
+          <h2 id="projects-title" data-i18n="projects.title">项目会在这里慢慢补齐</h2>
+        </div>
+        <div class="project-panel">
+          <div>
+            <h3 data-i18n="projects.cardTitle">AI Agent 与大模型工程实践</h3>
+            <p data-i18n="projects.cardBody">
+              后续会补充可公开的 Agent、大模型应用或其他个人项目，包括目标、架构、实现要点和仓库链接。
+            </p>
+          </div>
+          <span class="status-pill" data-i18n="projects.status">待发布</span>
+        </div>
+      </section>
+
+      <section id="contact" class="section-shell contact-section" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow" data-i18n="contact.eyebrow">联系</p>
+          <h2 id="contact-title" data-i18n="contact.title">欢迎交流 AI 工程、Agent 和技术写作</h2>
+        </div>
+        <div class="contact-links">
+          <a href="https://github.com/Titiuu" target="_blank" rel="noreferrer">github.com/Titiuu</a>
+          <a href="mailto:lq122561@gmail.com">lq122561@gmail.com</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 Titiuu</span>
+      <a href="https://deerflow.tech" target="_blank" rel="noreferrer">Created By Deerflow</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
