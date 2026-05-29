@@ -22,10 +22,21 @@
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Titiuu home">Titiuu</a>
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="#tech" data-i18n="nav.tech">技术分享</a>
-        <a href="#papers" data-i18n="nav.papers">论文解读</a>
-        <a href="#projects" data-i18n="nav.projects">项目分享</a>
+        <a href="category.html?category=tech" data-i18n="nav.tech">技术分享</a>
+        <a href="category.html?category=papers" data-i18n="nav.papers">论文解读</a>
+        <a href="category.html?category=projects" data-i18n="nav.projects">项目分享</a>
       </nav>
+      <form class="site-search" id="site-search-form" role="search">
+        <label class="sr-only" for="site-search-input" data-i18n="search.label">搜索博客</label>
+        <input
+          id="site-search-input"
+          type="search"
+          autocomplete="off"
+          placeholder="搜索博客名称"
+          data-i18n-placeholder="search.placeholder"
+        />
+        <div class="search-results" id="site-search-results" aria-live="polite"></div>
+      </form>
       <div class="language-switch" aria-label="Language switch">
         <button class="lang-button is-active" type="button" data-lang="zh">中文</button>
         <button class="lang-button" type="button" data-lang="en">EN</button>
@@ -81,29 +92,8 @@
               <span class="column-index">01</span>
               <h3 data-i18n="columns.tech">技术分享</h3>
             </header>
-            <ol class="article-list">
-              <li>
-                <time datetime="2024-04-15">2024.04.15</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2024-04-15-mysql-notes.md" target="_blank" rel="noreferrer">MySQL 面试笔记：索引、事务与日志</a>
-              </li>
-              <li>
-                <time datetime="2024-09-03">2024.09.03</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2024-09-03-redis-notes.md" target="_blank" rel="noreferrer">Redis 面试笔记：数据结构、缓存与集群</a>
-              </li>
-              <li>
-                <time datetime="2024-08-20">2024.08.20</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2024-08-20-python-notes.md" target="_blank" rel="noreferrer">Python 语言面试笔记：语法、对象与并发</a>
-              </li>
-              <li>
-                <time datetime="2024-03-20">2024.03.20</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2024-03-20-cpp-notes.md" target="_blank" rel="noreferrer">C++ 语言面试笔记：内存、对象模型与 STL</a>
-              </li>
-              <li>
-                <time datetime="2024-08-20">2024.08.20</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/tech/2024-08-20-java-notes.md" target="_blank" rel="noreferrer">Java 语言面试笔记：基础、集合与并发</a>
-              </li>
-            </ol>
-            <span class="more-mark">...</span>
+            <ol class="article-list" data-home-category="tech"></ol>
+            <a class="more-mark" href="category.html?category=tech" aria-label="更多技术分享">...</a>
           </article>
 
           <article id="papers" class="article-column">
@@ -111,29 +101,8 @@
               <span class="column-index">02</span>
               <h3 data-i18n="columns.papers">论文解读</h3>
             </header>
-            <ol class="article-list">
-              <li>
-                <time datetime="2026-05-24">2026.05.24</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-24-agent-paper-reading.md" target="_blank" rel="noreferrer">Agent 论文阅读：占位标题 01</a>
-              </li>
-              <li>
-                <time datetime="2026-05-23">2026.05.23</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-23-llm-reasoning-paper.md" target="_blank" rel="noreferrer">大模型推理论文：占位标题 02</a>
-              </li>
-              <li>
-                <time datetime="2026-05-22">2026.05.22</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-22-rag-paper-notes.md" target="_blank" rel="noreferrer">RAG 论文笔记：占位标题 03</a>
-              </li>
-              <li>
-                <time datetime="2026-05-21">2026.05.21</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-21-multimodal-paper-notes.md" target="_blank" rel="noreferrer">多模态论文笔记：占位标题 04</a>
-              </li>
-              <li>
-                <time datetime="2026-05-20">2026.05.20</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/papers/2026-05-20-evaluation-paper-notes.md" target="_blank" rel="noreferrer">评测方法论文笔记：占位标题 05</a>
-              </li>
-            </ol>
-            <span class="more-mark">...</span>
+            <ol class="article-list" data-home-category="papers"></ol>
+            <a class="more-mark" href="category.html?category=papers" aria-label="更多论文解读">...</a>
           </article>
 
           <article id="projects" class="article-column">
@@ -141,29 +110,8 @@
               <span class="column-index">03</span>
               <h3 data-i18n="columns.projects">项目分享</h3>
             </header>
-            <ol class="article-list">
-              <li>
-                <time datetime="2026-05-24">2026.05.24</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-24-agent-project-log.md" target="_blank" rel="noreferrer">Agent 项目记录：占位标题 01</a>
-              </li>
-              <li>
-                <time datetime="2026-05-23">2026.05.23</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-23-llm-app-project.md" target="_blank" rel="noreferrer">大模型应用项目：占位标题 02</a>
-              </li>
-              <li>
-                <time datetime="2026-05-22">2026.05.22</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-22-rag-demo-project.md" target="_blank" rel="noreferrer">RAG Demo 复盘：占位标题 03</a>
-              </li>
-              <li>
-                <time datetime="2026-05-21">2026.05.21</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-21-engineering-toolkit.md" target="_blank" rel="noreferrer">工程工具箱记录：占位标题 04</a>
-              </li>
-              <li>
-                <time datetime="2026-05-20">2026.05.20</time>
-                <a href="https://github.com/Titiuu/Titiuu.github.io/blob/main/blogs/projects/2026-05-20-personal-site-build.md" target="_blank" rel="noreferrer">个人站点搭建：占位标题 05</a>
-              </li>
-            </ol>
-            <span class="more-mark">...</span>
+            <ol class="article-list" data-home-category="projects"></ol>
+            <a class="more-mark" href="category.html?category=projects" aria-label="更多项目分享">...</a>
           </article>
         </div>
       </section>
@@ -174,6 +122,7 @@
       <a href="https://deerflow.tech" target="_blank" rel="noreferrer">Created By Deerflow</a>
     </footer>
 
+    <script src="blog-data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
