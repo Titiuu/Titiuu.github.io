@@ -15,6 +15,11 @@ const translations = {
     "columns.tech": "技术分享",
     "columns.papers": "论文解读",
     "columns.projects": "项目分享",
+    "github.eyebrow": "开源轨迹",
+    "github.title": "GitHub 贡献",
+    "github.noteTemplate": "最近一年提交 {count} 次。",
+    "github.syncing": "正在同步 GitHub 数据。",
+    "github.link": "查看 GitHub",
     "search.label": "搜索博客",
     "search.placeholder": "搜索博客名称",
   },
@@ -34,6 +39,11 @@ const translations = {
     "columns.tech": "Tech Notes",
     "columns.papers": "Paper Reading",
     "columns.projects": "Project Logs",
+    "github.eyebrow": "Open Source",
+    "github.title": "GitHub Contributions",
+    "github.noteTemplate": "{count} contributions in the last year.",
+    "github.syncing": "Syncing GitHub data.",
+    "github.link": "View GitHub",
     "search.label": "Search posts",
     "search.placeholder": "Search blog titles",
   },
@@ -50,6 +60,7 @@ const langButtons = document.querySelectorAll(".lang-button");
 const translatableNodes = document.querySelectorAll("[data-i18n]");
 const translatablePlaceholders = document.querySelectorAll("[data-i18n-placeholder]");
 let mermaidInitialized = false;
+let currentLanguage = "zh";
 
 function readStoredLanguage() {
   try {
@@ -69,6 +80,7 @@ function storeLanguage(language) {
 
 function applyLanguage(language) {
   const dictionary = translations[language] || translations.zh;
+  currentLanguage = translations[language] ? language : "zh";
 
   translatableNodes.forEach((node) => {
     const key = node.dataset.i18n;
@@ -89,6 +101,7 @@ function applyLanguage(language) {
     button.classList.toggle("is-active", button.dataset.lang === language);
   });
   storeLanguage(language);
+  renderGithubContributions();
 }
 
 function formatDate(date) {
@@ -127,6 +140,49 @@ function renderHomeLists() {
       )
       .join("");
   });
+}
+
+function renderGithubContributions() {
+  const grid = document.getElementById("github-contribution-grid");
+  const note = document.getElementById("github-contributions-note");
+  if (!grid || !note) {
+    return;
+  }
+
+  const dictionary = translations[currentLanguage] || translations.zh;
+  const data = window.GITHUB_CONTRIBUTIONS;
+
+  if (!data || !Array.isArray(data.days) || data.days.length === 0) {
+    note.textContent = dictionary["github.syncing"];
+    grid.innerHTML = "";
+    grid.classList.add("is-empty");
+    return;
+  }
+
+  const count = Number.isFinite(data.total) ? data.total : 0;
+  note.textContent = dictionary["github.noteTemplate"].replace("{count}", count);
+  grid.classList.remove("is-empty");
+  grid.innerHTML = data.days
+    .map((day) => {
+      const date = escapeHtml(day.date);
+      const contributions = Number.isFinite(day.count) ? day.count : 0;
+      const level = Math.max(0, Math.min(4, Number.isFinite(day.level) ? day.level : 0));
+      const label =
+        currentLanguage === "en"
+          ? `${contributions} contributions on ${date}`
+          : `${date} 提交 ${contributions} 次`;
+
+      return `
+        <span
+          class="contribution-day"
+          data-level="${level}"
+          role="gridcell"
+          aria-label="${escapeHtml(label)}"
+          title="${escapeHtml(label)}"
+        ></span>
+      `;
+    })
+    .join("");
 }
 
 function setupGlobalSearch() {
