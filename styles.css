@@ -470,30 +470,88 @@ a.more-mark:hover {
 
 .reader-controls {
   display: grid;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
-.sort-switch {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.reader-controls input {
+  min-width: 0;
+}
+
+.sort-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.44);
-}
-
-.sort-button {
-  min-height: 36px;
-  border: 0;
-  color: var(--muted);
-  background: transparent;
-  font: inherit;
-  font-size: 0.84rem;
+  border-radius: 0;
+  padding: 0;
+  color: var(--green);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(247, 244, 236, 0.5)),
+    rgba(255, 255, 255, 0.48);
   cursor: pointer;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    background 160ms ease,
+    transform 120ms ease;
 }
 
-.sort-button.is-active {
-  color: #fffaf2;
-  background: var(--green);
+.sort-toggle:hover,
+.sort-toggle:focus-visible {
+  border-color: rgba(182, 63, 45, 0.48);
+  color: var(--accent-dark);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(247, 244, 236, 0.62)),
+    rgba(255, 255, 255, 0.58);
+}
+
+.sort-toggle:active {
+  transform: translateY(1px);
+}
+
+.sort-toggle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(182, 63, 45, 0.12);
+}
+
+.sort-icon {
+  width: 20px;
+  height: 20px;
+  overflow: visible;
+}
+
+.sort-arrow {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.42;
+  transition:
+    opacity 160ms ease,
+    stroke 160ms ease,
+    transform 160ms ease;
+}
+
+.sort-toggle.is-desc .sort-arrow-down,
+.sort-toggle.is-asc .sort-arrow-up {
+  opacity: 1;
+  stroke: var(--accent-dark);
+}
+
+.sort-toggle.is-desc .sort-arrow-down {
+  transform: translateY(0.5px);
+}
+
+.sort-toggle.is-asc .sort-arrow-up {
+  transform: translateY(-0.5px);
 }
 
 .reader-list {

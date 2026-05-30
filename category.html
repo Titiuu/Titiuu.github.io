@@ -52,10 +52,19 @@
         <div class="reader-controls">
           <label class="sr-only" for="category-search">搜索当前分类</label>
           <input id="category-search" type="search" autocomplete="off" placeholder="搜索当前分类" />
-          <div class="sort-switch" aria-label="时间排序">
-            <button class="sort-button is-active" type="button" data-sort="desc">新到旧</button>
-            <button class="sort-button" type="button" data-sort="asc">旧到新</button>
-          </div>
+          <button
+            class="sort-toggle is-desc"
+            type="button"
+            data-sort-toggle
+            aria-label="当前排序：新到旧，点击切换为旧到新"
+            title="新到旧"
+          >
+            <svg class="sort-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path class="sort-arrow sort-arrow-up" d="M8 9L12 5L16 9M12 5V12" />
+              <path class="sort-arrow sort-arrow-down" d="M16 15L12 19L8 15M12 19V12" />
+            </svg>
+            <span class="sr-only" data-sort-label>新到旧</span>
+          </button>
         </div>
 
         <ol class="reader-list" id="reader-list"></ol>

@@ -207,7 +207,8 @@ function setupReaderPage() {
   const list = document.getElementById("reader-list");
   const search = document.getElementById("category-search");
   const preview = document.getElementById("markdown-preview");
-  const sortButtons = document.querySelectorAll("[data-sort]");
+  const sortToggle = document.querySelector("[data-sort-toggle]");
+  const sortLabel = sortToggle?.querySelector("[data-sort-label]");
   let direction = "desc";
   let selectedSlug = initialSlug;
 
@@ -279,15 +280,30 @@ function setupReaderPage() {
     selectPost(selected, selected.slug !== initialSlug);
   }
 
+  function updateSortToggle() {
+    if (!sortToggle || !sortLabel) {
+      return;
+    }
+
+    const isDesc = direction === "desc";
+    sortLabel.textContent = isDesc ? "新到旧" : "旧到新";
+    sortToggle.classList.toggle("is-desc", isDesc);
+    sortToggle.classList.toggle("is-asc", !isDesc);
+    sortToggle.setAttribute(
+      "aria-label",
+      isDesc ? "当前排序：新到旧，点击切换为旧到新" : "当前排序：旧到新，点击切换为新到旧",
+    );
+    sortToggle.title = isDesc ? "新到旧" : "旧到新";
+  }
+
   search?.addEventListener("input", renderList);
-  sortButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      direction = button.dataset.sort;
-      sortButtons.forEach((item) => item.classList.toggle("is-active", item === button));
-      renderList();
-    });
+  sortToggle?.addEventListener("click", () => {
+    direction = direction === "desc" ? "asc" : "desc";
+    updateSortToggle();
+    renderList();
   });
 
+  updateSortToggle();
   renderList();
 }
 
