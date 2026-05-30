@@ -49,6 +49,7 @@ const posts = Array.isArray(window.BLOG_POSTS) ? window.BLOG_POSTS : [];
 const langButtons = document.querySelectorAll(".lang-button");
 const translatableNodes = document.querySelectorAll("[data-i18n]");
 const translatablePlaceholders = document.querySelectorAll("[data-i18n-placeholder]");
+let mermaidInitialized = false;
 
 function readStoredLanguage() {
   try {
@@ -236,6 +237,7 @@ function setupReaderPage() {
 
     selectedSlug = post.slug;
     preview.innerHTML = renderMarkdown(post.content);
+    renderMermaidDiagrams(preview);
     list.querySelectorAll("button").forEach((button) => {
       button.classList.toggle("is-active", button.dataset.slug === selectedSlug);
     });
@@ -344,6 +346,39 @@ function renderTable(lines) {
   `;
 }
 
+async function renderMermaidDiagrams(container) {
+  const diagrams = container.querySelectorAll(".mermaid");
+  if (!diagrams.length || !window.mermaid) {
+    return;
+  }
+
+  try {
+    if (!mermaidInitialized) {
+      window.mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "strict",
+        theme: "base",
+        themeVariables: {
+          fontFamily: '"Source Serif 4", "Noto Serif SC", Georgia, serif',
+          primaryColor: "#f7f4ec",
+          primaryTextColor: "#1c2621",
+          primaryBorderColor: "#d8d0c0",
+          lineColor: "#244d3f",
+          secondaryColor: "#eee7db",
+          tertiaryColor: "#ffffff",
+        },
+      });
+      mermaidInitialized = true;
+    }
+
+    await window.mermaid.run({ nodes: diagrams });
+  } catch (error) {
+    diagrams.forEach((diagram) => {
+      diagram.classList.add("mermaid-fallback");
+    });
+  }
+}
+
 function renderMarkdown(markdown) {
   const lines = markdown.replace(/\r\n/g, "\n").split("\n");
   const html = [];
@@ -367,6 +402,10 @@ function renderMarkdown(markdown) {
         index += 1;
       }
       index += 1;
+      if (language.toLowerCase() === "mermaid") {
+        html.push(`<div class="mermaid">${escapeHtml(code.join("\n"))}</div>`);
+        continue;
+      }
       html.push(`<pre><code class="language-${language}">${escapeHtml(code.join("\n"))}</code></pre>`);
       continue;
     }
