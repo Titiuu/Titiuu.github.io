@@ -14,6 +14,31 @@ function extractTitle(markdown, fallback) {
   return heading ? heading[1].trim() : fallback;
 }
 
+function extractExcerpt(markdown) {
+  const paragraph = markdown
+    .replace(/^#\s+.+$/m, "")
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .find((block) => {
+      return (
+        block &&
+        !block.startsWith("#") &&
+        !block.startsWith("```") &&
+        !block.startsWith("|") &&
+        !/^\s*[-*]\s+/.test(block)
+      );
+    });
+
+  if (!paragraph) {
+    return "";
+  }
+
+  return paragraph
+    .replace(/\s+/g, " ")
+    .replace(/[`*_>#]/g, "")
+    .slice(0, 120);
+}
+
 function slugFromFile(fileName) {
   return fileName.replace(/\.md$/i, "");
 }
@@ -49,9 +74,9 @@ const posts = Object.keys(categories).flatMap((category) => {
       categoryName: categories[category],
       date: dateFromFile(fileName),
       title: extractTitle(content, slug),
+      excerpt: extractExcerpt(content),
       slug,
       path: toPosixPath(relative(rootDir, absolutePath)),
-      content,
     };
   });
 });

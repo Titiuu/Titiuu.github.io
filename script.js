@@ -61,6 +61,7 @@ const translatableNodes = document.querySelectorAll("[data-i18n]");
 const translatablePlaceholders = document.querySelectorAll("[data-i18n-placeholder]");
 let mermaidInitialized = false;
 let currentLanguage = "zh";
+const markdownCache = new Map();
 
 function readStoredLanguage() {
   try {
@@ -268,6 +269,7 @@ function setupReaderPage() {
   const sortLabel = sortToggle?.querySelector("[data-sort-label]");
   let direction = "desc";
   let selectedSlug = initialSlug;
+  let selectionRequest = 0;
 
   document.title = `Titiuu | ${categoryNames[category]}`;
   title.textContent = categoryNames[category];
@@ -285,15 +287,30 @@ function setupReaderPage() {
     );
   }
 
-  function selectPost(post, pushState = true) {
+  async function loadPostMarkdown(post) {
+    if (markdownCache.has(post.path)) {
+      return markdownCache.get(post.path);
+    }
+
+    const response = await fetch(post.path);
+    if (!response.ok) {
+      throw new Error(`Unable to load ${post.path}: ${response.status}`);
+    }
+
+    const markdown = await response.text();
+    markdownCache.set(post.path, markdown);
+    return markdown;
+  }
+
+  async function selectPost(post, pushState = true) {
+    const requestId = (selectionRequest += 1);
+
     if (!post) {
       preview.innerHTML = `<div class="empty-preview">没有找到可展示的文章。</div>`;
       return;
     }
 
     selectedSlug = post.slug;
-    preview.innerHTML = renderMarkdown(post.content);
-    renderMermaidDiagrams(preview);
     list.querySelectorAll("button").forEach((button) => {
       button.classList.toggle("is-active", button.dataset.slug === selectedSlug);
     });
@@ -301,6 +318,29 @@ function setupReaderPage() {
     if (pushState) {
       const url = `category.html?category=${encodeURIComponent(category)}&post=${encodeURIComponent(post.slug)}`;
       history.replaceState(null, "", url);
+    }
+
+    preview.innerHTML = `<div class="empty-preview">正在加载文章...</div>`;
+
+    try {
+      const markdown = await loadPostMarkdown(post);
+      if (requestId !== selectionRequest) {
+        return;
+      }
+
+      preview.innerHTML = renderMarkdown(markdown);
+      enhanceRenderedMarkdown(preview);
+      renderMermaidDiagrams(preview);
+    } catch {
+      if (requestId !== selectionRequest) {
+        return;
+      }
+
+      preview.innerHTML = `
+        <div class="empty-preview">
+          无法加载文章内容。请通过本地静态服务器或 GitHub Pages 访问页面。
+        </div>
+      `;
     }
   }
 
@@ -402,6 +442,32 @@ function renderTable(lines) {
   `;
 }
 
+function renderWithMarked(markdown) {
+  if (!window.marked) {
+    return "";
+  }
+
+  const html = window.marked.parse(markdown, {
+    async: false,
+    breaks: false,
+    gfm: true,
+  });
+
+  return html.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    '<div class="mermaid">$1</div>',
+  );
+}
+
+function enhanceRenderedMarkdown(container) {
+  container.querySelectorAll("a[href]").forEach((link) => {
+    if (/^https?:\/\//i.test(link.getAttribute("href"))) {
+      link.target = "_blank";
+      link.rel = "noreferrer";
+    }
+  });
+}
+
 async function renderMermaidDiagrams(container) {
   const diagrams = container.querySelectorAll(".mermaid");
   if (!diagrams.length || !window.mermaid) {
@@ -436,6 +502,11 @@ async function renderMermaidDiagrams(container) {
 }
 
 function renderMarkdown(markdown) {
+  const markedHtml = renderWithMarked(markdown);
+  if (markedHtml) {
+    return markedHtml;
+  }
+
   const lines = markdown.replace(/\r\n/g, "\n").split("\n");
   const html = [];
   let index = 0;
