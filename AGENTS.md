@@ -9,6 +9,7 @@ This repository is a static GitHub Pages personal blog. Core page files live at 
 - `styles.css`: shared layout, responsive styles, and article presentation.
 - `script.js`: language switching, search, reader behavior, Markdown rendering, and Mermaid rendering.
 - `blogs/<category>/*.md`: source Markdown posts. Current categories are `tech`, `papers`, and `projects`.
+- `notes/*.md`: scratch notes and future blog material. These files are not surfaced in the frontend and should not be added to `blog-data.js`.
 - `scripts/`: Node scripts that generate static data files.
 - `blog-data.js`: generated blog index; do not edit by hand.
 - `github-contributions-data.js`: generated GitHub contributions data.
@@ -56,6 +57,8 @@ blogs/tech/2024-09-03-redis-notes.md
 ```
 
 The first `#` heading becomes the post title. Keep category keys aligned with `scripts/generate-blog-data.mjs`.
+
+Name scratch notes descriptively under `notes/`; they do not need date-prefixed blog slugs until promoted into `blogs/<category>/`.
 
 ## Testing Guidelines
 

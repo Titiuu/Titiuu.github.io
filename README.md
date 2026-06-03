@@ -16,3 +16,4 @@ Titiuu 的 GitHub Pages 个人主页。
 - `blog-data.js`：由脚本生成的博客索引
 - `github-contributions-data.js`：由脚本生成的 GitHub contributions 数据
 - `blogs/`：博客 Markdown 占位文件
+- `notes/`：日常小记和博客素材，不参与前端展示
