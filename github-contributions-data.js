@@ -1,8 +1,8 @@
 window.GITHUB_CONTRIBUTIONS = {
   "username": "Titiuu",
-  "total": 21,
+  "total": 24,
   "from": "June 01, 2025",
-  "to": "June 02, 2026",
+  "to": "June 03, 2026",
   "days": [
     {
       "date": "2025-06-01",
@@ -1836,7 +1836,12 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-06-02",
-      "count": 1,
+      "count": 2,
+      "level": 1
+    },
+    {
+      "date": "2026-06-03",
+      "count": 2,
       "level": 1
     }
   ]
