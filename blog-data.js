@@ -38,6 +38,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-06-07",
+    "title": "AI Agent 多租户工作区隔离：从文件存储到沙箱容器的架构设计",
+    "excerpt": "AI Agent 和传统 SaaS 有一个关键差异：Agent 不是只读数据库、返回 JSON，它需要在真实的操作系统环境里执行代码、读写文件、安装依赖。当一个平台要服务多个用户、每个用户有多个对话时，一个根本问题就出现了——如何让 Age",
+    "slug": "2026-06-07-agent-workspace-isolation",
+    "path": "blogs/tech/2026-06-07-agent-workspace-isolation.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2024-09-03",
     "title": "Redis 面试笔记",
     "excerpt": "这篇笔记整理 Redis 面试中最常见的问题：数据结构、线程模型、持久化、过期和淘汰、分布式锁、主从哨兵、Cluster，以及缓存场景题。写法偏复习向，先给结论，再补充版本差异和容易说错的点。",
