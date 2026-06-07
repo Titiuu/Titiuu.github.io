@@ -11,6 +11,15 @@ window.BLOG_POSTS = [
   {
     "category": "projects",
     "categoryName": "项目分享",
+    "date": "2026-06-07",
+    "title": "nanobot 源码解读：Dream 记忆引擎与自治 Agent 的设计",
+    "excerpt": "nanobot 是一个 Python 实现的轻量级个人 AI 助手框架。源码读下来，它在几个关键设计上的选择值得仔细看——有些是它独特的贡献，有些是它对已有趋势的工程实现，但合在一起构成了一套自洽的 Agent 设计思路。",
+    "slug": "2026-06-07-nanobot-notes",
+    "path": "blogs/projects/2026-06-07-nanobot-notes.md"
+  },
+  {
+    "category": "projects",
+    "categoryName": "项目分享",
     "date": "2026-05-30",
     "title": "OpenClaw 项目解读",
     "excerpt": "OpenClaw 是一个很容易被误解的项目。表面上看，它是“把 AI 助手接到 WhatsApp、Telegram、Discord、Slack、QQ、飞书等消息平台上”；但从源码和文档看，它真正想做的是一个本地优先的个人 Agent 操作系",
