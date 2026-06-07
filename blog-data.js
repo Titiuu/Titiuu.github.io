@@ -47,6 +47,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2025-09-15",
+    "title": "ArkTS 动静态迁移：静态分析兜底 + AI Agent 修复的混合架构",
+    "excerpt": "鸿蒙 ArkTS 是一个以 TypeScript 为底、专为方舟运行时定制的静态强类型语言。它禁用了 any、unknown、解构赋值、for...in、运行时动态属性增删等大量 TypeScript 动态特性，强制所有类型在编译期完全确定",
+    "slug": "2025-09-15-arkts-migration-tool",
+    "path": "blogs/tech/2025-09-15-arkts-migration-tool.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2024-09-03",
     "title": "Redis 面试笔记",
     "excerpt": "这篇笔记整理 Redis 面试中最常见的问题：数据结构、线程模型、持久化、过期和淘汰、分布式锁、主从哨兵、Cluster，以及缓存场景题。写法偏复习向，先给结论，再补充版本差异和容易说错的点。",
