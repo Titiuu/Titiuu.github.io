@@ -65,6 +65,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-06-14",
+    "title": "Agent Subagent 机制设计：它到底是什么，为什么有用？",
+    "excerpt": "现在很多 Agent 产品都会提到 subagent、worker agent、team、swarm。这些词听起来很复杂，好像背后有一套很神秘的多智能体架构。",
+    "slug": "2026-06-14-agent-subagent-mechanism",
+    "path": "blogs/tech/2026-06-14-agent-subagent-mechanism.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-06-07",
     "title": "AI Agent 多租户工作区隔离：从文件存储到沙箱容器的架构设计",
     "excerpt": "AI Agent 和传统 SaaS 有一个关键差异：Agent 不是只读数据库、返回 JSON，它需要在真实的操作系统环境里执行代码、读写文件、安装依赖。当一个平台要服务多个用户、每个用户有多个对话时，一个根本问题就出现了——如何让 Age",
