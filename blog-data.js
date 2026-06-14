@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-06-14",
+    "title": "经典论文解读（二）：Language Models are Unsupervised Multitask Learners",
+    "excerpt": "2019 年，Radford 等人在论文 《Language Models are Unsupervised Multitask Learners》 中发布了 GPT-2。今天回头看，这篇论文的意义不只是“模型更大了”，而是它把一个后来支配",
+    "slug": "2026-06-14-gpt2-paper-notes",
+    "path": "blogs/papers/2026-06-14-gpt2-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-05-20",
     "title": "经典论文解读（一）：Attention Is All You Need",
     "excerpt": "2017 年，Vaswani 等人在论文 《Attention Is All You Need》 中提出 Transformer。它后来成为 BERT、GPT、T5 等大模型的基础架构之一。",
