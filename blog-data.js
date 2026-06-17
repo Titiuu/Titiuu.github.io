@@ -74,6 +74,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-06-17",
+    "title": "Agent 沙箱运行时隔离：容器、受限进程、MicroVM 与 WASM 的技术路线对比",
+    "excerpt": "Agent 沙箱最容易被误解成一个单点问题：是不是用了 Docker？是不是用了 Kubernetes？是不是套了一个虚拟机？",
+    "slug": "2026-06-17-agent-sandbox-runtime-isolation",
+    "path": "blogs/tech/2026-06-17-agent-sandbox-runtime-isolation.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-06-14",
     "title": "Agent Subagent 机制设计：它到底是什么，为什么有用？",
     "excerpt": "现在很多 Agent 产品都会提到 subagent、worker agent、team、swarm。这些词听起来很复杂，好像背后有一套很神秘的多智能体架构。",
