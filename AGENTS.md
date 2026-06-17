@@ -60,6 +60,8 @@ The first `#` heading becomes the post title. Keep category keys aligned with `s
 
 Name scratch notes descriptively under `notes/`; they do not need date-prefixed blog slugs until promoted into `blogs/<category>/`.
 
+When publishing blog posts, reference source files with repository-relative paths or public links. Avoid including personal development environment paths in article body content.
+
 ## Testing Guidelines
 
 There is no automated test framework. Validate changes with syntax checks and manual browser testing. For reader changes, test category navigation, search, sort toggling, direct `category.html?category=...&post=...` links, Markdown tables, code blocks, and Mermaid diagrams.

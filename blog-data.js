@@ -38,6 +38,15 @@ window.BLOG_POSTS = [
   {
     "category": "projects",
     "categoryName": "项目分享",
+    "date": "2026-06-17",
+    "title": "Aegra 项目解读：自托管 LangSmith Deployments 替代品是怎么实现的",
+    "excerpt": "Aegra 的一句话定位很容易理解，但也很容易被说得过头：它是一个开源、自托管的 Agent Protocol server，目标是替代 LangSmith Deployments 这一层，而不是替代整个 LangSmith 平台。",
+    "slug": "2026-06-17-aegra-notes",
+    "path": "blogs/projects/2026-06-17-aegra-notes.md"
+  },
+  {
+    "category": "projects",
+    "categoryName": "项目分享",
     "date": "2026-06-07",
     "title": "nanobot 源码解读：Dream 记忆引擎与自治 Agent 的设计",
     "excerpt": "nanobot 是一个 Python 实现的轻量级个人 AI 助手框架。源码读下来，它在几个关键设计上的选择值得仔细看——有些是它独特的贡献，有些是它对已有趋势的工程实现，但合在一起构成了一套自洽的 Agent 设计思路。",
