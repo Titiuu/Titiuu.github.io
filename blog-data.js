@@ -74,6 +74,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-06-18",
+    "title": "MySQL 和 PostgreSQL 底层技术对比：从 Agent 项目为什么偏爱 Postgres 说起",
+    "excerpt": "最近看很多 agent 项目时，会发现一个有意思的现象：它们越来越自然地把 PostgreSQL 放在状态中心的位置。",
+    "slug": "2026-06-18-mysql-postgresql-internals",
+    "path": "blogs/tech/2026-06-18-mysql-postgresql-internals.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-06-17",
     "title": "Agent 沙箱运行时隔离：容器、受限进程、MicroVM 与 WASM 的技术路线对比",
     "excerpt": "Agent 沙箱最容易被误解成一个单点问题：是不是用了 Docker？是不是用了 Kubernetes？是不是套了一个虚拟机？",
