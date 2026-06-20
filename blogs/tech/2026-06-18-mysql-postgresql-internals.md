@@ -24,7 +24,7 @@ PostgreSQL 正好长在这个交叉点上。
 
 先用一句话抓住核心区别：
 
-**InnoDB 的表数据挂在主键 B+Tree 的叶子节点上；PostgreSQL 的表数据放在固定大小的 Page 里，一张表有多个 Pages，索引只是指向 Page 中某个 tuple （某个版本的行数据） 的入口。**
+**InnoDB 的表数据挂在主键 B+Tree 的叶子节点上；PostgreSQL 的表数据放在固定大小的 Page 里，一张表有多个 Pages，B+Tree上的索引只是指向 Page 中某个 tuple （某个版本的行数据） 的入口（CTID）。**
 
 这句话非常重要。后面的索引、MVCC、更新、vacuum 都从这里分叉。
 
@@ -116,14 +116,14 @@ ctid = (block number, item offset)
 PostgreSQL 的索引项通常保存的就是 key 和指向 heap tuple 的 TID：
 
 ```text
-B-tree index entry:
+B+tree index entry:
   (index key, TID/ctid)
 
 heap:
   ctid -> tuple
 ```
 
-因此 PostgreSQL 的主键默认会创建唯一 B-tree 索引，但主键索引不是表本身。主键只是一个约束和访问路径，不天然决定整张表的物理组织。
+因此 PostgreSQL 的主键默认会创建唯一 B+tree 索引，但主键索引不是表本身。主键只是一个约束和访问路径，不天然决定整张表的物理组织。
 
 这和 InnoDB 的差异非常大：
 
@@ -227,7 +227,7 @@ tuple V1
   data = (1, pending, {...})
 ```
 
-如果 `id` 上有主键索引，B-tree 索引里会有：
+如果 `id` 上有主键索引，B+tree 索引里会有：
 
 ```text
 key = 1
@@ -237,7 +237,7 @@ tid = (42, 7)
 查询 `where id = 1` 时，执行路径大致是：
 
 ```text
-primary key B-tree
+primary key B+tree
   -> 找到 key = 1 的 TID: (42, 7)
       -> 访问 heap page 42 的 slot 7
           -> 读取 tuple header
@@ -433,7 +433,7 @@ PostgreSQL 也有 index-only scan 和 covering index，但它多了一个 MVCC �
 index-only scan 的路径大概是：
 
 ```text
-B-tree index
+B+tree index
   -> 找到 key 和 payload column
       -> 查 visibility map
           -> 如果 heap page all-visible，直接返回索引里的值
@@ -444,11 +444,11 @@ B-tree index
 
 这也是 PostgreSQL 索引优化和 InnoDB 索引优化的一个关键差异。
 
-## 五、PostgreSQL 索引体系：不是只有 B-tree
+## 五、PostgreSQL 索引体系：不是只有 B+tree
 
 InnoDB 的索引优化主线大多围绕 B+Tree：联合索引、最左匹配、范围查询、覆盖索引、回表成本。
 
-PostgreSQL 默认 `CREATE INDEX` 也是 B-tree。B-tree 适合等值、范围、排序相关查询，例如：
+PostgreSQL 默认 `CREATE INDEX` 也是 B+tree。B+tree 适合等值、范围、排序相关查询，例如：
 
 ```sql
 where id = 1
@@ -456,13 +456,13 @@ where created_at >= now() - interval '1 day'
 order by created_at desc
 ```
 
-但 PostgreSQL 的索引体系更像一组 access method。官方文档列出的内置索引类型包括 B-tree、Hash、GiST、SP-GiST、GIN、BRIN，扩展还可以继续增加能力。
+但 PostgreSQL 的索引体系更像一组 access method。官方文档列出的内置索引类型包括 B+tree、Hash、GiST、SP-GiST、GIN、BRIN，扩展还可以继续增加能力。
 
 可以按“它们解决什么问题”来理解。
 
-### 5.1 B-tree：最常用的有序索引
+### 5.1 B+tree：最常用的有序索引
 
-B-tree 处理可排序数据上的等值和范围查询。大部分普通业务查询都先考虑 B-tree。
+B+tree 处理可排序数据上的等值和范围查询。大部分普通业务查询都先考虑 B+tree。
 
 例子：
 
@@ -480,7 +480,7 @@ limit 20
 
 这和 MySQL 联合索引有相似点：前导列、排序方向、选择性、范围条件都会影响索引使用。
 
-但 PostgreSQL 的 B-tree 指向 heap TID，不是指向聚簇索引里的主键。所以普通 index scan 的随机 heap 访问成本更突出。查询大量行时，优化器可能选择 bitmap index scan：先从索引收集一批 TID，再按 heap page 顺序访问，减少随机 I/O。
+但 PostgreSQL 的 B+tree 指向 heap TID，不是指向聚簇索引里的主键。所以普通 index scan 的随机 heap 访问成本更突出。查询大量行时，优化器可能选择 bitmap index scan：先从索引收集一批 TID，再按 heap page 顺序访问，减少随机 I/O。
 
 ### 5.2 GIN：倒排索引，适合一个字段里有多个 token/key
 
@@ -505,7 +505,7 @@ from runs
 where metadata @> '{"model":"gpt-5"}';
 ```
 
-GIN 的思路不是把整个 JSONB 当一个值排进 B-tree，而是把 JSONB 内部的 key/value 拆成可检索项。查询某个 key/value 时，通过倒排结构找到包含它的 tuple。
+GIN 的思路不是把整个 JSONB 当一个值排进 B+tree，而是把 JSONB 内部的 key/value 拆成可检索项。查询某个 key/value 时，通过倒排结构找到包含它的 tuple。
 
 这就是 PostgreSQL 对 agent 项目有吸引力的一个点：很多 runtime metadata 很难一开始就拆成稳定列，但又不能完全不可查询。JSONB + GIN 给了一个折中方案。
 
@@ -522,7 +522,7 @@ GiST 是 Generalized Search Tree。它不是某一个固定算法，而是一套
 
 SP-GiST 则适合某些空间分区类结构，例如 trie、quad tree、k-d tree 这类非平衡分区结构。
 
-你不需要在普通业务里天天手写 GiST，但要理解 PostgreSQL 的索引能力为什么强：它不是把所有数据都塞进 B-tree，而是允许不同数据类型接入不同 access method。
+你不需要在普通业务里天天手写 GiST，但要理解 PostgreSQL 的索引能力为什么强：它不是把所有数据都塞进 B+tree，而是允许不同数据类型接入不同 access method。
 
 ### 5.4 BRIN：块范围索引，适合天然有序的大表
 
@@ -542,9 +542,9 @@ events
 create index events_created_brin on events using brin(created_at);
 ```
 
-查询最近一天数据时，BRIN 可以快速排除大部分不可能包含目标时间范围的 block range。它不如 B-tree 精确，但索引很小，维护成本低，适合超大 append-only 或时间相关表。
+查询最近一天数据时，BRIN 可以快速排除大部分不可能包含目标时间范围的 block range。它不如 B+tree 精确，但索引很小，维护成本低，适合超大 append-only 或时间相关表。
 
-agent 系统里的 trace、event、audit log，如果按时间追加写入，BRIN 可能比大 B-tree 更省。
+agent 系统里的 trace、event、audit log，如果按时间追加写入，BRIN 可能比大 B+tree 更省。
 
 ### 5.5 部分索引和表达式索引：PostgreSQL 很实用的两把刀
 
@@ -658,7 +658,7 @@ PostgreSQL 的优势不是单点能力最强，而是组合能力强：
 - 用事务保证 run、checkpoint、message 的状态更新一致。
 - 用 heap + MVCC 支撑读写并发和历史版本可见性。
 - 用 JSONB 保存变化快的 metadata，避免过早拆表。
-- 用 B-tree、GIN、BRIN、部分索引、表达式索引贴合不同访问模式。
+- 用 B+tree、GIN、BRIN、部分索引、表达式索引贴合不同访问模式。
 - 用 pgvector 等扩展支持 memory 的语义检索。
 - 用 SQL 支持复杂排查、审计和运营查询。
 - 用 WAL、备份、复制、PITR 接入成熟运维体系。
@@ -730,7 +730,7 @@ extensibility -> access methods + types + extensions
 - InnoDB 的主键是表的骨架，所以主键设计和回表成本特别重要。
 - PostgreSQL 的 heap 是表的主体，索引是通往 heap tuple 的路径，所以 `ctid`、tuple header、visibility、vacuum 特别重要。
 - InnoDB 通过 undo log 保存旧版本，PostgreSQL 通过 heap 中的多版本 tuple 保存旧版本。
-- PostgreSQL 的索引体系不是单一 B-tree 思维，而是为不同数据类型和查询语义提供不同 access method。
+- PostgreSQL 的索引体系不是单一 B+tree 思维，而是为不同数据类型和查询语义提供不同 access method。
 - agent 项目偏爱 PostgreSQL，不是因为它在每个单项上都最强，而是因为它能把关系数据、JSON、索引扩展、向量检索、事务和恢复体系放在一个数据库里。
 
 这正是底层设计影响上层架构的地方。
