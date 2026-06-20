@@ -38,6 +38,15 @@ window.BLOG_POSTS = [
   {
     "category": "projects",
     "categoryName": "项目分享",
+    "date": "2026-06-20",
+    "title": "Hermes Agent 自进化机制解读：它到底在“自己改写”什么",
+    "excerpt": "很多个人 agent 已经不再只是本地命令行工具。它们可以部署在云端，可以从 CLI、Web、Telegram、Slack、Discord、WhatsApp 等入口接收任务，也可以在 VPS、容器或远程机器上长期运行。入口变多以后，一个更难",
+    "slug": "2026-06-20-hermes-agent-self-evolution",
+    "path": "blogs/projects/2026-06-20-hermes-agent-self-evolution.md"
+  },
+  {
+    "category": "projects",
+    "categoryName": "项目分享",
     "date": "2026-06-17",
     "title": "Aegra 项目解读：自托管 LangSmith Deployments 替代品是怎么实现的",
     "excerpt": "Aegra 的一句话定位很容易理解，但也很容易被说得过头：它是一个开源、自托管的 Agent Protocol server，目标是替代 LangSmith Deployments 这一层，而不是替代整个 LangSmith 平台。",
