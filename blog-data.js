@@ -83,6 +83,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-06-20",
+    "title": "Agent 上下文压缩技术实现：为什么不是“把历史总结一下”这么简单",
+    "excerpt": "很多人第一次理解 agent 的上下文压缩时，会把它想成一个很朴素的动作：",
+    "slug": "2026-06-20-agent-context-compression",
+    "path": "blogs/tech/2026-06-20-agent-context-compression.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-06-18",
     "title": "MySQL 和 PostgreSQL 底层技术对比：从 Agent 项目为什么偏爱 Postgres 说起",
     "excerpt": "最近看很多 agent 项目时，会发现一个有意思的现象：它们越来越自然地把 PostgreSQL 放在状态中心的位置。",
