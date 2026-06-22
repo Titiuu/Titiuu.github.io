@@ -75,7 +75,7 @@ window.BLOG_POSTS = [
     "category": "projects",
     "categoryName": "项目分享",
     "date": "2026-01-17",
-    "title": "Opencode 项目解读",
+    "title": "OpenCode 项目解读",
     "excerpt": "OpenCode 是一个开源 AI 编程助手。它表面上是一个终端里的 coding agent，但从源码结构看，它更像一个围绕“项目上下文 + 会话状态 + 工具执行 + 权限控制”构建的智能编码平台。",
     "slug": "2026-01-17-opencode-notes",
     "path": "blogs/projects/2026-01-17-opencode-notes.md"
