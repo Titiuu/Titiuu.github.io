@@ -128,6 +128,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-01-25",
+    "title": "从 Function Call 到 Skills：Agent 运行能力的历史发展",
+    "excerpt": "讨论 agent 工程时，经常会把 Function Call、Tool Call、MCP、CLI 和 Skills 混在一起说。它们确实都和“让模型使用外部能力”有关，但不是同一种东西，也不是简单的替代关系。",
+    "slug": "2026-01-25-tool-call-and-skills",
+    "path": "blogs/tech/2026-01-25-tool-call-and-skills.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2025-09-15",
     "title": "ArkTS 动静态迁移：静态分析兜底 + AI Agent 修复的混合架构",
     "excerpt": "鸿蒙 ArkTS 是一个以 TypeScript 为底、专为方舟运行时定制的静态强类型语言。它禁用了 any、unknown、解构赋值、for...in、运行时动态属性增删等大量 TypeScript 动态特性，强制所有类型在编译期完全确定",
