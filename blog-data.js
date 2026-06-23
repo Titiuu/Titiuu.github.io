@@ -137,6 +137,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2025-12-30",
+    "title": "项目记忆文件：CLAUDE.md / AGENTS.md",
+    "excerpt": "如果把 coding agent 当成一个会写代码的聊天机器人，CLAUDE.md 和 AGENTS.md 看起来就只是两份“说明文档”。但如果把 agent runtime 拆开看，它们的位置要更靠前：它们不是给人读的 README，而是",
+    "slug": "2025-12-30-project-memory-files",
+    "path": "blogs/tech/2025-12-30-project-memory-files.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2025-09-15",
     "title": "ArkTS 动静态迁移：静态分析兜底 + AI Agent 修复的混合架构",
     "excerpt": "鸿蒙 ArkTS 是一个以 TypeScript 为底、专为方舟运行时定制的静态强类型语言。它禁用了 any、unknown、解构赋值、for...in、运行时动态属性增删等大量 TypeScript 动态特性，强制所有类型在编译期完全确定",
