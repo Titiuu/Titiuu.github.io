@@ -2,17 +2,17 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
-    "date": "2026-06-14",
-    "title": "经典论文解读（三）：Scaling Laws for Neural Language Models",
-    "excerpt": "2020 年，Kaplan、McCandlish、Brown、Radford、Amodei 等人发表了 《Scaling Laws for Neural Language Models》。如果说 GPT-2 证明了“语言模型可以 zero-",
-    "slug": "2026-06-14-scaling-laws-paper-notes",
-    "path": "blogs/papers/2026-06-14-scaling-laws-paper-notes.md"
+    "date": "2026-06-23",
+    "title": "经典论文解读｜Scaling 与涌现（三）：Emergent Abilities of Large Language Models",
+    "excerpt": "2022 年，Jason Wei 等发表了 《Emergent Abilities of Large Language Models》。",
+    "slug": "2026-06-23-emergent-abilities-paper-notes",
+    "path": "blogs/papers/2026-06-23-emergent-abilities-paper-notes.md"
   },
   {
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-06-14",
-    "title": "经典论文解读（二）：Language Models are Unsupervised Multitask Learners",
+    "title": "经典论文解读｜LLM 基础架构（二）：Language Models are Unsupervised Multitask Learners",
     "excerpt": "2019 年，Radford 等人在论文 《Language Models are Unsupervised Multitask Learners》 中发布了 GPT-2。今天回头看，这篇论文的意义不只是“模型更大了”，而是它把一个后来支配",
     "slug": "2026-06-14-gpt2-paper-notes",
     "path": "blogs/papers/2026-06-14-gpt2-paper-notes.md"
@@ -21,7 +21,16 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-06-14",
-    "title": "经典论文解读（四）：Training Compute-Optimal Large Language Models",
+    "title": "经典论文解读｜Scaling 与涌现（一）：Scaling Laws for Neural Language Models",
+    "excerpt": "2020 年，Kaplan、McCandlish、Brown、Radford、Amodei 等人发表了 《Scaling Laws for Neural Language Models》。如果说 GPT-2 证明了“语言模型可以 zero-",
+    "slug": "2026-06-14-scaling-laws-paper-notes",
+    "path": "blogs/papers/2026-06-14-scaling-laws-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-06-14",
+    "title": "经典论文解读｜Scaling 与涌现（二）：Training Compute-Optimal Large Language Models",
     "excerpt": "2022 年，DeepMind 发表了 《Training Compute-Optimal Large Language Models》。这篇论文通常被称为 Chinchilla 论文，因为它训练了一个 70B 参数的模型 Chinchil",
     "slug": "2026-06-14-chinchilla-paper-notes",
     "path": "blogs/papers/2026-06-14-chinchilla-paper-notes.md"
@@ -30,7 +39,7 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-05-20",
-    "title": "经典论文解读（一）：Attention Is All You Need",
+    "title": "经典论文解读｜LLM 基础架构（一）：Attention Is All You Need",
     "excerpt": "2017 年，Vaswani 等人在论文 《Attention Is All You Need》 中提出 Transformer。它后来成为 BERT、GPT、T5 等大模型的基础架构之一。",
     "slug": "2026-05-20-transformer-paper-notes",
     "path": "blogs/papers/2026-05-20-transformer-paper-notes.md"

@@ -1,4 +1,4 @@
-# 经典论文解读（四）：Training Compute-Optimal Large Language Models
+# 经典论文解读｜Scaling 与涌现（二）：Training Compute-Optimal Large Language Models
 
 2022 年，DeepMind 发表了 **《Training Compute-Optimal Large Language Models》**。这篇论文通常被称为 **Chinchilla 论文**，因为它训练了一个 70B 参数的模型 Chinchilla，并用它验证了一条新的大模型训练规律。
 

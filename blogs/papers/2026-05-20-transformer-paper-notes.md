@@ -1,4 +1,4 @@
-# 经典论文解读（一）：Attention Is All You Need
+# 经典论文解读｜LLM 基础架构（一）：Attention Is All You Need
 
 2017 年，Vaswani 等人在论文 **《Attention Is All You Need》** 中提出 Transformer。它后来成为 BERT、GPT、T5 等大模型的基础架构之一。
 
