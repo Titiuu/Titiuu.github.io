@@ -1,4 +1,4 @@
-# 经典论文解读｜Scaling 与涌现（三）：Emergent Abilities of Large Language Models
+# 经典论文解读（五）｜Scaling 与涌现：Emergent Abilities of Large Language Models
 
 2022 年，Jason Wei 等发表了 **《Emergent Abilities of Large Language Models》**。
 

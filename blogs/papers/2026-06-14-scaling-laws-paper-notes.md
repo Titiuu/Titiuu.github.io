@@ -1,4 +1,4 @@
-# 经典论文解读｜Scaling 与涌现（一）：Scaling Laws for Neural Language Models
+# 经典论文解读（三）｜Scaling 与涌现：Scaling Laws for Neural Language Models
 
 2020 年，Kaplan、McCandlish、Brown、Radford、Amodei 等人发表了 **《Scaling Laws for Neural Language Models》**。如果说 GPT-2 证明了“语言模型可以 zero-shot 做任务”，那么这篇论文回答的是下一个更工程化的问题：
 

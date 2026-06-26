@@ -1,4 +1,4 @@
-# 经典论文解读｜LLM 基础架构（二）：Language Models are Unsupervised Multitask Learners
+# 经典论文解读（二）｜LLM 基础架构：Language Models are Unsupervised Multitask Learners
 
 2019 年，Radford 等人在论文 **《Language Models are Unsupervised Multitask Learners》** 中发布了 GPT-2。今天回头看，这篇论文的意义不只是“模型更大了”，而是它把一个后来支配大模型时代的判断讲清楚了：
 
