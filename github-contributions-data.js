@@ -1,44 +1,9 @@
 window.GITHUB_CONTRIBUTIONS = {
   "username": "Titiuu",
-  "total": 75,
+  "total": 76,
   "from": "June 22, 2025",
-  "to": "June 27, 2026",
+  "to": "June 28, 2026",
   "days": [
-    {
-      "date": "2025-06-22",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-23",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-24",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-25",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-26",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-27",
-      "count": 0,
-      "level": 0
-    },
-    {
-      "date": "2025-06-28",
-      "count": 0,
-      "level": 0
-    },
     {
       "date": "2025-06-29",
       "count": 0,
@@ -1856,6 +1821,11 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-06-27",
+      "count": 1,
+      "level": 1
+    },
+    {
+      "date": "2026-06-28",
       "count": 0,
       "level": 0
     }
