@@ -297,29 +297,188 @@ Agent 产品不能只返回最终结果。用户通常需要看到 token、工�
 
 ---
 
-## 八、Cron、Store、Human-in-the-loop 和 Observability
+## 八、Cron、Checkpoint、Store、Human-in-the-loop 和 Observability
 
-除了基本 runs / threads，Aegra 还补了几个生产运行时必需的能力。
+这几个能力如果只看 API，很容易被理解成“功能补齐”。但它们真正有意思的地方在底层机制：Aegra 如何把 LangGraph 的执行语义接到自己的数据库、队列和观测系统上。
 
-### Cron
+### 1. Cron：时间计算、持久化调度和分布式 claim
 
-Cron 用来定时触发 run。它支持标准 5-field cron，也支持 seconds-level 6-field expression 和 IANA timezone。多实例场景下，cron claim 需要避免重复触发，Aegra 文档里提到使用 `SKIP LOCKED` 做 multi-instance safe claim。
+Aegra 的 Cron 不是把任务写进系统 `crontab`，而是在服务进程里启动一个 `asyncio` polling scheduler。这个 scheduler 按 `CRON_POLL_INTERVAL_SECONDS` 醒来，查找已经到期的 cron，然后把每个到期项转换成普通 run。
 
-这让 agent 不只被动响应请求，也可以定期执行任务：日报、巡检、同步、定期分析、后台维护。
+调度状态不放在内存里，而是放在 PostgreSQL 的 `crons` 表。关键字段包括：
 
-### Store
+| 字段 | 作用 |
+| --- | --- |
+| `schedule` | cron expression |
+| `payload` | 触发 run 时需要的 input、config、context、checkpoint、interrupt 配置等 |
+| `enabled` | 是否继续调度 |
+| `next_run_date` | 下一次触发时间，统一按 UTC 存储 |
+| `claimed_until` | 当前调度实例的 claim lease |
+| `thread_id` | 可选；为空时触发一次临时 thread |
+| `assistant_id` | 触发哪个 assistant |
 
-Store 提供 namespaced key-value storage 和 semantic search。semantic store 基于 pgvector，可以配置 embedding model。和 thread checkpoint 不同，store 更像跨 thread 的长期存储：用户偏好、知识片段、业务实体、工具结果缓存都可以放在这里。
+下一次触发时间由 `croniter` 从 cron expression 和 IANA timezone 计算出来。timezone 只影响“当地时间几点触发”的解释，存入数据库时会规整成 UTC 的 `next_run_date`。
 
-### Human-in-the-loop
+多实例部署时，Aegra 不靠进程内锁。每个 scheduler tick 会在 PostgreSQL 事务中执行 `SELECT ... FOR UPDATE SKIP LOCKED`，只选出 `enabled = true`、`next_run_date <= now`、并且 `claimed_until` 为空或已过期的行。拿到行后立即写入：
 
-Aegra 支持 interrupt before / after、approval gate、state editing、resume / reject interrupted run。这来自 LangGraph 本身的 interrupt 能力，但服务端需要把 interrupted 状态、thread state、resume command、stream event 都接起来，才能成为产品可用的 API。
+```text
+claimed_until = now + CRON_CLAIM_DURATION_SECONDS
+```
 
-### Observability
+这样多个 API 实例同时轮询时，会拿到互不重叠的 due crons。随后 scheduler 用 cron 的 `payload` 构造 `RunCreate`，复用 `_prepare_run` 写入 `runs.execution_params`、把 thread 标成 busy，再交给本地 executor 或 Redis worker。Cron 本身不直接跑 graph；它只是创建一次标准 run。
 
-Aegra 的 trace 基于 OpenTelemetry，并通过 `openinference-instrumentation-langchain` 自动捕获 LangGraph / LangChain 执行步骤。它还允许 run 请求带 metadata，并把这些 metadata 写到 root span 上，方便在 Langfuse、Phoenix 或其他 OTLP backend 中过滤。
+这个语义接近“正常情况下避免重复触发”，不是 exactly-once。如果进程在“run 已创建”之后、“next_run_date 已推进”之前崩溃，`claimed_until` 过期后同一个 cron 可能被再次 claim。这是 at-least-once，日报、同步、巡检这类业务最好自己带幂等键。
 
-这点体现了 Aegra 的取舍：它不复制 LangSmith 的完整观测产品，而是把运行时埋点以开放协议导出。
+### 2. Checkpoint：LangGraph 执行边界上的状态快照
+
+Aegra 不自己设计 checkpoint 格式。启动时，它创建 `AsyncPostgresSaver(conn=shared_pool)`，再调用 `setup()` 让 LangGraph Postgres saver 自己建表和维护 checkpoint 数据。[6]
+
+每次执行 graph 时，Aegra 从数据库管理器取出 checkpointer 和 store，然后通过 `Pregel.copy(update={"checkpointer": checkpointer, "store": store})` 注入到本次 graph 实例里。thread 由 run config 里的 `configurable.thread_id` 绑定；指定历史位置时，再加上 `checkpoint_ns` 和 `checkpoint_id`。
+
+checkpoint 不是只存 messages。它保存的是 Pregel 图执行恢复所需的状态边界：
+
+| 内容 | 含义 |
+| --- | --- |
+| channel values | 当前 state 各 channel 的值 |
+| `next` | 下一步待执行节点 |
+| tasks / interrupts | 待处理任务和中断信息 |
+| metadata | step、source、writes 等运行元数据 |
+| parent config | 父 checkpoint 的定位信息 |
+| pending writes | 尚待归并的 writes / task writes |
+
+保存时机由 LangGraph checkpointer 控制。graph 在节点或 superstep 执行后写入新的 checkpoint；`interrupt()`、`aupdate_state()`、`aget_state()`、`aget_state_history()` 都建立在这些 checkpoint 上。[7]
+
+所以 Aegra 里的“thread”有两层含义：业务层的 thread 行在 Aegra 自己的 `thread` 表，run 行在 `runs` 表；真正的 graph checkpoint history 在 LangGraph Postgres saver 创建的 checkpoint 相关表里，而不是塞进 `thread` 表的某个 JSON 字段。
+
+Thread API 只是把这些 LangGraph 能力包装成协议接口：
+
+- `aget_state()` 读取最新 checkpoint 或指定 checkpoint。
+- `aget_state_history()` 按 checkpoint history 分页。
+- `aupdate_state()` 基于当前或指定 checkpoint 写入新 state，实际效果是人为创建一个新的 checkpoint。
+
+### 3. Store：长期记忆，不是执行恢复日志
+
+Store 也是 PostgreSQL，但语义和 checkpoint 不一样。Aegra 启动时创建 `AsyncPostgresStore(conn=shared_pool, index=index_config)`，和 checkpointer 共用 psycopg pool；如果配置了 semantic search，store 会使用 embedding / index 配置，底层依赖 PostgreSQL 向量索引能力。[8]
+
+API 层会把用户传入的 namespace 强制改写到当前用户下：
+
+```text
+["users", user_id, ...]
+```
+
+然后再调用 `store.aput()`、`store.aget()`、`store.asearch()`、`store.alist_namespaces()`。这让 store 天然按用户隔离。
+
+checkpoint 和 store 的差别可以简单记：
+
+| 维度 | Checkpoint | Store |
+| --- | --- | --- |
+| 作用 | 恢复 thread 内的一次图执行 | 保存跨 thread 的长期记忆 |
+| 写入方 | LangGraph 执行过程自动写 | agent / tool / API 主动写 |
+| 数据形态 | Pregel state、next、tasks、metadata、pending writes | namespaced key-value JSON |
+| 检索范围 | 绑定 thread / checkpoint | 可跨 thread 按 namespace 搜索 |
+
+用户偏好、长期知识片段、业务实体、工具结果缓存适合放 store；run 恢复、interrupt resume、历史状态回看依赖 checkpoint。
+
+### 4. Human-in-the-loop：interrupt 如何暂停和恢复
+
+LangGraph 的 `interrupt()` 不是普通的 UI 回调。节点运行到 interrupt 时，会产生可序列化的 interrupt payload，并把可恢复的图状态写入 checkpointer。随后这次 graph 执行停在 checkpoint 边界上。[9]
+
+Aegra 在 streaming 路径里检查事件数据。如果 event payload 里出现 `__interrupt__`，`run_executor.py` 会把本次 run 的最终状态判定为 `interrupted`，并同时把 thread status 写成 `interrupted`。这一步很关键：没有服务端状态，客户端就不知道这个 thread 可以 resume。
+
+恢复也不是从头重跑 graph。客户端创建新的 run，并传入：
+
+```json
+{
+  "command": {
+    "resume": "human decision or edited payload"
+  }
+}
+```
+
+Aegra 先校验当前 thread 必须是 `interrupted`，再把 API command 映射成 `langgraph.types.Command(resume=...)`。因为 run config 仍然使用同一个 `thread_id`，LangGraph 会从 checkpointer 里的中断位置继续执行。
+
+`interrupt_before` / `interrupt_after` 则是另一类能力：Aegra 把它们作为 run config 传给 LangGraph，用来在指定节点前后插入调试或审批断点。state editing 也是同一套 checkpoint 机制：服务端调用 `aupdate_state()`，人为制造一个新的 checkpoint，再让后续 run 从这个状态继续。
+
+### 5. Observability：OpenTelemetry 产生和导出 trace
+
+OpenTelemetry 在这里不是观测 UI，也不是另一套 checkpoint。它的本质是三件事：
+
+1. 给一次调用链分配 `trace_id`，给每个局部操作分配 `span_id`。
+2. 在不同执行边界之间传递这些上下文。
+3. 把每个局部操作记录成 span，并带上可查询的 attributes / metadata。
+
+所以 trace 的根本问题不是“把状态保存到哪里”，而是“下一段代码怎么知道自己属于同一条调用链”。不同边界用不同载体：
+
+| 边界 | trace context 载体 | 例子 |
+| --- | --- | --- |
+| HTTP / RPC 跨进程调用 | headers / carrier | W3C `traceparent`、`tracestate`，也可以带 baggage |
+| Python 进程内异步任务 | `contextvars` / OTel Context | `asyncio.create_task(..., context=trace_ctx)` |
+| LangGraph / LangChain 本地调用 | run config `metadata`、callback / instrumentation context | LLM、tool、chain、graph span 继承 run metadata |
+| 观测后端查询 | span attributes | `run_id`、`thread_id`、`user.id`、`session.id` |
+
+HTTP 是最典型的跨进程例子。在标准 OpenTelemetry 模型里，如果服务端 / 客户端启用了对应 instrumentation，propagator 会把当前 span context 注入 HTTP headers；下游服务再从 headers extract context，于是它创建的 span 会接到同一个 trace 下面。W3C Trace Context 标准里，`traceparent` header 携带 `trace-id`、`parent-id` 和采样标记。[13][14]
+
+进程内则没有 HTTP headers。Aegra 的本地 executor 会用 `make_run_trace_context(...)` 创建一个带 contextvar 的 `asyncio` task；worker 模式下，worker 从 `runs.execution_params` 恢复 `RunJob` 后调用 `set_trace_context(...)`。这不是业务 checkpoint，只是把“这次 run 的观测上下文”放到当前执行上下文里。
+
+LangGraph / LangChain 内部调用再靠 config metadata 和 instrumentation 接住。Aegra 在 `create_run_config(...)` 里把 `run_id`、`thread_id`、`session_id`、`user_id` 等 metadata 放进 LangGraph config。`openinference-instrumentation-langchain` instrument 之后，LLM 调用、tool 调用、chain / graph 执行创建 span 时，会读取这些上下文，把它们变成 span metadata / attributes。[11]
+
+这就是为什么本地 tool 调用也能被串起来：不是因为 tool 写了 checkpoint，而是因为它运行在同一个 OTel context / LangGraph callback context 里。tool 如果再调用 HTTP，HTTP client instrumentation 可以继续把当前 trace context 写进 outgoing headers；tool 如果只是本地函数调用，instrumentation 或手动 span 可以把 tool name、arguments 摘要、结果状态等写成 span attributes。Aegra 这里确认实现的是 graph 执行任务内部的 context / metadata / span attributes 传播；跨服务 HTTP header 的 inject / extract 取决于你的 HTTP instrumentation 或手动接入。
+
+用一条简化链路看会更清楚：
+
+```text
+client request
+  -> Aegra create run
+     -> run metadata: run_id / thread_id / graph_id / user_id
+     -> executor sets contextvar / OTel Context
+        -> LangGraph span
+           -> LLM span
+           -> tool span
+              -> optional HTTP call with traceparent header
+        -> BatchSpanProcessor exports spans by OTLP
+```
+
+所以它是一条旁路遥测流水线：执行 graph 时产生 span，span 通过 context 归到同一个 trace，span 带上 run / thread / user 等属性，然后被异步发到外部 backend。
+
+启动阶段先做全局装配。Aegra 创建一个 `TracerProvider`，它可以理解成当前进程里的 trace 管理器。然后挂两类 processor：
+
+| 组件 | 作用 |
+| --- | --- |
+| `SpanEnrichmentProcessor` | 每个 span 创建时，从当前 task 的 contextvar 里读业务属性，并写成 span attributes |
+| `BatchSpanProcessor(exporter)` | 把结束的 span 缓存在内存队列里，按批次异步发给外部 backend |
+
+exporter 负责真正的网络发送。Generic OTLP 使用 `OTEL_EXPORTER_OTLP_ENDPOINT`；Langfuse target 会把 endpoint 指到 `/api/public/otel/v1/traces` 并带 Basic Auth；Phoenix target 会指向 Phoenix collector endpoint。它们本质上都是 OTLP HTTP trace exporter。[10]
+
+然后 Aegra 调用 `LangChainInstrumentor().instrument(tracer_provider=...)`。这一步来自 `openinference-instrumentation-langchain`，它会 monkey patch / instrument LangChain 和 LangGraph 的运行路径：LLM 调用、tool 调用、chain / graph 执行等事件发生时，自动向当前 `TracerProvider` 创建 span。[11]
+
+run 创建和执行阶段再补业务上下文。Aegra 会把 `run_id`、`thread_id`、`graph_id`、`user_id` 和用户传入的 primitive metadata 合并起来。两条执行路径的目标一样：在 graph 真正开始执行前，让当前 task 拿到这些 trace attributes。[12]
+
+span 出生时，`SpanEnrichmentProcessor.on_start()` 会读取这个 contextvar，把属性写到每个 span 上，例如：
+
+| span attribute | 来源 / 用途 |
+| --- | --- |
+| `langfuse.user.id` / `user.id` | 当前认证用户，用于按用户过滤 |
+| `langfuse.session.id` / `session.id` | thread_id，用于把同一 thread 的观测串起来 |
+| `langfuse.trace.name` | graph_id，用于按 graph 过滤 |
+| `langfuse.trace.metadata.run_id` | 当前 run_id，用于定位一次执行 |
+| `langfuse.trace.metadata.thread_id` | 当前 thread_id，用于和业务 thread 对齐 |
+| `langfuse.trace.metadata.graph_id` | 当前 graph_id |
+
+这里有一个容易混淆的点：Aegra 也会把观测 metadata 放进 LangGraph run config 的 `metadata` 字段，但这不是保存业务状态。它更像“给本地调用链随身携带的标签”。这些标签最后会落到 span attributes 上，供外部观测系统检索；它们不是 PostgreSQL 里的 thread state，也不是 LangGraph checkpoint。
+
+所以 Observability 和 thread / checkpoint 的边界是这样的：
+
+| 维度 | Thread state | Checkpoint | OpenTelemetry trace |
+| --- | --- | --- | --- |
+| 主要问题 | 这个会话当前是什么业务状态 | graph 从哪里恢复执行 | 这次执行过程中发生了什么、耗时多少、调用了什么 |
+| 保存位置 | Aegra 的 `thread` / `runs` 等业务表 | LangGraph Postgres saver 的 checkpoint 相关表 | 外部 OTLP backend，如 Langfuse / Phoenix / Jaeger |
+| 写入时机 | API 创建、run 状态变化、thread 状态变化 | LangGraph 节点 / superstep / interrupt 边界 | span start / end，随后由 BatchSpanProcessor 批量导出 |
+| 数据形态 | thread metadata、status、run status、output | Pregel state、next、tasks、interrupts、pending writes | trace、span、attribute、event、duration、error |
+| 是否参与恢复 | 参与调度和状态判断 | 直接参与 resume / history / state editing | 不参与恢复，只用于排查和分析 |
+
+换句话说，checkpoint 是“还能不能继续执行”的依据，thread state 是“服务端如何管理这个会话和 run”的依据，trace 是“执行时发生过什么”的旁路记录。trace 丢了不会阻止 thread resume；checkpoint 丢了则无法从中断点恢复。
+
+最终 trace 通过 OTLP HTTP 发到后端。Aegra 不复制 LangSmith 的完整 tracing 产品，而是把运行时埋点导出到开放协议里；UI、采样、告警、留存和权限控制交给你选择的观测系统。
 
 ---
 
@@ -384,3 +543,21 @@ Aegra 可以理解成一个“开源版 Agent Server”：它站在 Agent Protoc
 [4] LangSmith pricing: https://www.langchain.com/pricing
 
 [5] Aegra README: https://github.com/aegra/aegra
+
+[6] Aegra source: DatabaseManager / LangGraph persistence setup: https://github.com/aegra/aegra/blob/main/libs/aegra-api/src/aegra_api/core/database.py
+
+[7] LangGraph persistence docs: https://docs.langchain.com/oss/python/langgraph/persistence
+
+[8] LangGraph AsyncPostgresStore reference: https://reference.langchain.com/python/langgraph.store.postgres/aio/AsyncPostgresStore
+
+[9] LangGraph interrupts docs: https://docs.langchain.com/oss/python/langgraph/interrupts
+
+[10] OpenTelemetry tracing docs: https://opentelemetry.io/docs/concepts/signals/traces/
+
+[11] OpenInference LangChain instrumentation: https://pypi.org/project/openinference-instrumentation-langchain/
+
+[12] Aegra source: OpenTelemetry span enrichment: https://github.com/aegra/aegra/blob/main/libs/aegra-api/src/aegra_api/observability/span_enrichment.py
+
+[13] OpenTelemetry context propagation docs: https://opentelemetry.io/docs/concepts/context-propagation/
+
+[14] W3C Trace Context: https://www.w3.org/TR/trace-context/
