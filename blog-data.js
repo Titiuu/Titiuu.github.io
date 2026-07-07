@@ -92,6 +92,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-07-07",
+    "title": "多 Agent 业务开发实践：如何减少 Token 消耗和等待时间",
+    "excerpt": "做多 agent 系统时，很容易有一个误解：只要把任务拆给更多 agent，系统就会更聪明、更快。",
+    "slug": "2026-07-07-multi-agent-token-latency",
+    "path": "blogs/tech/2026-07-07-multi-agent-token-latency.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-06-20",
     "title": "Agent 上下文压缩技术实现：为什么不是“把历史总结一下”这么简单",
     "excerpt": "很多人第一次理解 agent 的上下文压缩时，会把它想成一个很朴素的动作：",
