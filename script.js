@@ -61,6 +61,7 @@ const translatableNodes = document.querySelectorAll("[data-i18n]");
 const translatablePlaceholders = document.querySelectorAll("[data-i18n-placeholder]");
 let mermaidInitialized = false;
 let currentLanguage = "zh";
+let homeListLayoutFrame = null;
 const markdownCache = new Map();
 
 function readStoredLanguage() {
@@ -103,6 +104,7 @@ function applyLanguage(language) {
   });
   storeLanguage(language);
   renderGithubContributions();
+  scheduleHomeListLayout();
 }
 
 function formatDate(date) {
@@ -140,6 +142,44 @@ function renderHomeLists() {
         `,
       )
       .join("");
+  });
+
+  scheduleHomeListLayout();
+}
+
+function fitHomeLists() {
+  const isMobile = window.matchMedia("(max-width: 820px)").matches;
+
+  document.querySelectorAll("[data-home-category]").forEach((list) => {
+    const items = [...list.children];
+    items.forEach((item) => {
+      item.hidden = false;
+    });
+
+    if (isMobile) {
+      return;
+    }
+
+    const listBottom = list.getBoundingClientRect().bottom;
+    let hasOverflowed = false;
+    items.forEach((item) => {
+      const itemBottom = item.getBoundingClientRect().bottom;
+      if (hasOverflowed || itemBottom > listBottom + 1) {
+        item.hidden = true;
+        hasOverflowed = true;
+      }
+    });
+  });
+}
+
+function scheduleHomeListLayout() {
+  if (homeListLayoutFrame !== null) {
+    cancelAnimationFrame(homeListLayoutFrame);
+  }
+
+  homeListLayoutFrame = requestAnimationFrame(() => {
+    homeListLayoutFrame = null;
+    fitHomeLists();
   });
 }
 
@@ -620,3 +660,6 @@ applyLanguage(readStoredLanguage() || "zh");
 renderHomeLists();
 setupGlobalSearch();
 setupReaderPage();
+
+window.addEventListener("resize", scheduleHomeListLayout);
+document.fonts?.ready.then(scheduleHomeListLayout);

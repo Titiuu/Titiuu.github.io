@@ -341,7 +341,7 @@ h1 {
 }
 
 .article-column {
-  min-height: 470px;
+  height: 470px;
   display: flex;
   flex-direction: column;
   padding: 18px;
@@ -370,10 +370,14 @@ h1 {
 }
 
 .article-list {
+  flex: 1;
+  min-height: 0;
   display: grid;
+  align-content: start;
   gap: 11px;
   margin-bottom: 0;
   padding-left: 0;
+  overflow: hidden;
   list-style: none;
 }
 
@@ -407,7 +411,6 @@ h1 {
 }
 
 .more-mark {
-  margin-top: auto;
   padding-top: 12px;
   color: var(--muted);
   font-size: 1.25rem;
@@ -961,7 +964,12 @@ a.more-mark:hover {
   }
 
   .article-column {
-    min-height: auto;
+    height: auto;
+  }
+
+  .article-list {
+    flex: none;
+    overflow: visible;
   }
 
   .site-footer {
