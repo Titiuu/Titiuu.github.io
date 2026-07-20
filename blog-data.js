@@ -92,6 +92,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-07-20",
+    "title": "从模型到 Agent 服务：Harness 解决了哪些问题",
+    "excerpt": "调用一次大模型很简单：组织 messages，发起请求，拿到输出。",
+    "slug": "2026-07-20-agent-harness",
+    "path": "blogs/tech/2026-07-20-agent-harness.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-07-07",
     "title": "多 Agent 业务开发实践：如何减少 Token 消耗和等待时间",
     "excerpt": "做多 agent 系统时，很容易有一个误解：只要把任务拆给更多 agent，系统就会更聪明、更快。",
