@@ -4,7 +4,7 @@ const translations = {
     "nav.papers": "论文解读",
     "nav.projects": "项目分享",
     "profile.eyebrow": "个人主页",
-    "profile.role": "AI工程师",
+    "profile.role": "AI应用工程师",
     "profile.summary":
       "一个AI应用方向的开发者。目前是 Agent、大模型工程师。",
     "profile.focusTitle": "关注方向",
@@ -28,7 +28,7 @@ const translations = {
     "nav.papers": "Papers",
     "nav.projects": "Projects",
     "profile.eyebrow": "Personal site",
-    "profile.role": "AI Engineer",
+    "profile.role": "AI Application Engineer",
     "profile.summary":
       "A developer focused on AI applications. I currently work as an agent and large language model engineer.",
     "profile.focusTitle": "Focus",
