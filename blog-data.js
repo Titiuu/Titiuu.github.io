@@ -3,6 +3,15 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-08-02",
+    "title": "经典论文解读（七）｜对齐与微调：Finetuned Language Models Are Zero-Shot Learners",
+    "excerpt": "GPT-3 展示了一种令人兴奋的使用方式：不再为每个下游任务训练专用模型，而是把任务写进 prompt，让语言模型通过 zero-shot 或 few-shot 的方式直接回答。",
+    "slug": "2026-08-02-flan-paper-notes",
+    "path": "blogs/papers/2026-08-02-flan-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-08-02",
     "title": "经典论文解读（六）｜对齐与微调：Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
     "excerpt": "2018 到 2019 年，基于大规模预训练 Transformer 的路线已经迅速成形。",
     "slug": "2026-08-02-t5-paper-notes",
