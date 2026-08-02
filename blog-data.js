@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-08-03",
+    "title": "经典论文解读（八）｜对齐与微调：Training Language Models to Follow Instructions with Human Feedback",
+    "excerpt": "大规模预训练让语言模型拥有了越来越强的生成、问答和推理能力，但能力更强，不等于更愿意按照用户的意图行动。",
+    "slug": "2026-08-03-instructgpt-paper-notes",
+    "path": "blogs/papers/2026-08-03-instructgpt-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-08-02",
     "title": "经典论文解读（七）｜对齐与微调：Finetuned Language Models Are Zero-Shot Learners",
     "excerpt": "GPT-3 展示了一种令人兴奋的使用方式：不再为每个下游任务训练专用模型，而是把任务写进 prompt，让语言模型通过 zero-shot 或 few-shot 的方式直接回答。",
