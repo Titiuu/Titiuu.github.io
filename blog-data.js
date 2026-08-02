@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-08-02",
+    "title": "经典论文解读（六）｜对齐与微调：Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+    "excerpt": "2018 到 2019 年，基于大规模预训练 Transformer 的路线已经迅速成形。",
+    "slug": "2026-08-02-t5-paper-notes",
+    "path": "blogs/papers/2026-08-02-t5-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-06-23",
     "title": "经典论文解读（五）｜Scaling 与涌现：Emergent Abilities of Large Language Models",
     "excerpt": "2022 年，Jason Wei 等发表了 《Emergent Abilities of Large Language Models》。",
