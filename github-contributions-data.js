@@ -1,8 +1,8 @@
 window.GITHUB_CONTRIBUTIONS = {
   "username": "Titiuu",
-  "total": 166,
+  "total": 373,
   "from": "August 03, 2025",
-  "to": "August 05, 2026",
+  "to": "August 07, 2026",
   "days": [
     {
       "date": "2025-08-03",
@@ -1507,7 +1507,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-05-30",
       "count": 11,
-      "level": 4
+      "level": 3
     },
     {
       "date": "2026-05-31",
@@ -1547,7 +1547,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-06-07",
       "count": 7,
-      "level": 3
+      "level": 2
     },
     {
       "date": "2026-06-08",
@@ -1582,7 +1582,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-06-14",
       "count": 4,
-      "level": 2
+      "level": 1
     },
     {
       "date": "2026-06-15",
@@ -1612,7 +1612,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-06-20",
       "count": 4,
-      "level": 2
+      "level": 1
     },
     {
       "date": "2026-06-21",
@@ -1622,12 +1622,12 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-06-22",
       "count": 9,
-      "level": 3
+      "level": 2
     },
     {
       "date": "2026-06-23",
       "count": 4,
-      "level": 2
+      "level": 1
     },
     {
       "date": "2026-06-24",
@@ -1657,7 +1657,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-06-29",
       "count": 7,
-      "level": 3
+      "level": 2
     },
     {
       "date": "2026-06-30",
@@ -1672,7 +1672,7 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-07-02",
       "count": 4,
-      "level": 2
+      "level": 1
     },
     {
       "date": "2026-07-03",
@@ -1697,12 +1697,12 @@ window.GITHUB_CONTRIBUTIONS = {
     {
       "date": "2026-07-07",
       "count": 9,
-      "level": 3
+      "level": 2
     },
     {
       "date": "2026-07-08",
       "count": 7,
-      "level": 3
+      "level": 2
     },
     {
       "date": "2026-07-09",
@@ -1726,28 +1726,28 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-07-13",
-      "count": 12,
+      "count": 22,
       "level": 4
     },
     {
       "date": "2026-07-14",
-      "count": 1,
-      "level": 1
+      "count": 22,
+      "level": 4
     },
     {
       "date": "2026-07-15",
-      "count": 1,
-      "level": 1
+      "count": 20,
+      "level": 4
     },
     {
       "date": "2026-07-16",
-      "count": 1,
-      "level": 1
+      "count": 16,
+      "level": 4
     },
     {
       "date": "2026-07-17",
-      "count": 1,
-      "level": 1
+      "count": 8,
+      "level": 2
     },
     {
       "date": "2026-07-18",
@@ -1761,33 +1761,33 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-07-20",
-      "count": 4,
-      "level": 2
+      "count": 18,
+      "level": 4
     },
     {
       "date": "2026-07-21",
-      "count": 3,
-      "level": 1
+      "count": 7,
+      "level": 2
     },
     {
       "date": "2026-07-22",
-      "count": 1,
-      "level": 1
+      "count": 19,
+      "level": 4
     },
     {
       "date": "2026-07-23",
-      "count": 1,
-      "level": 1
+      "count": 18,
+      "level": 4
     },
     {
       "date": "2026-07-24",
-      "count": 1,
-      "level": 1
+      "count": 11,
+      "level": 3
     },
     {
       "date": "2026-07-25",
-      "count": 1,
-      "level": 1
+      "count": 8,
+      "level": 2
     },
     {
       "date": "2026-07-26",
@@ -1796,22 +1796,22 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-07-27",
-      "count": 1,
-      "level": 1
+      "count": 9,
+      "level": 2
     },
     {
       "date": "2026-07-28",
-      "count": 1,
-      "level": 1
+      "count": 13,
+      "level": 3
     },
     {
       "date": "2026-07-29",
-      "count": 2,
-      "level": 1
+      "count": 10,
+      "level": 3
     },
     {
       "date": "2026-07-30",
-      "count": 1,
+      "count": 4,
       "level": 1
     },
     {
@@ -1831,18 +1831,28 @@ window.GITHUB_CONTRIBUTIONS = {
     },
     {
       "date": "2026-08-03",
-      "count": 1,
-      "level": 1
+      "count": 13,
+      "level": 3
     },
     {
       "date": "2026-08-04",
-      "count": 1,
-      "level": 1
+      "count": 9,
+      "level": 2
     },
     {
       "date": "2026-08-05",
-      "count": 1,
-      "level": 1
+      "count": 8,
+      "level": 2
+    },
+    {
+      "date": "2026-08-06",
+      "count": 7,
+      "level": 2
+    },
+    {
+      "date": "2026-08-07",
+      "count": 0,
+      "level": 0
     }
   ]
 };
