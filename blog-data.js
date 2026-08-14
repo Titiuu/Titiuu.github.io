@@ -74,6 +74,15 @@ window.BLOG_POSTS = [
   {
     "category": "projects",
     "categoryName": "项目分享",
+    "date": "2026-08-14",
+    "title": "DeepSeek Harness 解读：Harness 的真正分歧，是“什么能被改”",
+    "excerpt": "harness 项目越来越多，功能清单却越长越像：多模型支持、工具调用、上下文压缩、权限审批、技能系统……把几个主流项目的 README 摆在一起，很难看出本质差别。",
+    "slug": "2026-08-14-deepseek-harness-notes",
+    "path": "blogs/projects/2026-08-14-deepseek-harness-notes.md"
+  },
+  {
+    "category": "projects",
+    "categoryName": "项目分享",
     "date": "2026-07-29",
     "title": "AI 写得太快了：从 grill-me、OpenSpec 到 Superpowers",
     "excerpt": "先说清楚一个容易混淆的地方：grill-me、OpenSpec 和 Superpowers 都不是新的 AI 编程模型。它们不替代 Claude、GPT 或其他底层模型，而是运行在 Claude Code、Codex、Cursor 等 Co",
