@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-08-21",
+    "title": "经典论文解读（九）｜对齐与微调：LoRA: Low-Rank Adaptation of Large Language Models",
+    "excerpt": "把 GPT-3（175B）微调到某个下游任务，最直接的做法是更新它的全部参数。但这样做的前提，是你要有办法训练一个 175B 参数的模型。",
+    "slug": "2026-08-21-lora-paper-notes",
+    "path": "blogs/papers/2026-08-21-lora-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-08-03",
     "title": "经典论文解读（八）｜对齐与微调：Training Language Models to Follow Instructions with Human Feedback",
     "excerpt": "大规模预训练让语言模型拥有了越来越强的生成、问答和推理能力，但能力更强，不等于更愿意按照用户的意图行动。",
