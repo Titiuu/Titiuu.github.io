@@ -4,9 +4,18 @@ window.BLOG_POSTS = [
     "categoryName": "论文解读",
     "date": "2026-08-21",
     "title": "经典论文解读（九）｜对齐与微调：LoRA: Low-Rank Adaptation of Large Language Models",
-    "excerpt": "把 GPT-3（175B）微调到某个下游任务，最直接的做法是更新它的全部参数。但这样做的前提，是你要有办法训练一个 175B 参数的模型。",
+    "excerpt": "GPT-3（175B）让人看到了微调的潜力。把 GPT-3微调到某个下游任务，最直接的做法是更新它的全部参数。但这样做的前提，是你要有办法训练一个 175B 参数的模型。",
     "slug": "2026-08-21-lora-paper-notes",
     "path": "blogs/papers/2026-08-21-lora-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-08-21",
+    "title": "经典论文解读（十）｜对齐与微调：QLoRA: Efficient Finetuning of Quantized LLMs",
+    "excerpt": "上一篇《LoRA》里我们算过一笔账：LoRA 把 GPT-3（175B）的微调显存从约 1.2TB 降到 350GB，checkpoint 从 350GB 降到 35MB。可这 350GB 里，绝大部分不是 LoRA 适配器，而是冻结的 b",
+    "slug": "2026-08-21-qlora-paper-notes",
+    "path": "blogs/papers/2026-08-21-qlora-paper-notes.md"
   },
   {
     "category": "papers",
