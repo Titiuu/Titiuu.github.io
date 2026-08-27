@@ -155,6 +155,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-08-27",
+    "title": "异步执行的思想：阻塞、协程与事件循环",
+    "excerpt": "做 Agent 开发时有一个很典型的场景：主 Agent 在一轮任务里要调用一堆工具和外部服务——查天气、查日历、检索文档、调用模型 API。这些调用之间大多没有强先后依赖，你不必等天气结果回来才能发起检索。",
+    "slug": "2026-08-27-understanding-async-execution",
+    "path": "blogs/tech/2026-08-27-understanding-async-execution.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-07-20",
     "title": "从模型到 Agent 服务：Harness 解决了哪些问题",
     "excerpt": "调用一次大模型很简单：组织 messages，发起请求，拿到输出。",
