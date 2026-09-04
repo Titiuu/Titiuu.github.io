@@ -2,14 +2,14 @@
 
 Agent 沙箱最容易被误解成一个单点问题：是不是用了 Docker？是不是用了 Kubernetes？是不是套了一个虚拟机？
 
-但真正运行过 coding agent、data agent 或 code interpreter 之后，会发现沙箱不是一个 runtime 名词，而是一组工程边界：
+真正运行过 coding agent、data agent 或 code interpreter 之后，会发现沙箱包含一组具体的工程边界，并不只是一个 runtime 名词：
 
 - Agent 要能执行命令、读写文件、安装依赖、跑解释器。
 - 这些动作来自 LLM 生成内容，默认不可信。
 - 用户之间、会话之间、任务之间不能互相读文件、抢资源、打网络、污染环境。
 - 运行环境还要能按需创建、暂停、恢复、销毁，并把关键状态落盘。
 
-所以 agent 沙箱的本质不是“找一个隔离技术”，而是：
+所以设计 agent 沙箱，需要回答：
 
 > **控制面编排生命周期，数据面收口执行、文件、资源和网络，再用合适的隔离边界承载 workload。**
 
@@ -46,7 +46,7 @@ flowchart TD
 | 网络边界 | 控制入站预览和出站访问 | gateway、sidecar、DNS proxy、iptables/nftables |
 | 隔离边界 | 防止越权影响宿主机或其他租户 | namespace、容器、gVisor、MicroVM、WASM、TEE |
 
-很多安全事故不是因为“没用沙箱”，而是某一层没有收口。例如：
+很多安全事故发生在某一层没有收口，即使系统已经使用了沙箱。例如：
 
 - 容器隔离存在，但 exec API 暴露在宿主网络上。
 - 文件系统隔离存在，但挂载了宿主 Docker socket。
@@ -140,7 +140,7 @@ flowchart LR
 
 生命周期 server 根据 API 请求创建独立 sandbox 实例。每个实例有自己的容器或 Pod，通过 Linux namespace 和 cgroups 隔离 CPU、内存、进程、文件系统和网络命名空间。agent 看到的是一个完整 Linux 环境，但它实际被绑定在当前 sandbox 的边界内。
 
-容器型沙箱要成立，重点不只是“启动一个容器”，而是把执行入口和网络路径收口：
+容器型沙箱除了启动容器，还要把执行入口和网络路径收口：
 
 - 命令执行不直接调用宿主 shell，而是在沙箱内部通过 `execd` 或 tool daemon 执行。
 - `execd` 使用 sandbox-scoped token，命令有超时、输出截断和审计。

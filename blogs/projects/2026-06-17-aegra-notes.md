@@ -4,7 +4,7 @@ Aegra 的一句话定位很容易理解，但也很容易被说得过头：它�
 
 这一区分很重要。LangSmith 是一整套围绕 LLM 应用和 agent 的平台，包含 observability、evaluation、deployment、prompt / dataset / monitoring 等能力。Aegra 更聚焦：它要解决的是“我已经写好了 LangGraph agent，怎样用和 LangSmith Deployments 类似的 API，把它部署到自己的基础设施上运行”。
 
-先给结论：Aegra 的核心不是另起一套 agent 框架，而是一个 **Agent Protocol 兼容层 + LangGraph 执行运行时 + PostgreSQL 状态持久化 + Redis worker 队列 + OpenTelemetry 观测导出**。它把 LangGraph agent 的生产运行能力从托管平台里拆出来，放到用户自己的数据库、认证系统和部署环境中。
+先给结论：Aegra 没有另起一套 agent 框架。它由 **Agent Protocol 兼容层 + LangGraph 执行运行时 + PostgreSQL 状态持久化 + Redis worker 队列 + OpenTelemetry 观测导出** 组成，把 LangGraph agent 的生产运行能力从托管平台拆到用户自己的数据库、认证系统和部署环境中。
 
 ---
 
@@ -70,7 +70,7 @@ Agent Chat UI / LangGraph Studio / CopilotKit / 自己的客户端
 
 **Aegra 是这个运行层的开源自托管实现。** 它对标的是 LangSmith Deployments / Agent Server 这一层，而不是 LangSmith 的全部能力。LangSmith 仍然包含 tracing、evaluation、monitoring、dataset、prompt hub、Engine、Fleet、Sandboxes 等更大范围的平台功能。[3]
 
-所以更准确的说法不是“Aegra 是 LangSmith 替代品”，而是：
+所以把“Aegra 是 LangSmith 替代品”作为结论并不准确。更合适的描述是：
 
 > Aegra 是一个自托管的 LangSmith Deployments 替代实现，用相近的 SDK/API 模型运行 LangGraph agent。
 
@@ -92,7 +92,7 @@ Aegra 的选择是把持久化放回用户自己的 PostgreSQL。threads、runs�
 
 LangSmith Pricing 页面显示，Plus plan 中 LangSmith Deployment 的额外 deployment run 会按运行计费，production / development deployment 还存在 uptime cost；Enterprise 则是 custom pricing。[4] 这对很多团队是合理的商业模型，但如果 workload 很大，agent run 数量和在线时间都会变成需要持续管理的成本项。
 
-Aegra 的成本模型更直接：没有平台侧 per-run 费用，你支付自己的计算、PostgreSQL、Redis、网络和模型调用成本。这不是“免费运行 agent”，而是把平台费用换成自运维基础设施成本。
+Aegra 的成本模型更直接：没有平台侧 per-run 费用，你支付自己的计算、PostgreSQL、Redis、网络和模型调用成本。平台费用由自运维基础设施成本取代，并不等于可以“免费运行 agent”。
 
 ### 3. 认证和授权可编程
 
@@ -504,7 +504,7 @@ span 出生时，`SpanEnrichmentProcessor.on_start()` 会读取这个 contextvar
 
 ## 十、Aegra 的工程取舍
 
-源码读下来，Aegra 最有价值的地方不是“功能列表很多”，而是它选择了几条比较务实的边界。
+源码读下来，Aegra 最有价值的是几条务实的边界，功能数量反而不是重点。
 
 第一，**协议兼容优先**。它不要求用户学习一个新的 agent 框架，而是尽量贴近 LangGraph SDK / Agent Protocol 的资源模型。迁移成本主要在部署配置，而不是业务 graph 重写。
 

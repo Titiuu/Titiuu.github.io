@@ -2,7 +2,7 @@
 
 2017 年，Vaswani 等人在论文 **《Attention Is All You Need》** 中提出 Transformer。它后来成为 BERT、GPT、T5 等大模型的基础架构之一。
 
-这篇论文最重要的地方，不只是提出了一个新的模块，而是做了一个很激进的判断：
+这篇论文除了提出新的模块，还做了一个很激进的判断：
 
 > 序列建模不一定需要 RNN，也不一定需要 CNN。只靠注意力机制，也能完成机器翻译这类复杂序列到序列任务。
 
@@ -549,7 +549,7 @@ sequenceDiagram
 
 ## 七、用一句话总结 Transformer
 
-Transformer 的核心不是“用了注意力”，而是：
+Transformer 的核心可以概括为：
 
 > 用 Self-Attention 作为序列建模的主干，让每个 token 能并行地、直接地、动态地读取其他 token 的信息。
 

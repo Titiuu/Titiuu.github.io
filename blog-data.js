@@ -13,7 +13,7 @@ window.BLOG_POSTS = [
     "categoryName": "论文解读",
     "date": "2026-08-21",
     "title": "经典论文解读（十）｜对齐与微调：QLoRA: Efficient Finetuning of Quantized LLMs",
-    "excerpt": "上一篇《LoRA》里我们算过一笔账：LoRA 把 GPT-3（175B）的微调显存从约 1.2TB 降到 350GB，checkpoint 从 350GB 降到 35MB。可这 350GB 里，绝大部分不是 LoRA 适配器，而是冻结的 b",
+    "excerpt": "上一篇《LoRA》里我们算过一笔账：LoRA 把 GPT-3（175B）的微调显存从约 1.2TB 降到 350GB，checkpoint 从 350GB 降到 35MB。可这 350GB 里，LoRA 适配器只占很小一部分，绝大部分仍是冻",
     "slug": "2026-08-21-qlora-paper-notes",
     "path": "blogs/papers/2026-08-21-qlora-paper-notes.md"
   },
@@ -67,7 +67,7 @@ window.BLOG_POSTS = [
     "categoryName": "论文解读",
     "date": "2026-06-14",
     "title": "经典论文解读（二）｜LLM 基础架构：Language Models are Unsupervised Multitask Learners",
-    "excerpt": "2019 年，Radford 等人在论文 《Language Models are Unsupervised Multitask Learners》 中发布了 GPT-2。今天回头看，这篇论文的意义不只是“模型更大了”，而是它把一个后来支配",
+    "excerpt": "2019 年，Radford 等人在论文 《Language Models are Unsupervised Multitask Learners》 中发布了 GPT-2。今天回头看，除了模型规模，这篇论文还把一个后来影响大模型发展的判断讲",
     "slug": "2026-06-14-gpt2-paper-notes",
     "path": "blogs/papers/2026-06-14-gpt2-paper-notes.md"
   },
@@ -175,7 +175,7 @@ window.BLOG_POSTS = [
     "categoryName": "技术分享",
     "date": "2026-07-07",
     "title": "多 Agent 业务开发实践：如何减少 Token 消耗和等待时间",
-    "excerpt": "做多 agent 系统时，很容易有一个误解：只要把任务拆给更多 agent，系统就会更聪明、更快。",
+    "excerpt": "做多 agent 系统时，很多人会认为：只要把任务拆给更多 agent，系统就会更聪明、更快。",
     "slug": "2026-07-07-multi-agent-token-latency",
     "path": "blogs/tech/2026-07-07-multi-agent-token-latency.md"
   },

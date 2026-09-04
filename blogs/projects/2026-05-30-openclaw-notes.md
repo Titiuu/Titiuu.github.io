@@ -10,7 +10,7 @@ OpenClaw 是一个很容易被误解的项目。表面上看，它是“把 AI �
 4. Agent Runtime 如何处理工具执行、模型故障、上下文预算和长期记忆？
 5. 这个项目的安全边界到底在哪里？
 
-先给结论：OpenClaw 的核心不是“聊天机器人”，而是 **Local-first Gateway + Plugin SDK + Multi-agent Routing + Budgeted Agent Runtime**。它把个人 AI 助手拆成一个长期运行的本地控制平面，再把消息通道、模型、工具、记忆和客户端都接到这个控制平面上。
+先给结论：OpenClaw 是一套 **Local-first Gateway + Plugin SDK + Multi-agent Routing + Budgeted Agent Runtime**，定位比“聊天机器人”更接近本地控制平面。它把个人 AI 助手拆成一个长期运行的本地服务，再把消息通道、模型、工具、记忆和客户端接进来。
 
 ---
 
@@ -53,7 +53,7 @@ OpenClaw 架构里最关键的选择是把 Gateway 做成唯一长驻进程。�
 
 很多消息平台的 session 是强状态的。例如 WhatsApp Web、Telegram bot 连接、Slack app、Discord gateway 连接，都不适合多个进程随意抢占。OpenClaw 用一个长驻 Gateway 持有这些连接，避免同一账号被多个 agent/runtime 反复登录、扫码、断线重连。
 
-这也是它和“每个 Bot 一个进程”的架构差异。OpenClaw 不是为每个平台开一个孤岛，而是把所有通道收敛到同一条控制平面。
+这也是它和“每个 Bot 一个进程”的架构差异：OpenClaw 把所有通道收敛到同一条控制平面，避免为每个平台建立孤岛。
 
 ### 2. 消息总线
 

@@ -51,7 +51,7 @@ prompt / skills / 长期记忆
 
 Claude Code 的扩展点是最齐全的：hooks 覆盖 PreToolUse、PostToolUse、UserPromptSubmit、SessionStart、PreCompact、Stop 等生命周期，可以拦截工具调用、影响控制流；MCP、skills、slash commands 是标配；此外还有 plugins（带市场）、output styles、自定义 agent 定义。但 loop 本体是封闭的——所有扩展点都挂在生命周期的缝隙上，每一个都是官方开好的门。
 
-Codex 是最反直觉的样本。它不是想象中的“Rust 单体”，而是近百个 crate 的 workspace，扩展面也早已不止 MCP 和配置：hooks 系统带 11 种事件 schema（permission-request、pre-tool-use、pre-compact、session-start、stop 等），插件 manifest 可以把 skills、MCP servers、apps、hooks 打包在一起分发，另有 AGENTS.md、threads、官方 SDK。但这恰恰是本文论点的最好证据：**扩展点可以多，边界却一寸没动**。loop 依然固定；而且 `requirements.toml` 里一行 `allow_managed_hooks_only = true`，管理员就能关掉所有非受管 hooks——恩赐的扩展点，也能一行收回。
+Codex 是最反直觉的样本。它由近百个 crate 组成 workspace，并非想象中的“Rust 单体”；扩展面也早已超出 MCP 和配置：hooks 系统带 11 种事件 schema（permission-request、pre-tool-use、pre-compact、session-start、stop 等），插件 manifest 可以把 skills、MCP servers、apps、hooks 打包在一起分发，另有 AGENTS.md、threads、官方 SDK。这恰好印证了本文的论点：**扩展点可以很多，loop 的边界依然固定**。而且 `requirements.toml` 里一行 `allow_managed_hooks_only = true`，管理员就能关掉所有非受管 hooks。
 
 OpenClaw 的 extensions 目录挂着约 150 个包：模型 provider、消息渠道、能力组件；插件 SDK 提供 `before_model_resolve`、`before_prompt_build`、`before_agent_reply`、`before/after_compaction`、`before/after_tool_call` 等 hooks。loop 本身是固定流水线：intake、context assembly、model inference、tool execution、streaming、persistence——hooks 可以在流水线各站等候，但流水线本身没得商量。
 

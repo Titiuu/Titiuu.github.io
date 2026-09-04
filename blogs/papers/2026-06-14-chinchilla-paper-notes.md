@@ -152,7 +152,7 @@ Chinchilla 的参数量只有 Gopher 的四分之一，但训练 token 约为 Go
 
 结果是，Chinchilla 在大量下游任务上显著超过 Gopher，同时也超过 GPT-3、Jurassic-1 和 Megatron-Turing NLG 等更大模型。
 
-这个结果让“参数越大越好”的朴素理解受到了很强挑战。真正重要的不是参数量单点，而是：
+这个结果让“参数越大越好”的朴素理解受到了很强挑战。参数量需要和训练 token 数、计算预算一起考虑：
 
 ```text
 模型大小 × 训练 token × 训练计算量
@@ -177,7 +177,7 @@ Chinchilla 还有一个工程优势：它只有 70B 参数。
 
 ## 四、和 Kaplan Scaling Law 的关系
 
-Chinchilla 不是否定 scaling law，而是 scaling law 方法的继续。
+Chinchilla 延续了 scaling law 的方法，并修正了其中的 compute-optimal 配比。
 
 两篇论文的关系可以这样理解：
 
@@ -291,7 +291,7 @@ Chinchilla 的结论来自特定 Transformer 架构、特定数据混合和特�
 
 如果用一句话概括 Chinchilla 论文：
 
-> 它说明在固定训练算力下，最优策略不是单纯训练更大的模型，而是让模型参数量和训练 token 数保持更合理的平衡。
+> 它说明在固定训练算力下，模型参数量和训练 token 数需要保持更合理的平衡，单纯增大模型并非最优策略。
 
 它和 Kaplan scaling law 的关系非常紧密：
 

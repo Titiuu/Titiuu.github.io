@@ -1,6 +1,6 @@
 # 经典论文解读（二）｜LLM 基础架构：Language Models are Unsupervised Multitask Learners
 
-2019 年，Radford 等人在论文 **《Language Models are Unsupervised Multitask Learners》** 中发布了 GPT-2。今天回头看，这篇论文的意义不只是“模型更大了”，而是它把一个后来支配大模型时代的判断讲清楚了：
+2019 年，Radford 等人在论文 **《Language Models are Unsupervised Multitask Learners》** 中发布了 GPT-2。今天回头看，除了模型规模，这篇论文还把一个后来影响大模型发展的判断讲清楚了：
 
 > 一个足够大的语言模型，只要在大规模、多样化文本上做无监督训练，就可能在不微调、不改参数的情况下，学会执行多种下游 NLP 任务。
 
@@ -300,7 +300,7 @@ WebText 移除了 Wikipedia，并做了重叠分析，但互联网规模数据�
 
 > 它把语言模型从“生成文本的模型”推进为“用自然语言接口执行任务的通用模型雏形”。
 
-这篇论文的重要性不在于某个单项 benchmark 分数，而在于它把几条后来成为主流的路线连接了起来：
+这篇论文的重要性体现在它把几条后来成为主流的路线连接了起来，而不只是某个单项 benchmark 分数：
 
 - **Scaling**：模型越大，zero-shot 迁移越强。
 - **Prompting**：任务可以写进自然语言上下文。

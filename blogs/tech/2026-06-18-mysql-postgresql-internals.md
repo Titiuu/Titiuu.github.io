@@ -653,7 +653,7 @@ PostgreSQL 的 WAL 同时是崩溃恢复、物理复制、归档恢复、PITR �
 
 这些数据之间有强关系，也有半结构化字段；有事务一致性要求，也有检索需求；有在线路径，也有调试和审计路径。
 
-PostgreSQL 的优势不是单点能力最强，而是组合能力强：
+PostgreSQL 的优势主要来自能力组合，并不要求每个单项都最强：
 
 - 用事务保证 run、checkpoint、message 的状态更新一致。
 - 用 heap + MVCC 支撑读写并发和历史版本可见性。
@@ -693,7 +693,7 @@ PostgreSQL 更适合这些场景：
 - 状态模型经常演进，但仍需要事务和强一致。
 - 需要把 operational data 和 retrieval data 放近一点。
 
-所以更实用的判断不是“选 MySQL 还是 PostgreSQL”，而是先问数据模型和访问模式：
+所以更实用的判断方式，是先看数据模型和访问模式，再决定选 MySQL 还是 PostgreSQL：
 
 - 数据是不是高度结构化、路径稳定、典型 OLTP？MySQL 很稳。
 - 数据是不是结构化 + 半结构化 + 检索 + 审计混合？PostgreSQL 更自然。
@@ -731,7 +731,7 @@ extensibility -> access methods + types + extensions
 - PostgreSQL 的 heap 是表的主体，索引是通往 heap tuple 的路径，所以 `ctid`、tuple header、visibility、vacuum 特别重要。
 - InnoDB 通过 undo log 保存旧版本，PostgreSQL 通过 heap 中的多版本 tuple 保存旧版本。
 - PostgreSQL 的索引体系不是单一 B+tree 思维，而是为不同数据类型和查询语义提供不同 access method。
-- agent 项目偏爱 PostgreSQL，不是因为它在每个单项上都最强，而是因为它能把关系数据、JSON、索引扩展、向量检索、事务和恢复体系放在一个数据库里。
+- agent 项目偏爱 PostgreSQL，主要因为它能把关系数据、JSON、索引扩展、向量检索、事务和恢复体系放在一个数据库里，并不要求每个单项都最强。
 
 这正是底层设计影响上层架构的地方。
 

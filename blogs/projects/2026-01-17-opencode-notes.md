@@ -2,7 +2,7 @@
 
 OpenCode 是一个开源 AI 编程助手。它表面上是一个终端里的 coding agent，但从源码结构看，它更像一个围绕“项目上下文 + 会话状态 + 工具执行 + 权限控制”构建的智能编码平台。
 
-这篇文章按当前源码口径梳理 OpenCode 的核心架构。重点不是罗列每个文件做什么，而是回答几个更关键的问题：
+这篇文章按当前源码口径梳理 OpenCode 的核心架构，不逐个罗列文件，而是回答几个更关键的问题：
 
 1. 为什么它不是一个简单的 CLI？
 2. 它如何让 TUI、Web、Desktop、SDK 复用同一个后端？
@@ -13,7 +13,7 @@ OpenCode 是一个开源 AI 编程助手。它表面上是一个终端里的 cod
 
 ---
 
-## 一、整体定位：它不是“一个命令”，而是多端复用的 coding agent
+## 一、整体定位：多端复用的 coding agent
 
 OpenCode 官方文档把它定义为开源 AI coding agent，可用于终端界面、桌面应用和 IDE 扩展。这个定位很重要，因为它直接决定了源码架构不会围绕“单次命令执行”展开，而是围绕“可复用服务”展开。
 
@@ -104,7 +104,7 @@ Session / Agent / Tool / Provider / Storage
 
 早期或旧材料里常见的描述是“Server 使用 Hono 框架组织路由”。但按当前源码，Server 主线已经明显转向 Effect HTTP API 和 Effect runtime。`server.ts` 中通过 `HttpApiApp.createRoutes()` 创建路由，用 Node HTTP server 监听端口，并提供 OpenAPI spec。
 
-这不是单纯换框架，而是运行时风格的变化：
+这次换框架也改变了运行时风格：
 
 - Hono 风格更像直接声明 middleware 和 route。
 - 当前 Effect 风格更强调 service、layer、scope、resource lifecycle。
@@ -121,7 +121,7 @@ Server 还支持几个关键能力：
 | mDNS | 让局域网内的桌面端发现本地服务 |
 | WebSocket / event stream | 把消息、工具状态、权限请求实时推给客户端 |
 
-这里的核心不是“用了哪个 HTTP 框架”，而是后端已经成为稳定平台。客户端只是不同显示和交互层。
+这里的核心是后端已经成为稳定平台，HTTP 框架只是实现选择，客户端则是不同的显示和交互层。
 
 ---
 
@@ -274,7 +274,7 @@ Agent 配置可以来自 JSON，也可以来自 Markdown 文件。官方文档�
 
 ---
 
-## 七、Permission：安全边界不是“开关”，而是可匹配规则
+## 七、Permission：用可匹配规则定义安全边界
 
 AI 编程助手最危险的地方不是它会写错代码，而是它可以调用工具。只要它能执行 bash、改文件、访问外部目录，安全边界就必须清晰。
 
@@ -848,7 +848,7 @@ OpenCode 的架构可以用一句话概括：
 
 > 它把 AI 编码过程拆成可复用的后端服务：项目实例负责隔离，Session 负责状态机，Agent 负责行为策略，Tool 负责行动能力，Permission 负责安全边界，Event Bus 负责实时同步。
 
-从工程角度看，它最有价值的地方不是某个 prompt 或某个工具，而是这些模块之间的边界：
+从工程角度看，它最有价值的地方是这些模块之间的边界，单个 prompt 或工具反而是次要的：
 
 ```text
 Client UI
