@@ -3,19 +3,19 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-09-10",
-    "title": "经典论文解读（十一）｜推理增强：Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
-    "excerpt": "同一道数学应用题，同一个语言模型，只改一下 few-shot 示例的答案格式，准确率会发生多大变化？",
-    "slug": "2026-09-10-cot-paper-notes",
-    "path": "blogs/papers/2026-09-10-cot-paper-notes.md"
-  },
-  {
-    "category": "papers",
-    "categoryName": "论文解读",
-    "date": "2026-09-10",
     "title": "经典论文解读（十二）｜推理增强：Self-Consistency Improves Chain of Thought Reasoning in Language Models",
     "excerpt": "同一个模型，同一组 Chain-of-Thought 示例，只改变生成答案的方式，GSM8K 准确率可以从 56.5% 提高到 74.4%。",
     "slug": "2026-09-10-self-consistency-paper-notes",
     "path": "blogs/papers/2026-09-10-self-consistency-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-09-09",
+    "title": "经典论文解读（十一）｜推理增强：Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "excerpt": "同一道数学应用题，同一个语言模型，只改一下 few-shot 示例的答案格式，准确率会发生多大变化？",
+    "slug": "2026-09-09-cot-paper-notes",
+    "path": "blogs/papers/2026-09-09-cot-paper-notes.md"
   },
   {
     "category": "papers",
