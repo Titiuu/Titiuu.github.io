@@ -11,6 +11,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-10",
+    "title": "经典论文解读（十二）｜推理增强：Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+    "excerpt": "同一个模型，同一组 Chain-of-Thought 示例，只改变生成答案的方式，GSM8K 准确率可以从 56.5% 提高到 74.4%。",
+    "slug": "2026-09-10-self-consistency-paper-notes",
+    "path": "blogs/papers/2026-09-10-self-consistency-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-08-21",
     "title": "经典论文解读（九）｜对齐与微调：LoRA: Low-Rank Adaptation of Large Language Models",
     "excerpt": "GPT-3（175B）让人看到了微调的潜力。把 GPT-3微调到某个下游任务，最直接的做法是更新它的全部参数。但这样做的前提，是你要有办法训练一个 175B 参数的模型。",
