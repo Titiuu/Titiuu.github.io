@@ -814,6 +814,12 @@ a.more-mark:hover {
   line-height: 1.55;
 }
 
+.markdown-preview .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .markdown-preview hr {
   margin: 30px 0;
   border: 0;

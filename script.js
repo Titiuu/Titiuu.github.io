@@ -59,9 +59,11 @@ const posts = Array.isArray(window.BLOG_POSTS) ? window.BLOG_POSTS : [];
 const langButtons = document.querySelectorAll(".lang-button");
 const translatableNodes = document.querySelectorAll("[data-i18n]");
 const translatablePlaceholders = document.querySelectorAll("[data-i18n-placeholder]");
+const katexVersion = "0.18.7";
 let mermaidInitialized = false;
 let currentLanguage = "zh";
 let homeListLayoutFrame = null;
+let katexLoadPromise = null;
 const markdownCache = new Map();
 
 function readStoredLanguage() {
@@ -371,6 +373,17 @@ function setupReaderPage() {
       preview.innerHTML = renderMarkdown(markdown);
       enhanceRenderedMarkdown(preview);
       renderMermaidDiagrams(preview);
+
+      if (containsMath(markdown)) {
+        try {
+          await loadKatex();
+          if (requestId === selectionRequest) {
+            renderMathExpressions(preview);
+          }
+        } catch (error) {
+          console.error("Unable to load KaTeX:", error);
+        }
+      }
     } catch {
       if (requestId !== selectionRequest) {
         return;
@@ -493,10 +506,15 @@ function renderWithMarked(markdown) {
     gfm: true,
   });
 
-  return html.replace(
-    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
-    '<div class="mermaid">$1</div>',
-  );
+  return html
+    .replace(
+      /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+      '<div class="mermaid">$1</div>',
+    )
+    .replace(
+      /<pre><code class="language-math">([\s\S]*?)<\/code><\/pre>/g,
+      (_, expression) => `<div class="math-display">$$\n${expression}$$</div>`,
+    );
 }
 
 function enhanceRenderedMarkdown(container) {
@@ -541,6 +559,72 @@ async function renderMermaidDiagrams(container) {
   }
 }
 
+function containsMath(markdown) {
+  return /```math\b|\$\$|(^|[^\\])\$(?!\s)/m.test(markdown);
+}
+
+function loadScript(src, integrity) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.integrity = integrity;
+    script.crossOrigin = "anonymous";
+    script.onload = resolve;
+    script.onerror = () => reject(new Error(`Unable to load ${src}`));
+    document.head.append(script);
+  });
+}
+
+function loadStylesheet(href, integrity) {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    link.integrity = integrity;
+    link.crossOrigin = "anonymous";
+    link.onload = resolve;
+    link.onerror = () => reject(new Error(`Unable to load ${href}`));
+    document.head.append(link);
+  });
+}
+
+function loadKatex() {
+  if (!katexLoadPromise) {
+    const baseUrl = `https://cdn.jsdelivr.net/npm/katex@${katexVersion}/dist`;
+    const stylesheet = loadStylesheet(
+      `${baseUrl}/katex.min.css`,
+      "sha384-JctiRyLzXCrSoOOzFlSoWLdyzQl7OrrRnhyeBmzB6ZWtcjccUyc8lCQJqIbs3uQX",
+    );
+    const core = loadScript(
+      `${baseUrl}/katex.min.js`,
+      "sha384-+7Keh381hSkXmXqnjC0JBM/kzsN6TFj+wMKychSLjTvJ8/0ElMde2uKl8i6p6Buj",
+    );
+
+    katexLoadPromise = Promise.all([stylesheet, core]).then(() =>
+      loadScript(
+        `${baseUrl}/contrib/auto-render.min.js`,
+        "sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz",
+      ),
+    );
+  }
+
+  return katexLoadPromise;
+}
+
+function renderMathExpressions(container) {
+  if (!window.renderMathInElement) {
+    return;
+  }
+
+  window.renderMathInElement(container, {
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+    ],
+    throwOnError: false,
+  });
+}
+
 function renderMarkdown(markdown) {
   const markedHtml = renderWithMarked(markdown);
   if (markedHtml) {
@@ -571,6 +655,10 @@ function renderMarkdown(markdown) {
       index += 1;
       if (language.toLowerCase() === "mermaid") {
         html.push(`<div class="mermaid">${escapeHtml(code.join("\n"))}</div>`);
+        continue;
+      }
+      if (language.toLowerCase() === "math") {
+        html.push(`<div class="math-display">$$\n${escapeHtml(code.join("\n"))}\n$$</div>`);
         continue;
       }
       html.push(`<pre><code class="language-${language}">${escapeHtml(code.join("\n"))}</code></pre>`);
