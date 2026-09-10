@@ -9,7 +9,7 @@ This repository is a static GitHub Pages personal blog. Core page files live at 
 - `styles.css`: shared layout, responsive styles, and article presentation.
 - `script.js`: language switching, search, reader behavior, Markdown rendering, and Mermaid rendering.
 - `blogs/<category>/*.md`: source Markdown posts. Current categories are `tech`, `papers`, and `projects`.
-- `notes/*.md`: scratch notes and future blog material. These files are not surfaced in the frontend and should not be added to `blog-data.js`.
+- `notes/*.md`: the author's own scratch notes, collected material, and future blog content. These files are not a workspace for generated drafts, outlines, research summaries, or other temporary writing artifacts. They are not surfaced in the frontend and should not be added to `blog-data.js`.
 - `scripts/`: Node scripts that generate static data files.
 - `blog-data.js`: generated blog index; do not edit by hand.
 - `github-contributions-data.js`: generated GitHub contributions data.
@@ -58,7 +58,9 @@ blogs/tech/2024-09-03-redis-notes.md
 
 The first `#` heading becomes the post title. Keep category keys aligned with `scripts/generate-blog-data.mjs`.
 
-Name scratch notes descriptively under `notes/`; they do not need date-prefixed blog slugs until promoted into `blogs/<category>/`.
+Before titling a new paper post, inspect the first headings of the existing files in `blogs/papers/`. Continue the repository-wide `经典论文解读（中文序号）` sequence from the latest published number unless the user explicitly says numbering continuity is unnecessary. Topic labels such as `推理增强` do not restart the article number.
+
+Name the author's scratch notes descriptively under `notes/`; they do not need date-prefixed blog slugs until promoted into `blogs/<category>/`. Do not create generated outlines, draft workspaces, or source-summary directories under `notes/` unless the user explicitly requests them there. When an applicable writing workflow suggests a generic working directory, the repository's meaning for `notes/` takes precedence.
 
 When publishing blog posts, reference source files with repository-relative paths or public links. Avoid including personal development environment paths in article body content.
 

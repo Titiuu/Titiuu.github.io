@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-10",
+    "title": "经典论文解读（十一）｜推理增强：Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+    "excerpt": "同一道数学应用题，同一个语言模型，只改一下 few-shot 示例的答案格式，准确率会发生多大变化？",
+    "slug": "2026-09-10-cot-paper-notes",
+    "path": "blogs/papers/2026-09-10-cot-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-08-21",
     "title": "经典论文解读（九）｜对齐与微调：LoRA: Low-Rank Adaptation of Large Language Models",
     "excerpt": "GPT-3（175B）让人看到了微调的潜力。把 GPT-3微调到某个下游任务，最直接的做法是更新它的全部参数。但这样做的前提，是你要有办法训练一个 175B 参数的模型。",
