@@ -11,6 +11,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-14",
+    "title": "经典论文解读（十四）｜推理增强：Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+    "excerpt": "给定四个数字 4、9、10、13，每个数字只能用一次，怎样通过加减乘除得到 24？",
+    "slug": "2026-09-14-tree-of-thoughts-paper-notes",
+    "path": "blogs/papers/2026-09-14-tree-of-thoughts-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-09-10",
     "title": "经典论文解读（十二）｜推理增强：Self-Consistency Improves Chain of Thought Reasoning in Language Models",
     "excerpt": "同一个模型，同一组 Chain-of-Thought 示例，只改变生成答案的方式，GSM8K 准确率可以从 56.5% 提高到 74.4%。",
