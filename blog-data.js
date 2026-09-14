@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-14",
+    "title": "经典论文解读（十三）｜推理增强：Least-to-Most Prompting Enables Complex Reasoning in Large Language Models",
+    "excerpt": "如果 prompt 里的示例只演示了两三步推理，模型能不能据此解决一个需要十几步的问题？",
+    "slug": "2026-09-14-least-to-most-prompting-paper-notes",
+    "path": "blogs/papers/2026-09-14-least-to-most-prompting-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-09-10",
     "title": "经典论文解读（十二）｜推理增强：Self-Consistency Improves Chain of Thought Reasoning in Language Models",
     "excerpt": "同一个模型，同一组 Chain-of-Thought 示例，只改变生成答案的方式，GSM8K 准确率可以从 56.5% 提高到 74.4%。",
