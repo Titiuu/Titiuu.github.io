@@ -191,6 +191,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-09-18",
+    "title": "企业 Agent 推理优化：先识别任务形状，再选择优化方法",
+    "excerpt": "企业里讨论 Agent 性能时，最常听到的是：“27B Dense 和 35B-A3B 到底谁更快？”“要不要上量化？”“Serving 框架该选哪一个？”",
+    "slug": "2026-09-18-agent-inference-optimization",
+    "path": "blogs/tech/2026-09-18-agent-inference-optimization.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-08-27",
     "title": "异步执行的思想：阻塞、协程与事件循环",
     "excerpt": "做 Agent 开发时有一个很典型的场景：主 Agent 在一轮任务里要调用一堆工具和外部服务——查天气、查日历、检索文档、调用模型 API。这些调用之间大多没有强先后依赖，你不必等天气结果回来才能发起检索。",
