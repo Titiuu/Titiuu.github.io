@@ -192,6 +192,15 @@ window.BLOG_POSTS = [
     "category": "tech",
     "categoryName": "技术分享",
     "date": "2026-09-18",
+    "title": "Agent 服务配置设计：哪些应该动态化，哪些应该在启动时确定",
+    "excerpt": "很多 Agent 服务最初只有一套配置：代码里的默认值，加上一组环境变量。",
+    "slug": "2026-09-18-agent-service-configuration",
+    "path": "blogs/tech/2026-09-18-agent-service-configuration.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
+    "date": "2026-09-18",
     "title": "企业 Agent 推理优化：先识别任务形状，再选择优化方法",
     "excerpt": "企业里讨论 Agent 性能时，最常听到的是：“27B Dense 和 35B-A3B 到底谁更快？”“要不要上量化？”“Serving 框架该选哪一个？”",
     "slug": "2026-09-18-agent-inference-optimization",
