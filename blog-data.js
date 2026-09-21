@@ -191,6 +191,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-09-21",
+    "title": "当 Agent 不再需要生成：从 Jev 看结构化输出之后的决策模型",
+    "excerpt": "一个 Agent 要在网页搜索、数据库查询、文件读取和人工询问四个工具中选择下一步。程序最终只需要一个枚举值，但我们通常会把几千个 token 的上下文交给大语言模型，再让它逐 token 写出一段 JSON。",
+    "slug": "2026-09-21-jev-structured-output-decision-model",
+    "path": "blogs/tech/2026-09-21-jev-structured-output-decision-model.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-09-18",
     "title": "Agent 服务配置设计：哪些应该动态化，哪些应该在启动时确定",
     "excerpt": "很多 Agent 服务最初只有一套配置：代码里的默认值，加上一组环境变量。",
