@@ -191,6 +191,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-09-22",
+    "title": "从 Logits 到答案：LLM 的输出侧，以及 Laya 为什么不再生成 Token",
+    "excerpt": "上一篇讨论 Jev 和 Decision Model 时，我把重点放在任务形态上：业务需要的是有限选项，为什么还要让大语言模型先生成字符串？",
+    "slug": "2026-09-22-llm-output-side-and-laya",
+    "path": "blogs/tech/2026-09-22-llm-output-side-and-laya.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-09-21",
     "title": "当 Agent 不再需要生成：从 Jev 看结构化输出之后的决策模型",
     "excerpt": "一个 Agent 要在网页搜索、数据库查询、文件读取和人工询问四个工具中选择下一步。程序最终只需要一个枚举值，但我们通常会把几千个 token 的上下文交给大语言模型，再让它逐 token 写出一段 JSON。",
