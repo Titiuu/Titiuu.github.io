@@ -620,6 +620,27 @@ Jev 目前最有价值的部分，不是某个尚未公开的内部结构，也�
 
 这个问题回答清楚之后，Structured Output、Candidate Scoring、Decision Head 和 Jev 才各自有了正确的位置。
 
+## 十、后记：一次 Laya 多语言模型的业务实验
+
+写完这篇文章后，我又用一个开源决策模型做了实际验证。我通过 Ray Serve 部署了 `convaiinnovations/laya-multilingual`，然后把它接到一个真实的业务多标签分类任务上。数据集包含 302 条用例，每条用例都需要分别判断 8 个标签是否成立，同一条用例可以命中多个标签。这里的准确率按全部标签判断汇总，而不是 8 选 1 的 Top-1 accuracy。
+
+结果与我最初的预期差距很大：
+
+| 模型 | Prompt 形式 | 准确率 |
+| --- | --- | --- |
+| Laya Multilingual | 为适配其上下文预算改写后的短问法 | 15.5% |
+| Qwen3.6-35B-A3B | 当前业务使用的完整 prompt | 接近 99.9% |
+
+15.5% 的标签判断准确率在这个任务上显然还不可用。不过，这组数字不能当成严格受控的模型 benchmark。Qwen 使用的是经过业务验证的完整 prompt，里面包含较长的任务说明和标签判断边界；为了适配 Laya，我不得不把它改写成更短、更直接的问题。两边看到的输入契约并不完全相同。
+
+问题恰恰出在这次改写上。原来的长 prompt 虽然最后只要求给出 8 个标签各自是否成立，但每项判断都带有业务规则和边界条件。压缩成短问法以后，许多约束只能删减或概括，模型得到的决策边界随之变得模糊。即使继续调整短 prompt，效果也没有明显改善；输入上下文稍长一些，分类质量还会进一步下降。
+
+Laya 的[官方模型卡](https://huggingface.co/convaiinnovations/laya-multilingual)也给出了相近的边界：多语言版本默认使用 1024-token 限制，虽然可以提高到 8192，但长文准确率会出现明显波动；在 typed-decisions 的零样本评测中，它的结果接近随机水平，并且低于多数类基线，官方建议针对具体工作流微调。我的实验不是对这些公开结论的复现，但实际遇到的问题是一致的：模型能够一次性输出有限候选的概率，不代表它已经具备理解复杂业务规则所需的语义能力。
+
+这次实验让我进一步收窄了前面的判断。一个任务具有“输出短、标签有限”这两个特征，只能说明它在形式上可以写成 Decision Task，不能说明一个小型通用决策模型可以零样本解决它。还要继续看：每个标签的边界是否需要长篇规则，判断是否依赖领域知识，以及关键证据能否放进模型有效使用的上下文中。
+
+Ray Serve 部署本身没有成为障碍，真正的瓶颈是业务准确率。对这个任务，当前结果不支持直接用 Laya 替换 Qwen3.6-35B-A3B。若要继续尝试，更合理的方向是准备领域数据做微调或训练任务专用 head，并保留低置信度时回退到生成模型的路径，而不是继续压缩 prompt，期待零样本能力自动补上被删掉的业务规则。
+
 ## 参考资料
 
 1. TypeSafe AI，[Introducing System One Models & Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)。用于 Jev 的公开定位、parallel sampler、RLCD、定价、延迟与官方评测限制。
@@ -631,3 +652,4 @@ Jev 目前最有价值的部分，不是某个尚未公开的内部结构，也�
 7. TypeSafe AI，[Workflow Evals](https://evals.typesafe.ai/)。用于官方自建工作流中的准确率、成本和时间比较；文中未将其视为独立 benchmark。
 8. Saibo Geng 等，[Generating Structured Outputs from Language Models: Benchmark and Studies](https://arxiv.org/abs/2501.10868)。用于 constrained decoding 与 JSON Schema 结构化生成。
 9. Shiyang Li 等，[Instruction-following Evaluation through Verbalizer Manipulation](https://aclanthology.org/2024.findings-naacl.233/)。用于说明标签字符串和模型先验可能影响分类结果。
+10. Convai Innovations，[Laya Multilingual Model Card](https://huggingface.co/convaiinnovations/laya-multilingual)。用于 Laya 的公开架构、上下文限制和零样本能力边界。
