@@ -64,6 +64,10 @@ Name the author's scratch notes descriptively under `notes/`; they do not need d
 
 When publishing blog posts, reference source files with repository-relative paths or public links. Avoid including personal development environment paths in article body content.
 
+After completing a blog post, remove task-generated outlines, draft versions, source summaries, preview screenshots, and empty temporary directories. Keep the final article and required generated index. Preserve the author's existing notes and unrelated files. If a writing skill normally retains intermediate artifacts, this repository's cleanup rule takes precedence unless the user explicitly asks to retain them.
+
+Keep source links in the article's final reference section. Do not repeatedly append source hyperlinks to body paragraphs, including links to the original paper's sections or tables. Preserve factual attribution in the prose where useful; add inline source links only when the user explicitly requests them.
+
 ## Testing Guidelines
 
 There is no automated test framework. Validate changes with syntax checks and manual browser testing. For reader changes, test category navigation, search, sort toggling, direct `category.html?category=...&post=...` links, Markdown tables, code blocks, and Mermaid diagrams.
