@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-30",
+    "title": "经典论文解读（十六）｜Agent 与工具调用：Reflexion: Language Agents with Verbal Reinforcement Learning",
+    "excerpt": "一个 ReAct agent 可以边想边做，根据工具结果调整下一步。但它仍然可能走上一条不太好的 trace：选错搜索对象，误解任务要求，或者在早期做出错误判断，随后沿着这个判断继续行动，最终失败。",
+    "slug": "2026-09-30-reflexion-paper-notes",
+    "path": "blogs/papers/2026-09-30-reflexion-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-09-29",
     "title": "经典论文解读（十五）｜Agent 与工具调用：ReAct: Synergizing Reasoning and Acting in Language Models",
     "excerpt": "今天的 agent 项目通常有一个核心部件：agent loop。模型读取当前上下文，决定下一步调用什么工具；程序执行工具，把结果写回上下文；模型根据结果继续推理、继续行动，直到完成任务。",
