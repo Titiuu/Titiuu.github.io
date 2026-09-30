@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-09-29",
+    "title": "经典论文解读（十五）｜Agent 与工具调用：ReAct: Synergizing Reasoning and Acting in Language Models",
+    "excerpt": "今天的 agent 项目通常有一个核心部件：agent loop。模型读取当前上下文，决定下一步调用什么工具；程序执行工具，把结果写回上下文；模型根据结果继续推理、继续行动，直到完成任务。",
+    "slug": "2026-09-29-react-paper-notes",
+    "path": "blogs/papers/2026-09-29-react-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-09-14",
     "title": "经典论文解读（十三）｜推理增强：Least-to-Most Prompting Enables Complex Reasoning in Large Language Models",
     "excerpt": "如果 prompt 里的示例只演示了两三步推理，模型能不能据此解决一个需要十几步的问题？",
