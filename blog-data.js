@@ -3,6 +3,15 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-09-30",
+    "title": "经典论文解读（十七）｜Agent 与工具调用：Toolformer: Language Models Can Teach Themselves to Use Tools",
+    "excerpt": "工具调用需要训练数据。Toolformer 用少量示例合成调用，以后续文本预测损失筛选有效样例，再把工具调用与结果统一写入文本序列，通过 next-token prediction 学习工具使用。",
+    "slug": "2026-09-30-toolformer-paper-notes",
+    "path": "blogs/papers/2026-09-30-toolformer-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-09-30",
     "title": "经典论文解读（十六）｜Agent 与工具调用：Reflexion: Language Agents with Verbal Reinforcement Learning",
     "excerpt": "一个 ReAct agent 可以边想边做，根据工具结果调整下一步。但它仍然可能走上一条不太好的 trace：选错搜索对象，误解任务要求，或者在早期做出错误判断，随后沿着这个判断继续行动，最终失败。",
     "slug": "2026-09-30-reflexion-paper-notes",
