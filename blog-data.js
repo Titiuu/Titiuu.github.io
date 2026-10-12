@@ -218,6 +218,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-10-12",
+    "title": "投机解码：从 Draft Model 到 MTP、EAGLE-3",
+    "excerpt": "之前讨论企业 Agent 的推理优化时，Serving 层提到过投机解码：小模型先猜一段，大模型一次验证，连续猜中的 token 就能一起提交。这里把这个过程展开，再看看传统 Draft Model、DeepSeek 的 MTP 和 EAG",
+    "slug": "2026-10-12-speculative-decoding",
+    "path": "blogs/tech/2026-10-12-speculative-decoding.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-09-22",
     "title": "从 Logits 到答案：LLM 的输出侧，以及 Laya 为什么不再生成 Token",
     "excerpt": "上一篇讨论 Jev 和 Decision Model 时，我把重点放在任务形态上：业务需要的是有限选项，为什么还要让大语言模型先生成字符串？",
