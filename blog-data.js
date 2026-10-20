@@ -3,6 +3,15 @@ window.BLOG_POSTS = [
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-10-20",
+    "title": "经典论文解读（十九）｜强化学习与对齐：Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+    "excerpt": "上一篇把 PPO 式 RLHF 拆成了生成回答、奖励打分、估计优势和更新策略。现在换一个问题：我们手里已经有“同一个问题下，回答 A 比回答 B 好”的数据，能不能直接拿它训练语言模型，省掉中间的奖励模型与强化学习循环？",
+    "slug": "2026-10-20-dpo-paper-notes",
+    "path": "blogs/papers/2026-10-20-dpo-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
+    "date": "2026-10-20",
     "title": "经典论文解读（十八）｜强化学习与对齐：Proximal Policy Optimization Algorithms",
     "excerpt": "读 InstructGPT 时，很容易把最后一步理解成：奖励模型给回答打分，PPO 让语言模型多生成高分回答。但这个说法跳过了最关键的一段：一个完整回答只有一个质量分数，怎样用它更新生成过程中成百上千次 token 选择？更新以后，为什么模",
     "slug": "2026-10-20-ppo-paper-notes",
