@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-10-20",
+    "title": "经典论文解读（十八）｜强化学习与对齐：Proximal Policy Optimization Algorithms",
+    "excerpt": "读 InstructGPT 时，很容易把最后一步理解成：奖励模型给回答打分，PPO 让语言模型多生成高分回答。但这个说法跳过了最关键的一段：一个完整回答只有一个质量分数，怎样用它更新生成过程中成百上千次 token 选择？更新以后，为什么模",
+    "slug": "2026-10-20-ppo-paper-notes",
+    "path": "blogs/papers/2026-10-20-ppo-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-09-30",
     "title": "经典论文解读（十七）｜Agent 与工具调用：Toolformer: Language Models Can Teach Themselves to Use Tools",
     "excerpt": "工具调用需要训练数据。Toolformer 用少量示例合成调用，以后续文本预测损失筛选有效样例，再把工具调用与结果统一写入文本序列，通过 next-token prediction 学习工具使用。",
