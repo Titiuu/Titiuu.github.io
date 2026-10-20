@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-10-21",
+    "title": "经典论文解读（二十）｜强化学习与对齐：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
+    "excerpt": "PPO 篇解释了语言模型怎样通过奖励、Critic 和优势估计学习，DPO 篇则直接用已有偏好对更新策略。现在考虑另一条路线：如果仍然希望模型在线生成解题过程、根据评分继续探索，能不能省去与策略同步训练的 Critic？",
+    "slug": "2026-10-21-deepseekmath-paper-notes",
+    "path": "blogs/papers/2026-10-21-deepseekmath-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-10-20",
     "title": "经典论文解读（十九）｜强化学习与对齐：Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
     "excerpt": "上一篇把 PPO 式 RLHF 拆成了生成回答、奖励打分、估计优势和更新策略。现在换一个问题：我们手里已经有“同一个问题下，回答 A 比回答 B 好”的数据，能不能直接拿它训练语言模型，省掉中间的奖励模型与强化学习循环？",
