@@ -17,7 +17,7 @@ CoT → Self-Consistency → Least-to-Most → ToT
 ReAct → Reflexion → Toolformer
 
 专题六：RL 后训练
-PPO → DPO → GRPO / DeepSeekMath → DeepSeek-R1 → DAPO → GSPO
+PPO → DPO → GRPO / DeepSeekMath → DAPO → GSPO
 
 
 | 序号 | 专题          | 简称                  | 完整论文标题                                                                                 | 链接                                                                                                                                                                                                             |
@@ -42,6 +42,5 @@ PPO → DPO → GRPO / DeepSeekMath → DeepSeek-R1 → DAPO → GSPO
 | 18 | RL 后训练      | PPO                 | **Proximal Policy Optimization Algorithms**                                            | [https://arxiv.org/abs/1707.06347](https://arxiv.org/abs/1707.06347)                                                                                                                                           |
 | 19 | RL 后训练      | DPO                 | **Direct Preference Optimization: Your Language Model is Secretly a Reward Model**     | [https://arxiv.org/abs/2305.18290](https://arxiv.org/abs/2305.18290)                                                                                                                                           |
 | 20 | RL 后训练      | GRPO / DeepSeekMath | **DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models** | [https://arxiv.org/abs/2402.03300](https://arxiv.org/abs/2402.03300)                                                                                                                                           |
-| 21 | RL 后训练      | DeepSeek-R1         | **DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning** | [https://arxiv.org/abs/2501.12948](https://arxiv.org/abs/2501.12948)                                                                                                                                           |
-| 22 | RL 后训练      | DAPO                | **DAPO: An Open-Source LLM Reinforcement Learning System at Scale**                    | [https://arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14476)                                                                                                                                           |
-| 23 | RL 后训练      | GSPO                | **Group Sequence Policy Optimization**                                                 | [https://arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)                                                                                                                                           |
+| 21 | RL 后训练      | DAPO                | **DAPO: An Open-Source LLM Reinforcement Learning System at Scale**                    | [https://arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14476)                                                                                                                                           |
+| 22 | RL 后训练      | GSPO                | **Group Sequence Policy Optimization**                                                 | [https://arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)                                                                                                                                           |
