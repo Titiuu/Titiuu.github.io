@@ -17,7 +17,7 @@ CoT → Self-Consistency → Least-to-Most → ToT
 ReAct → Reflexion → Toolformer
 
 专题六：RL 后训练
-PPO → DPO → GRPO / DeepSeekMath → DeepSeek-R1 → DAPO → Dr. GRPO → GSPO
+PPO → DPO → GRPO / DeepSeekMath → DeepSeek-R1 → DAPO → GSPO
 
 
 | 序号 | 专题          | 简称                  | 完整论文标题                                                                                 | 链接                                                                                                                                                                                                             |
@@ -44,5 +44,4 @@ PPO → DPO → GRPO / DeepSeekMath → DeepSeek-R1 → DAPO → Dr. GRPO → GS
 | 20 | RL 后训练      | GRPO / DeepSeekMath | **DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models** | [https://arxiv.org/abs/2402.03300](https://arxiv.org/abs/2402.03300)                                                                                                                                           |
 | 21 | RL 后训练      | DeepSeek-R1         | **DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning** | [https://arxiv.org/abs/2501.12948](https://arxiv.org/abs/2501.12948)                                                                                                                                           |
 | 22 | RL 后训练      | DAPO                | **DAPO: An Open-Source LLM Reinforcement Learning System at Scale**                    | [https://arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14476)                                                                                                                                           |
-| 23 | RL 后训练      | Dr. GRPO            | **Understanding R1-Zero-Like Training: A Critical Perspective**                        | [https://arxiv.org/abs/2503.20783](https://arxiv.org/abs/2503.20783)                                                                                                                                           |
-| 24 | RL 后训练      | GSPO                | **Group Sequence Policy Optimization**                                                 | [https://arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)                                                                                                                                           |
+| 23 | RL 后训练      | GSPO                | **Group Sequence Policy Optimization**                                                 | [https://arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)                                                                                                                                           |
