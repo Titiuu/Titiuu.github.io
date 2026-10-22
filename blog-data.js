@@ -11,6 +11,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-10-22",
+    "title": "经典论文解读（二十二）｜强化学习与对齐：Group Sequence Policy Optimization",
+    "excerpt": "旧策略生成一条回答，更新几次参数后，再让当前策略给同一条回答计算概率。这是 PPO、GRPO 复用采样数据的常见做法。对 MoE 模型，即使输入 token 和前缀完全相同，更新后的路由也可能选中不同专家，逐 token 概率比随之剧烈波动",
+    "slug": "2026-10-22-gspo-paper-notes",
+    "path": "blogs/papers/2026-10-22-gspo-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-10-21",
     "title": "经典论文解读（二十）｜强化学习与对齐：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
     "excerpt": "PPO 篇解释了语言模型怎样通过奖励、Critic 和优势估计学习，DPO 篇则直接用已有偏好对更新策略。现在考虑另一条路线：如果仍然希望模型在线生成解题过程、根据评分继续探索，能不能省去与策略同步训练的 Critic？",
