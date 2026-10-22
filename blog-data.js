@@ -2,6 +2,15 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
+    "date": "2026-10-22",
+    "title": "经典论文解读（二十一）｜强化学习与对齐：DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+    "excerpt": "上一篇 DeepSeekMath 介绍了 GRPO：同一道题生成多条回答，根据组内奖励计算相对优势，再更新策略。把这套方法用于长思维链训练，会遇到一个实际问题：即使优势公式没有写错，模型也可能很快失去探索能力，或者不断生成更长、质量却没有提",
+    "slug": "2026-10-22-dapo-paper-notes",
+    "path": "blogs/papers/2026-10-22-dapo-paper-notes.md"
+  },
+  {
+    "category": "papers",
+    "categoryName": "论文解读",
     "date": "2026-10-21",
     "title": "经典论文解读（二十）｜强化学习与对齐：DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
     "excerpt": "PPO 篇解释了语言模型怎样通过奖励、Critic 和优势估计学习，DPO 篇则直接用已有偏好对更新策略。现在考虑另一条路线：如果仍然希望模型在线生成解题过程、根据评分继续探索，能不能省去与策略同步训练的 Critic？",
