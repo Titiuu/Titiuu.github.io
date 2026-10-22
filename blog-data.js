@@ -2,20 +2,20 @@ window.BLOG_POSTS = [
   {
     "category": "papers",
     "categoryName": "论文解读",
-    "date": "2026-10-22",
-    "title": "经典论文解读（二十一）｜强化学习与对齐：DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
-    "excerpt": "上一篇 DeepSeekMath 介绍了 GRPO：同一道题生成多条回答，根据组内奖励计算相对优势，再更新策略。把这套方法用于长思维链训练，会遇到一个实际问题：即使优势公式没有写错，模型也可能很快失去探索能力，或者不断生成更长、质量却没有提",
-    "slug": "2026-10-22-dapo-paper-notes",
-    "path": "blogs/papers/2026-10-22-dapo-paper-notes.md"
+    "date": "2026-10-23",
+    "title": "经典论文解读（二十二）｜强化学习与对齐：Group Sequence Policy Optimization",
+    "excerpt": "旧策略生成一条回答，更新几次参数后，再让当前策略给同一条回答计算概率。这是 PPO、GRPO 复用采样数据的常见做法。对 MoE 模型，即使输入 token 和前缀完全相同，更新后的路由也可能选中不同专家，逐 token 概率比随之剧烈波动",
+    "slug": "2026-10-23-gspo-paper-notes",
+    "path": "blogs/papers/2026-10-23-gspo-paper-notes.md"
   },
   {
     "category": "papers",
     "categoryName": "论文解读",
     "date": "2026-10-22",
-    "title": "经典论文解读（二十二）｜强化学习与对齐：Group Sequence Policy Optimization",
-    "excerpt": "旧策略生成一条回答，更新几次参数后，再让当前策略给同一条回答计算概率。这是 PPO、GRPO 复用采样数据的常见做法。对 MoE 模型，即使输入 token 和前缀完全相同，更新后的路由也可能选中不同专家，逐 token 概率比随之剧烈波动",
-    "slug": "2026-10-22-gspo-paper-notes",
-    "path": "blogs/papers/2026-10-22-gspo-paper-notes.md"
+    "title": "经典论文解读（二十一）｜强化学习与对齐：DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+    "excerpt": "上一篇 DeepSeekMath 介绍了 GRPO：同一道题生成多条回答，根据组内奖励计算相对优势，再更新策略。把这套方法用于长思维链训练，会遇到一个实际问题：即使优势公式没有写错，模型也可能很快失去探索能力，或者不断生成更长、质量却没有提",
+    "slug": "2026-10-22-dapo-paper-notes",
+    "path": "blogs/papers/2026-10-22-dapo-paper-notes.md"
   },
   {
     "category": "papers",
