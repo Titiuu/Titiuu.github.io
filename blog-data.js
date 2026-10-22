@@ -254,6 +254,15 @@ window.BLOG_POSTS = [
   {
     "category": "projects",
     "categoryName": "项目分享",
+    "date": "2026-04-30",
+    "title": "从本地 Agent 到智能服务：LangChain Agent Protocol",
+    "excerpt": "本地写一个 Agent，通常从一次函数调用开始：传入问题，让模型检索资料、调用工具，最后返回答案。但要让网页或其他应用调用它，事情就多了起来：多轮任务的状态放在哪里？执行时间太长怎么办？用户刷新页面后，怎样知道任务是否还在运行？",
+    "slug": "2026-04-30-langchain-agent-protocol",
+    "path": "blogs/projects/2026-04-30-langchain-agent-protocol.md"
+  },
+  {
+    "category": "projects",
+    "categoryName": "项目分享",
     "date": "2026-01-17",
     "title": "OpenCode 项目解读",
     "excerpt": "OpenCode 是一个开源 AI 编程助手。它表面上是一个终端里的 coding agent，但从源码结构看，它更像一个围绕“项目上下文 + 会话状态 + 工具执行 + 权限控制”构建的智能编码平台。",
