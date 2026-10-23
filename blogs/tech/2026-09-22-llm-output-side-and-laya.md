@@ -1,4 +1,4 @@
-# 从 Logits 到答案：LLM 的输出侧，以及 Laya 为什么不再生成 Token
+# 从 Logits 到答案: LLM 的输出头和决策模型
 
 上一篇讨论 Jev 和 Decision Model 时，我把重点放在任务形态上：业务需要的是有限选项，为什么还要让大语言模型先生成字符串？
 
