@@ -273,7 +273,7 @@ window.BLOG_POSTS = [
     "category": "tech",
     "categoryName": "技术分享",
     "date": "2026-10-29",
-    "title": "注意力的代价及优化：FlashAttention、Linear Attention、Sparse Attention 和 KV Cache Compression",
+    "title": "注意力的代价及优化：FlashAttention、Linear Attention、Sparse Attention 和 Compressed Attention",
     "excerpt": "长上下文为什么贵？“Attention 是平方复杂度”只回答了一部分。GPU 要算 Query 和 Key 的匹配，要把数据从显存搬到计算单元，还要为后续生成保存历史状态。即使两个方案的 FLOPs 一样，实际速度也可能不同；即使显存占用降",
     "slug": "2026-10-29-attention-cost-and-optimization",
     "path": "blogs/tech/2026-10-29-attention-cost-and-optimization.md"
