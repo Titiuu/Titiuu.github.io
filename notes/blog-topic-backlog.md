@@ -1,13 +1,13 @@
 # 博客待写清单
 
-记录日期：2026-10-23。以下是已确认的写作计划，标题暂定，排列不代表写作顺序。完成并发布后勾选对应条目。
+记录日期：2026-10-23，更新日期：2026-10-30。以下是已确认的写作计划，未完成条目的标题暂定，排列不代表写作顺序。完成并发布后勾选对应条目。
 
-## Tech：9 篇
+## Tech：9 篇（已完成 1 篇，待写 8 篇）
 
 - [ ] **从离线 SFT 蒸馏到 OPD**：梳理基于离线教师数据的 SFT 蒸馏与 On-Policy Distillation 的差异，重点关注学生生成的状态分布、教师反馈形式和优化目标。
 - [ ] **大模型推理批处理调度：从请求的形状看调度策略**：围绕输入输出长度、多轮交互等请求特征，讨论 Continuous Batching、Chunked Prefill、抢占、准入控制，以及 TTFT/TPOT 的权衡。
 - [ ] **KV Cache 的内存利用率和命中率优化**：分别讨论空间管理与缓存复用，涵盖分页、前缀共享、淘汰、卸载、KV 量化与缓存感知路由。
-- [ ] **注意力优化：FlashAttention、Linear Attention、Sparse Attention**：区分精确注意力的计算与访存优化、计算形式的改变、稀疏连接三条路线。CSA、HISA 等作为候选方法，具体全称与资料写作时核实。
+- [x] **[注意力的代价及优化：FlashAttention、Linear Attention、Sparse Attention 和 Compressed Attention](../blogs/tech/2026-10-29-attention-cost-and-optimization.md)**：已完成。涵盖计算与访存优化、KV 表示压缩、线性递归状态及稀疏访问；补齐 GLA、DeltaNet、KDA 与 NSA、DSA、CSA/HCA、HISA 的原理、手算示例和成本对比。
 - [ ] **大模型推理量化**：权重与激活量化、校准与异常值处理、精度和性能权衡，以及量化收益对算子和 batch size 的依赖；与已有 QLoRA 论文阅读区分，KV 量化放在缓存篇重点展开。
 - [ ] **分布式推理与多卡部署策略**：TP、EP 等并行方式，以及 Prefill/Decode 分离；关注模型切分、通信、负载均衡、KV 传输和部署取舍。
 - [ ] **Agent 任务评测**：回归测试、Golden Set、压测、难任务集、评测指标；区分任务效果与服务性能，记录成功率、稳定性、耗时、Token 和工具调用成本。
@@ -30,6 +30,6 @@
 
 ## 写作时的约定
 
-- 本清单共 9 篇 tech、1 篇 project、3 篇 paper、1 项旧文优化。
+- 本清单共 9 篇 tech、1 篇 project、3 篇 paper、1 项旧文优化；已完成 1 篇 tech，剩余 8 篇 tech、1 篇 project、3 篇 paper、1 项旧文优化。
 - 未确定的论文和案例名称保持待选、待核实，不在笔记阶段预先定论。
 - 本文件仅记录选题，不参与前端展示，也不加入 `blog-data.js`。
