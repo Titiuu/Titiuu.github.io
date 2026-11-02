@@ -779,6 +779,44 @@ HISA 改变的是检索路径。它可能减少昂贵主注意力之前的筛选
 
 有人把这些改进评价为对 Transformer 的“缝缝补补”，这能描述一部分保留原有骨架的优化，但线性注意力已经明显改变了历史记忆机制。Mamba 等非 Transformer 路线通过状态空间递推避开全注意力的两两计算；它们也要承担有限状态与计算实现的取舍，本文不再展开。
 
+## 七、一次混合注意力模型的 Serving 实验
+
+实验在 2026 年 10 月 9 日进行。当时生产环境使用 SGLang v0.5.12，v0.5.21 已于 10 月 2 日发布，v0.5.22 尚未正式发布。我们在两张 H20 上以 TP=2 部署 Qwen3.6-35B-A3B，四路请求并发，典型请求输入约 2000 token、输出约 20 token。三组都开启相同的 MTP 配置：长度为 4，预测 3 个 token。
+
+下表是客户端测得的平均端到端时延与平均 TTFT：
+
+| 版本 / 改动 | 平均 E2E | 平均 TTFT |
+| --- | ---: | ---: |
+| 生产基线 v0.5.12 | 400 ms | 320 ms |
+| 升级到 v0.5.21 | 220 ms | 165 ms |
+| v0.5.21 + cherry-pick #41486 | 200 ms | 157 ms |
+
+这与本站《投机解码：从 Draft Model 到 MTP、EAGLE-3》记录的是同一次实验。该文侧重草稿后处理，这里展开我们在排查时关注的两个注意力实现改动。
+
+### Full Attention 路径：融合归一化、RoPE 与 gate 拆分
+
+#28320 为 Qwen3.5 引入了融合 Q/K GemmaRMSNorm、NeoX RoPE 和 gate deinterleave 的 Triton Kernel。原先分开的 gate 拆分、两次归一化和 RoPE 被合并到一次 Kernel 启动中，减少启动与中间结果搬运开销。
+
+它优化的是 Full Attention 路径上 Q/K 等数据的准备过程，并未改写注意力的连接关系，也不是用新的算法替换核心 Attention 计算。这与前文 FlashAttention 的分块计算可以处于不同位置：同一条注意力路径，既可以优化主计算，也可以减少周边的小算子开销。
+
+上游 PR 的模型与硬件测试条件不同于本次 H20 实验。我们将它作为分析版本变化时发现的相关机制；没有单独回退该改动并复测，无法确认它在本次部署中的独立贡献。
+
+### GDN 验证路径：沿 Value 维度增加并行度
+
+#41486 针对 SM90 上小 batch 的 GDN recurrent verify。每层验证 Kernel 需要沿草稿 token 顺序推进递归状态，但 Value 列之间仍可并行。原有启动配置每个 program 处理 32 个 Value 列；在小 batch 下，program 数量可能不足以充分利用 GPU。
+
+该 PR 在适用路径中把 Value tile 从 32 列缩到 4 列，每个 program 仍使用一个 warp。按相同的 Value 宽度、头数和 batch 计算，Value 维度上的 program 数变为原来的 8 倍。它切分的是 Value 列，不是把四路请求拆成更多请求，也没有取消 token 之间的递归依赖。
+
+优化分支限定于 SM90、非 KDA 的 GDN、K=V=128、batch 为 1 到 64，并且验证调用提供中间状态缓冲区的情况。其他路径保留原启动配置。因此，“四路请求并发”只描述客户端负载，实际每次 Kernel 的 batch 还由调度决定。
+
+上游在 H100/H200 上验证了输出和中间状态的逐位一致性，并报告特定小 batch 下 Kernel 提速。我们的 H20 结果是追加补丁后的客户端时延变化，两者的硬件、测量范围与指标不同，不能把上游的 Kernel 加速倍数当成本次端到端收益。
+
+### 归因限制
+
+这次实验没有做完整消融。400→220 ms 是版本升级的整体收益，不能分配为某几个 PR 各自的贡献；Overlap Scheduler、CUDA Graph 等版本变化也可能参与其中。220→200 ms 是追加 #41486 后的观测结果，也应限定在这组硬件、配置和请求形状下理解。尤其是 TTFT 同时大幅下降，单靠 Decode 阶段的优化不足以解释全部变化。
+
+这份记录没有提供 MTP 开关对照，因此衡量的是固定 MTP 配置下的版本与补丁差异。接受长度、分阶段 profile 和质量对照仍需另行测量，才能进一步判断收益来自哪里。
+
 ## 参考资料
 
 - [FlashAttention](https://arxiv.org/abs/2205.14135)、[FlashAttention-2](https://arxiv.org/abs/2307.08691)
@@ -796,3 +834,7 @@ HISA 改变的是检索路径。它可能减少昂贵主注意力之前的筛选
 - [DeepSeek-V4 技术报告](https://arxiv.org/abs/2606.19348)：第 2.3 节的 CSA/HCA；[官方推理实现](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/inference/model.py)中的 Compressor、Indexer 与 Attention；[Transformers 实现](https://github.com/huggingface/transformers/blob/main/src/transformers/models/deepseek_v4/modeling_deepseek_v4.py)交叉核对缓存与因果掩码
 - [HISA](https://arxiv.org/abs/2603.28458)：第 4 节的均值摘要、两级检索、强制保留块与边界处理
 - [Mamba](https://arxiv.org/abs/2312.00752)
+- SGLang PR #28320：[Fused QK GemmaRMSNorm + RoPE + gate kernel for Qwen3.5](https://github.com/sgl-project/sglang/pull/28320)
+- SGLang PR #41486：[Tune SM90 GDN recurrent verify launch for small batches](https://github.com/sgl-project/sglang/pull/41486)
+- SGLang 发布记录：[v0.5.21](https://github.com/sgl-project/sglang/releases/tag/v0.5.21)、[v0.5.22](https://github.com/sgl-project/sglang/releases/tag/v0.5.22)
+- 本站文章：[《投机解码：从 Draft Model 到 MTP、EAGLE-3》](category.html?category=tech&post=2026-10-12-speculative-decoding)

@@ -296,6 +296,34 @@ $$
 
 已有模型且有合适的小模型，可以先测独立 Draft；模型自带 MTP，就先验证原生路径；愿意为特定 target 训练草稿网络，并且运行时能提供所需特征，则可以评估 EAGLE-3。最终要看的，是它们在真实请求上每轮能省掉多少主模型时间。
 
+## 八、一次 SGLang MTP 实验
+
+实验在 2026 年 10 月 9 日进行。当时生产环境使用 SGLang v0.5.12，v0.5.21 已于 10 月 2 日发布，v0.5.22 尚未正式发布。我们在两张 H20 上以 TP=2 部署 Qwen3.6-35B-A3B，四路请求并发，典型请求输入约 2000 token、输出约 20 token。三组都开启相同的 MTP 配置：长度为 4，预测 3 个 token。
+
+下表是客户端测得的平均端到端时延与平均 TTFT：
+
+| 版本 / 改动 | 平均 E2E | 平均 TTFT |
+| --- | ---: | ---: |
+| 生产基线 v0.5.12 | 400 ms | 320 ms |
+| 升级到 v0.5.21 | 220 ms | 165 ms |
+| v0.5.21 + cherry-pick #41486 | 200 ms | 157 ms |
+
+### 草稿后处理也会影响投机收益
+
+分析升级收益时，我们找到了 #30947。它针对 EAGLE/MTP 共用的 top-k=1 草稿路径：小 batch 下，即使只选一个 token，仍要在很宽的词表 logits 上做 argmax。原来的处理还伴随着位置推进、逐步收集 token 和最后拼接等操作。
+
+这个 PR 将词表切成多个块，各块并行求局部最大值，再归约得到最终 token。最终归约同时推进 position，并在适用的 CUDA 路径中直接写入草稿 token 缓冲区，减少逐步列表收集与最后的拼接。这里是两阶段归约，不能简单理解成把全部后处理塞进一次 Kernel 启动。它改变的是草稿生成的附加成本，并没有改变 MTP 的预测能力。
+
+另一个追加验证的优化是 #41486。Gated DeltaNet 混合模型在主模型验证草稿时，需要逐候选推进线性注意力状态；这个 PR 调整 SM90 上小 batch 验证 Kernel 的 Value 分块，使其暴露更多并行工作。我们在 v0.5.21 上 cherry-pick 后，平均 E2E 从 220 ms 降到 200 ms，平均 TTFT 从 165 ms 降到 157 ms。
+
+回到前面的耗时估算，#30947 降低的是草稿后处理成本，#41486 优化的是验证路径。即使草稿长度和接受情况不变，运行时实现也可能改变最终收益。
+
+### 这组结果能支持到哪里
+
+这次实验没有做完整消融。400→220 ms 是版本升级的整体收益，不能分配为某几个 PR 各自的贡献；Overlap Scheduler、CUDA Graph 等版本变化也可能参与其中。220→200 ms 是追加 #41486 后的观测结果，也应限定在这组硬件、配置和请求形状下理解。尤其是 TTFT 同时大幅下降，单靠 Decode 阶段的优化不足以解释全部变化。
+
+这份记录没有提供 MTP 开关对照，因此衡量的是固定 MTP 配置下的版本与补丁差异。接受长度、分阶段 profile 和质量对照仍需另行测量，才能进一步判断收益来自哪里。
+
 ## 参考资料
 
 1. Yaniv Leviathan 等，[Fast Inference from Transformers via Speculative Decoding](https://proceedings.mlr.press/v202/leviathan23a.html)：接受、拒绝校正及额外 token 的经典算法。
@@ -306,3 +334,7 @@ $$
 6. SafeAILab，[EAGLE 官方实现](https://github.com/SafeAILab/EAGLE)：训练入口、草稿权重及模型适配说明。
 7. SGLang，[Speculative Decoding](https://docs.sglang.io/docs/advanced_features/speculative_decoding)：当前运行时支持与配置说明。实现细节核对于 2026-10-12，部署时应以所用版本为准。
 8. 本站文章：[《企业 Agent 推理优化：先识别任务形状，再选择优化方法》](category.html?category=tech&post=2026-09-18-agent-inference-optimization)。
+9. SGLang PR #30947：[Fuse topk=1 draft postprocess](https://github.com/sgl-project/sglang/pull/30947)。
+10. SGLang PR #41486：[Tune SM90 GDN recurrent verify launch for small batches](https://github.com/sgl-project/sglang/pull/41486)。
+11. SGLang 发布记录：[v0.5.21](https://github.com/sgl-project/sglang/releases/tag/v0.5.21)、[v0.5.22](https://github.com/sgl-project/sglang/releases/tag/v0.5.22)。
+12. 本站文章：[《注意力的代价及优化》](category.html?category=tech&post=2026-10-29-attention-cost-and-optimization)。
