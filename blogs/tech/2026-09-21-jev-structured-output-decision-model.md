@@ -2,7 +2,7 @@
 
 一个 Agent 要在网页搜索、数据库查询、文件读取和人工询问四个工具中选择下一步。程序最终只需要一个枚举值，但我们通常会把几千个 token 的上下文交给大语言模型，再让它逐 token 写出一段 JSON。
 
-这套做法已经比自由文本可靠得多。JSON Schema、Grammar 和 Constrained Decoding 可以保证括号闭合、字段存在、枚举合法。然而，从计算任务来看，它仍然有些绕：业务需要的是四选一，模型做的却是一次受约束的文本续写。
+这套做法已经比自由文本可靠得多。JSON Schema、Grammar 和 Constrained Decoding 可以在受支持的约束和正常完成生成的条件下，保证括号闭合、字段存在、枚举合法。然而，从计算任务来看，它仍然有些绕：业务需要的是四选一，模型做的却是一次受约束的文本续写。
 
 2026 年 9 月，TypeSafe AI 发布了 Jev，把这种错位摆到了台面上。它不生成字符串，而是接收状态和预定义问题，直接返回 Choice、Score 或 Noul，以及相应的概率。TypeSafe 把它称为 System One Model，口号是“Decisions, not strings”。
 
@@ -83,29 +83,96 @@ Structured Output 经常被笼统地理解为“模型返回 JSON”。这个说
 
 ### 1. 传统 Structured Output 仍然在生成
 
-常见的 Structured Output 会把 JSON Schema、正则表达式或上下文无关文法编译为一个约束。在每个解码位置，系统根据当前状态计算哪些 token 仍可能组成合法结果，再把其他 token 的 logits 屏蔽掉：
+让模型输出 JSON，至少有三种做法：在 prompt 中要求格式；生成后用解析器校验，失败就重试；在生成过程中限制合法 token。前两种允许模型先写错，第三种才是这里讨论的 constrained decoding（约束解码）。
 
-```text
-输入上下文
-    ↓
-Transformer
-    ↓
-全词表 logits
-    ↓
-Schema / Grammar 计算合法 token
-    ↓
-Mask 非法 token
-    ↓
-采样一个 token，进入下一轮
+#### 从 Schema 到文法状态
+
+沿用前面的工具路由任务，可以把输出约束写成：
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "tool": {
+      "type": "string",
+      "enum": ["search_web", "query_database", "read_file", "ask_human"]
+    }
+  },
+  "required": ["tool"],
+  "additionalProperties": false
+}
 ```
 
-如果 schema 要求 `tool` 只能是四个枚举之一，模型就无法生成第五个工具名，也不能漏掉右花括号。它解决的是：
+`required` 要求字段存在，`enum` 限定字段值，`additionalProperties: false` 禁止额外字段。只有 JSON 语法约束还不够：`{"tool":"delete_all"}` 是合法 JSON，却不满足这份 Schema。
 
-> 如何让自回归模型稳定生成一段符合语法和类型约束的文本。
+约束引擎先把受支持的 Schema 规则转换成可执行的文法。为了看清结构，忽略可选空白后，这个例子可以简化为下面的 EBNF；单引号包围的是字面量：
 
-这项能力非常有价值。[JSONSchemaBench](https://arxiv.org/abs/2501.10868)收集了约一万个真实 JSON Schema，用来评估 Guidance、Outlines、llama.cpp、XGrammar 等约束解码实现的覆盖范围、效率与生成质量。论文所研究的共同前提仍是“during generation”：约束改变了每一步能走的路径，却没有取消逐 token 的生成过程。
+```text
+root = '{"tool":"' tool '"}'
+tool = 'search_web' | 'query_database' | 'read_file' | 'ask_human'
+```
 
-因此，Structured Output 不只是 prompt 中写一句“请返回 JSON”。真正的约束解码可以从机制上保证语法合法，而 prompt 只能请求模型自觉遵守格式。但两者都通常经过 LM Head，都需要把内部判断重新表达成 token 序列。
+有限枚举可以组织成 Trie（前缀树），这份简单输出也可以用有限状态机表示。但允许任意层级嵌套的对象和数组时，需要记录尚未闭合的结构。常见实现使用上下文无关文法（CFG）以及带栈的解析状态；例如 XGrammar 使用下推自动机，并维护可能的解析分支。这里的“状态”是解析器的状态，与 Transformer 的 hidden state、KV cache 分开维护。
+
+生成到 `{"tool":"` 时，四个候选都还可达；继续生成 `query` 后，只能沿着 `query_database` 的剩余部分前进；枚举值结束后，还要补上引号和右花括号，才能到达可结束状态。引擎约束的是“当前前缀能否继续构成合法结果”，中途的前缀本身通常还不是完整 JSON。
+
+#### 字节文法怎样约束 token
+
+模型预测的是 token ID，文法描述的却是字符或字节，二者的边界并不一致。一个 token 可能包含多个字母，也可能同时包含引号、逗号等标点。因此不能只检查 token 的第一个字符，更不能假定每个工具名恰好对应一个 token。
+
+概念上，引擎把词表中的候选 token 映射到对应字节序列，再从当前解析状态试着消费整段字节。只有消费后仍保留合法续写路径的 token 才能放行。假设当前前缀是 `{"tool":"query`，token `_database` 可以推进状态，`_database"}` 也可能一次跨过多个文法边界；`_databaseX` 则会在末尾失败，必须整体屏蔽。这些 token 划分仅用于示意，实际取决于模型的 tokenizer。字节级实现还需要正确处理跨 token 的 UTF-8 字符和转义序列。
+
+令 $s_t$ 为当前文法状态，$A(s_t)$ 为允许的 token 集合，$z_t(v)$ 为 LM Head 给 token $v$ 的 logit。在温度为 1、没有其他采样过滤时：
+
+$$
+\widetilde P(v|x,y_{<t},s_t)=
+\begin{cases}
+\dfrac{\exp z_t(v)}{\sum_{u\in A(s_t)}\exp z_t(u)}, & v\in A(s_t)\\
+0, & v\notin A(s_t)
+\end{cases}
+$$
+
+实现时通常把非法位置设为负无穷，再做 softmax 或选择最大值。mask 负责决定“哪些能选”，模型 logits 负责决定“合法选项中偏向哪个”。整个循环可以写成概念伪代码：
+
+```python
+compiled = compile_grammar(schema, tokenizer)
+matcher = new_matcher(compiled)       # 每个请求独立维护解析状态
+logits, kv = model.prefill(context)
+output = []
+
+for step in range(max_new_tokens):
+    allowed = matcher.allowed_tokens()  # 仅在可结束状态允许 EOS
+    if not allowed:
+        raise DecodeError("没有合法续写")
+    token = sample(mask(logits, allowed))
+    if token == EOS:
+        return parse_and_validate(output, schema)
+    matcher.accept(token)              # 推进文法状态
+    output.append(token)
+    logits, kv = model.decode(token, kv) # 推进模型状态
+
+raise IncompleteOutput("达到长度上限")
+```
+
+这不是某个库的可直接运行 API，但展示了两个状态如何同步推进：解析器跟踪结构，模型继续根据上下文预测下一个 token。完整对象结束后如何处理 EOS、可选空白和停止条件，取决于具体推理引擎。
+
+#### 为什么不必每一步都完整遍历词表
+
+如果每轮都把十几万个 token 的全部字节逐一送入解析器，约束本身就会产生明显开销。不同引擎会使用词表前缀共享、预计算和缓存来减少重复工作。
+
+以 XGrammar 为例，编译阶段会结合 tokenizer 构建自动机及 token mask 缓存。能够根据局部文法上下文预先判断的 token 尽量提前检查；依赖运行时栈状态的 token 再动态判断。持久化栈让不同解析分支共享已有栈结构，减少复制成本。最终合法集合可以压成 bitmask：每个词表位置用一位表示是否允许，再由 GPU 上的操作应用到 logits。引擎还可以把 CPU 上的约束计算与 GPU 上的模型执行重叠。
+
+这些优化主要降低文法编译和 mask 生成的额外开销。某些实现还支持跳过确定性文本等优化，所以不宜把每个标点都算成一次不可省略的模型调用；但通常仍然保留自回归模型、LM Head 和输出序列这一套计算路径。
+
+#### 格式保证到哪里为止
+
+在约束实现正确、Schema 规则受支持且生成正常完成的条件下，解码器可以阻止第五个工具名，并要求对象闭合后才能正常结束。达到 token 上限、连接中断或服务拒绝等情况仍可能得不到完整对象，调用方需要检查完成状态。不同实现对 JSON Schema 关键字的支持也不同，不能把“支持 JSON Schema”理解为支持全部规则。
+
+结构合法也不代表选择正确：四个工具都合法，模型仍可能选错。跨字段业务规则若没有被约束表达并执行，也需要业务代码验证。生成后的校验仍有价值，只是它不再承担唯一的格式保障责任。
+
+还有一个与后文有关的细节：每一步屏蔽非法 token 后重新归一化，并不等价于直接计算四个工具的校准概率，也不一般等价于从原模型的完整序列分布中按“最终合法”这一条件采样。不同前缀后面可达的合法序列及其概率质量不同，局部 mask 没有计算这些未来概率。这也是为什么“枚举值只能四选一”和“模型直接给出可靠的四分类分布”之间仍有距离。
+
+JSONSchemaBench 收集了约一万个真实 JSON Schema，评估约束解码实现的覆盖范围、效率与生成质量。它研究的共同前提仍是生成过程：约束改变了模型可以走的路径，而业务判断依然要被表达成一段 token 序列。
 
 ### 2. Jev 暴露的是 typed decision 接口
 
@@ -164,7 +231,7 @@ TypeSafe 在宣传中使用了 “zero hallucinations” 和 “can’t hallucin
 
 ### 1. 只改 Decoding：约束模型走合法路径
 
-最轻量的方案就是 Structured Output。模型权重、LM Head 和服务方式都不变，只在解码时屏蔽不可能组成合法答案的 token。
+最轻量的方案就是前面介绍的约束解码：保留模型权重与 LM Head，在推理引擎中接入文法约束。
 
 ```text
 全部词表 logits
@@ -653,3 +720,6 @@ Ray Serve 部署本身没有成为障碍，真正的瓶颈是业务准确率。�
 8. Saibo Geng 等，[Generating Structured Outputs from Language Models: Benchmark and Studies](https://arxiv.org/abs/2501.10868)。用于 constrained decoding 与 JSON Schema 结构化生成。
 9. Shiyang Li 等，[Instruction-following Evaluation through Verbalizer Manipulation](https://aclanthology.org/2024.findings-naacl.233/)。用于说明标签字符串和模型先验可能影响分类结果。
 10. Convai Innovations，[Laya Multilingual Model Card](https://huggingface.co/convaiinnovations/laya-multilingual)。用于 Laya 的公开架构、上下文限制和零样本能力边界。
+
+11. Yixin Dong 等，[XGrammar: Flexible and Efficient Structured Generation Engine for Large Language Models](https://arxiv.org/abs/2411.15100)。用于下推自动机、token 检查、持久化栈及推理重叠优化。
+12. XGrammar，[Workflow of XGrammar](https://xgrammar.mlc.ai/docs/latest/start/workflow_of_xgrammar.html)。用于 Schema 编译、tokenizer 绑定、matcher 与 bitmask 工作流程。
