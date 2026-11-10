@@ -193,6 +193,12 @@ MTP 模块也可以在推理时不用，主模型正常自回归生成即可。�
 
 EAGLE-3 通常冻结 target，单独训练与之适配的草稿网络。主模型权重不需要重新训练，但推理实现必须能提取指定层的特征，并管理草稿网络、缓存和验证过程。
 
+### 从 EAGLE-1 到 EAGLE-3
+
+- **EAGLE-1：预测特征，再生成 token。** 读取主模型靠近输出端的隐藏特征，结合提前一步的 token 信息，用轻量网络预测下一位置特征，再经 LM Head 生成候选。训练同时约束特征误差和 token 预测，候选按预设树结构展开。
+- **EAGLE-2：把计算用在更可能命中的分支。** 延续特征预测，用草稿置信度估计接受率，动态展开、筛选候选树，让树的分支和深度适应当前上下文。
+- **EAGLE-3：让草稿直接学好 token 预测。** 去掉特征回归约束，融合主模型浅、中、深层特征；通过 Training-Time Test 在训练时回灌自身状态，练习连续多步预测，提升递归草稿质量，同时沿用动态候选树。
+
 ### 推理时：真实特征只在主模型运行后获得
 
 EAGLE-3 从主模型的浅层、中层、深层取出 Hidden States，拼接后投影为融合特征 `g`。再结合已经选出的下一 token 的 Embedding，经过输入投影和轻量 Transformer decoder，输出状态 `a`，通过 LM Head 得到候选。
@@ -220,9 +226,7 @@ flowchart TD
 
 ### 训练时：Training-Time Test 在练什么
 
-早期 EAGLE 同时学习特征预测与 token 预测，要求草稿输出逼近主模型下一位置的顶层特征。EAGLE-3 去掉了特征回归约束，直接优化 token 预测。
-
-这样更自由，但也产生一个问题：第一步输入真实融合特征，后续步输入自身状态。如果训练只见过前者，递归时就会遇到不同的输入分布。
+去掉特征回归约束后，草稿状态可以围绕 token 预测自由学习。第一步输入真实融合特征，后续步输入自身状态，两者的输入分布存在差异，训练需要覆盖这两种情况。
 
 Training-Time Test 会在训练过程中执行模拟的草稿步骤，把生成的状态回灌给网络，再训练后续 token 预测：
 
@@ -238,7 +242,7 @@ Training-Time Test 会在训练过程中执行模拟的草稿步骤，把生成�
 
 ### 候选树怎样验证
 
-EAGLE-3 延续了 EAGLE-2 的动态候选树：同一位置保留多个分支，再根据草稿置信度展开和裁剪。
+动态候选树在同一位置保留多个分支，例如：
 
 ```text
 已确认前缀
@@ -338,3 +342,6 @@ $$
 10. SGLang PR #41486：[Tune SM90 GDN recurrent verify launch for small batches](https://github.com/sgl-project/sglang/pull/41486)。
 11. SGLang 发布记录：[v0.5.21](https://github.com/sgl-project/sglang/releases/tag/v0.5.21)、[v0.5.22](https://github.com/sgl-project/sglang/releases/tag/v0.5.22)。
 12. 本站文章：[《注意力的代价及优化》](category.html?category=tech&post=2026-10-29-attention-cost-and-optimization)。
+
+13. Yuhui Li 等，[EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty](https://arxiv.org/abs/2401.15077)：特征级自回归与提前一步的 token 信息。
+14. Yuhui Li 等，[EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees](https://arxiv.org/abs/2406.16858)：基于草稿置信度构建动态候选树。
