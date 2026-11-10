@@ -1,83 +1,41 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Project Boundaries
 
-This repository is a static GitHub Pages personal blog. Core page files live at the repository root:
+Keep the blog compatible with static hosting and dependency-light; prefer plain browser APIs over new build tooling. Treat CDN additions as project dependencies and document why they are needed. Do not commit secrets or tokens.
 
-- `index.html`: home/profile page and category entry points.
-- `category.html`: blog reader page.
-- `styles.css`: shared layout, responsive styles, and article presentation.
-- `script.js`: language switching, search, reader behavior, Markdown rendering, and Mermaid rendering.
-- `blogs/<category>/*.md`: source Markdown posts. Current categories are `tech`, `papers`, and `projects`.
-- `notes/*.md`: the author's own scratch notes, collected material, and future blog content. These files are not a workspace for generated drafts, outlines, research summaries, or other temporary writing artifacts. They are not surfaced in the frontend and should not be added to `blog-data.js`.
-- `scripts/`: Node scripts that generate static data files.
-- `blog-data.js`: generated blog index; do not edit by hand.
-- `github-contributions-data.js`: generated GitHub contributions data.
+`blog-data.js` is generated; do not edit it by hand. After adding, deleting, or renaming posts, regenerate it with `scripts/generate-blog-data.mjs`. Keep the index in sync when publishing posts; exclude `notes/`.
 
-There is no formal test directory or asset pipeline at this time.
+## Writing Conventions
 
-## Build, Test, and Development Commands
+- `notes/` is reserved for the author's own notes, collected material, and future blog content. Do not use it for generated outlines, drafts, research summaries, or temporary workspaces unless explicitly requested. This boundary overrides writing skills' default working directories.
+- Before titling a paper post, inspect existing first headings in `blogs/papers/` and continue the repository-wide `经典论文解读（中文序号）` sequence from the latest published number unless the user explicitly waives continuity. Topic labels do not restart numbering.
+- Reference source files with repository-relative paths or public links; never include personal development environment paths in article content. Keep source links in the final reference section, including links to paper sections or tables. Preserve factual attribution in prose; add inline source links only when explicitly requested.
+- After completing a post, remove task-generated outlines, draft versions, source summaries, preview screenshots, and empty temporary directories. Keep the final article, required images, and generated index; preserve existing notes and unrelated files. This cleanup rule overrides skills' artifact-retention defaults unless the user explicitly asks to retain intermediates.
 
-Run local preview from the repository root:
+## Choosing Content Formats
 
-```bash
-python3 -m http.server 8000
-```
+Choose the form that serves the content; avoid diagrams or tables that repeat the prose sentence by sentence.
 
-Then open `http://localhost:8000`. Use an HTTP server because the reader fetches Markdown files on demand.
+| Form | Purpose |
+| --- | --- |
+| Prose | Explain concepts, conditions, causal relationships, reasoning, and conclusions; provide necessary context for visuals. |
+| Tables | Align shared dimensions for comparisons, mappings, selection criteria, and parameter lists. |
+| Mermaid flowcharts | Show steps, dependencies, branches, state transitions, and simple component relationships. |
+| SVG | Precisely express position, size, alignment, nesting, and parallel relationships, such as request swimlanes, batch composition, scheduling rounds, memory layouts, and tensor structures. |
 
-Regenerate the blog index after adding, deleting, or renaming posts:
+Prefer SVG for layouts showing concurrent requests and scheduling. Write SVG directly when appropriate; no plotting library is required.
 
-```bash
-node scripts/generate-blog-data.mjs
-```
+## SVG Assets and Validation
 
-Update contribution data manually:
+- Store article images in `assets/images/<topic>/` with descriptive filenames.
+- Use image paths relative to the Markdown article file. The web reader resolves these against the article URL, supporting editor previews and deployment under a subpath.
+- Give SVGs a `viewBox`, readable text, coordinated colors, and descriptive information such as a title and description. Pair colors with labels to convey meaning.
+- Clearly distinguish rounds, time, counts, and proportions. Label teaching models and drawings that are not to scale.
+- Verify asset paths, SVG structure, browser rendering, and narrow-screen readability. State any checks the available environment prevents.
 
-```bash
-node scripts/generate-github-contributions.mjs
-```
+## Verification and Pull Requests
 
-Check JavaScript syntax before committing:
+Match verification to the change: check JavaScript syntax for code changes and manually exercise affected browser behavior. For reader changes, cover affected navigation, search, sorting, direct post links, and Markdown rendering, including tables, code blocks, and Mermaid diagrams.
 
-```bash
-node --check script.js
-node --check scripts/generate-blog-data.mjs
-node --check scripts/generate-github-contributions.mjs
-```
-
-## Coding Style & Naming Conventions
-
-Use two-space indentation in HTML, CSS, and JavaScript. Keep code dependency-light and compatible with static hosting. Prefer plain browser APIs over adding build tooling.
-
-Name blog files with a date-prefixed slug:
-
-```text
-blogs/tech/2024-09-03-redis-notes.md
-```
-
-The first `#` heading becomes the post title. Keep category keys aligned with `scripts/generate-blog-data.mjs`.
-
-Before titling a new paper post, inspect the first headings of the existing files in `blogs/papers/`. Continue the repository-wide `经典论文解读（中文序号）` sequence from the latest published number unless the user explicitly says numbering continuity is unnecessary. Topic labels such as `推理增强` do not restart the article number.
-
-Name the author's scratch notes descriptively under `notes/`; they do not need date-prefixed blog slugs until promoted into `blogs/<category>/`. Do not create generated outlines, draft workspaces, or source-summary directories under `notes/` unless the user explicitly requests them there. When an applicable writing workflow suggests a generic working directory, the repository's meaning for `notes/` takes precedence.
-
-When publishing blog posts, reference source files with repository-relative paths or public links. Avoid including personal development environment paths in article body content.
-
-After completing a blog post, remove task-generated outlines, draft versions, source summaries, preview screenshots, and empty temporary directories. Keep the final article and required generated index. Preserve the author's existing notes and unrelated files. If a writing skill normally retains intermediate artifacts, this repository's cleanup rule takes precedence unless the user explicitly asks to retain them.
-
-Keep source links in the article's final reference section. Do not repeatedly append source hyperlinks to body paragraphs, including links to the original paper's sections or tables. Preserve factual attribution in the prose where useful; add inline source links only when the user explicitly requests them.
-
-## Testing Guidelines
-
-There is no automated test framework. Validate changes with syntax checks and manual browser testing. For reader changes, test category navigation, search, sort toggling, direct `category.html?category=...&post=...` links, Markdown tables, code blocks, and Mermaid diagrams.
-
-## Commit & Pull Request Guidelines
-
-Recent commits use short, imperative messages such as `Optimize blog content loading` and `Render Mermaid diagrams in reader`; `docs:` prefixes are also acceptable for documentation-only changes.
-
-Pull requests should include a concise summary, manual verification steps, and screenshots for visual layout changes. Mention whether generated files such as `blog-data.js` or `github-contributions-data.js` were refreshed.
-
-## Security & Configuration Tips
-
-Do not commit secrets or tokens. The contributions generator writes public GitHub activity data only. Treat CDN script additions as project-level dependencies and document why they are needed.
+Pull requests should include a concise summary, verification steps, screenshots for visual changes, and whether generated data files were refreshed.
