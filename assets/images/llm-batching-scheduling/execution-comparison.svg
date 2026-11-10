@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 835" role="img" aria-labelledby="title desc">
+<title id="title">三种 Prefill 与 Decode 执行方式对照</title>
+<desc id="desc">A、B 已在 Decode，C 需要处理 4096 个输入 tokens。完整输入分阶段执行会暂停 A、B 一轮；分块交替在四个输入块之间推进 Decode；混合执行每轮同时推进 A、B 和 C。各组轮次独立编号，列宽不表示耗时。</desc>
+<rect width="760" height="835" rx="12" fill="#f7f4ec"/>
+<g font-family="sans-serif" fill="#1c2621">
+<text x="24" y="34" font-size="21" font-weight="bold">同一组请求，三种执行方式</text>
+<text x="24" y="61" font-size="14">同列属于同一 Batch；各组独立编号，列宽不表示耗时</text>
+<text x="24" y="92" font-size="18" font-weight="bold">完整 Prefill · 分阶段执行</text>
+<text x="198.66666666666669" y="119" font-size="14" text-anchor="middle">1</text>
+<path d="M 92.0 126 V 260" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="412.00000000000006" y="119" font-size="14" text-anchor="middle">2</text>
+<path d="M 305.33333333333337 126 V 260" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="625.3333333333334" y="119" font-size="14" text-anchor="middle">3</text>
+<path d="M 518.6666666666667 126 V 260" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="24" y="155" font-size="15">请求 A</text>
+<rect x="96.0" y="133" width="205.33333333333334" height="33" rx="5" fill="#244d3f"/>
+<text x="198.66666666666669" y="155" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="522.6666666666667" y="133" width="205.33333333333334" height="33" rx="5" fill="#244d3f"/>
+<text x="625.3333333333334" y="155" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="198" font-size="15">请求 B</text>
+<rect x="96.0" y="176" width="205.33333333333334" height="33" rx="5" fill="#244d3f"/>
+<text x="198.66666666666669" y="198" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="522.6666666666667" y="176" width="205.33333333333334" height="33" rx="5" fill="#244d3f"/>
+<text x="625.3333333333334" y="198" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="241" font-size="15">请求 C</text>
+<rect x="309.33333333333337" y="219" width="205.33333333333334" height="33" rx="5" fill="#a94a34"/>
+<text x="412.00000000000006" y="241" fill="#fff" font-size="14" text-anchor="middle">4096</text>
+<rect x="522.6666666666667" y="219" width="205.33333333333334" height="33" rx="5" fill="#244d3f"/>
+<text x="625.3333333333334" y="241" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="285" font-size="14">A、B 在第 2 轮暂停；C 完成全部 Prefill 后进入 Decode。</text>
+<text x="24" y="324" font-size="18" font-weight="bold">分块 Prefill · 阶段交替</text>
+<text x="132.0" y="351" font-size="14" text-anchor="middle">1</text>
+<path d="M 92.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="212.0" y="351" font-size="14" text-anchor="middle">2</text>
+<path d="M 172.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="292.0" y="351" font-size="14" text-anchor="middle">3</text>
+<path d="M 252.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="372.0" y="351" font-size="14" text-anchor="middle">4</text>
+<path d="M 332.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="452.0" y="351" font-size="14" text-anchor="middle">5</text>
+<path d="M 412.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="532.0" y="351" font-size="14" text-anchor="middle">6</text>
+<path d="M 492.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="612.0" y="351" font-size="14" text-anchor="middle">7</text>
+<path d="M 572.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="692.0" y="351" font-size="14" text-anchor="middle">8</text>
+<path d="M 652.0 358 V 492" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="24" y="387" font-size="15">请求 A</text>
+<rect x="96.0" y="365" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="132.0" y="387" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="256.0" y="365" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="292.0" y="387" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="416.0" y="365" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="452.0" y="387" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="576.0" y="365" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="612.0" y="387" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="430" font-size="15">请求 B</text>
+<rect x="96.0" y="408" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="132.0" y="430" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="256.0" y="408" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="292.0" y="430" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="416.0" y="408" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="452.0" y="430" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="576.0" y="408" width="72.0" height="33" rx="5" fill="#244d3f"/>
+<text x="612.0" y="430" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="473" font-size="15">请求 C</text>
+<rect x="176.0" y="451" width="72.0" height="33" rx="5" fill="#a94a34"/>
+<text x="212.0" y="473" fill="#fff" font-size="14" text-anchor="middle">P1</text>
+<rect x="336.0" y="451" width="72.0" height="33" rx="5" fill="#a94a34"/>
+<text x="372.0" y="473" fill="#fff" font-size="14" text-anchor="middle">P2</text>
+<rect x="496.0" y="451" width="72.0" height="33" rx="5" fill="#a94a34"/>
+<text x="532.0" y="473" fill="#fff" font-size="14" text-anchor="middle">P3</text>
+<rect x="656.0" y="451" width="72.0" height="33" rx="5" fill="#a94a34"/>
+<text x="692.0" y="473" fill="#fff" font-size="14" text-anchor="middle">P4</text>
+<text x="24" y="517" font-size="14">块间推进 A、B；C 在第 8 轮完成全部 Prefill。</text>
+<text x="24" y="556" font-size="18" font-weight="bold">分块 Prefill · 混合执行</text>
+<text x="172.0" y="583" font-size="14" text-anchor="middle">1</text>
+<path d="M 92.0 590 V 724" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="332.0" y="583" font-size="14" text-anchor="middle">2</text>
+<path d="M 252.0 590 V 724" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="492.0" y="583" font-size="14" text-anchor="middle">3</text>
+<path d="M 412.0 590 V 724" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="652.0" y="583" font-size="14" text-anchor="middle">4</text>
+<path d="M 572.0 590 V 724" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="24" y="619" font-size="15">请求 A</text>
+<rect x="96.0" y="597" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="172.0" y="619" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="256.0" y="597" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="332.0" y="619" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="416.0" y="597" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="492.0" y="619" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="576.0" y="597" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="652.0" y="619" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="662" font-size="15">请求 B</text>
+<rect x="96.0" y="640" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="172.0" y="662" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="256.0" y="640" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="332.0" y="662" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="416.0" y="640" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="492.0" y="662" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<rect x="576.0" y="640" width="152.0" height="33" rx="5" fill="#244d3f"/>
+<text x="652.0" y="662" fill="#fff" font-size="14" text-anchor="middle">D</text>
+<text x="24" y="705" font-size="15">请求 C</text>
+<rect x="96.0" y="683" width="152.0" height="33" rx="5" fill="#a94a34"/>
+<text x="172.0" y="705" fill="#fff" font-size="14" text-anchor="middle">P1</text>
+<rect x="256.0" y="683" width="152.0" height="33" rx="5" fill="#a94a34"/>
+<text x="332.0" y="705" fill="#fff" font-size="14" text-anchor="middle">P2</text>
+<rect x="416.0" y="683" width="152.0" height="33" rx="5" fill="#a94a34"/>
+<text x="492.0" y="705" fill="#fff" font-size="14" text-anchor="middle">P3</text>
+<rect x="576.0" y="683" width="152.0" height="33" rx="5" fill="#a94a34"/>
+<text x="652.0" y="705" fill="#fff" font-size="14" text-anchor="middle">P4</text>
+<text x="24" y="749" font-size="14">每轮推进 A、B 和 C；C 在第 4 轮完成全部 Prefill。</text>
+<text x="24" y="806" font-size="14">绿色 D：Decode 1 token　砖红：Prefill，P1～P4 各 1024 tokens</text>
+<text x="24" y="827" font-size="13">留白：本轮未执行。所有方案均假设 A、B 在所示轮次持续生成。</text>
+</g></svg>

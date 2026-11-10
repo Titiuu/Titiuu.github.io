@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 398" role="img" aria-labelledby="title desc">
+<title id="title">Continuous Batching：在轮次边界更换成员</title><desc id="desc">第 1 轮后 A 完成、C 加入；第 2 轮后 B 完成、D 加入。</desc>
+<rect width="760" height="398" rx="12" fill="#f7f4ec"/>
+<g font-family="sans-serif" fill="#1c2621">
+<text x="24" y="34" font-size="21" font-weight="bold">Continuous Batching：在轮次边界更换成员</text>
+<text x="24" y="61" font-size="14">逻辑执行轮次 →　同列属于同一 Batch，列宽不表示耗时</text>
+<text x="197.66666666666669" y="94" font-size="14" text-anchor="middle">1</text>
+<path d="M 90.0 105 V 338" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="413.00000000000006" y="94" font-size="14" text-anchor="middle">2</text>
+<path d="M 305.33333333333337 105 V 338" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="628.3333333333334" y="94" font-size="14" text-anchor="middle">3</text>
+<path d="M 520.6666666666667 105 V 338" stroke="#d8d0c0" stroke-dasharray="4 4"/>
+<text x="24" y="139" font-size="16">请求 A</text>
+<rect x="94.0" y="113" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="197.66666666666669" y="138" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<text x="24" y="196" font-size="16">请求 B</text>
+<rect x="94.0" y="170" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="197.66666666666669" y="195" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<rect x="309.33333333333337" y="170" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="413.00000000000006" y="195" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<text x="24" y="253" font-size="16">请求 C</text>
+<rect x="309.33333333333337" y="227" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="413.00000000000006" y="252" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<rect x="524.6666666666667" y="227" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="628.3333333333334" y="252" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<text x="24" y="310" font-size="16">请求 D</text>
+<rect x="524.6666666666667" y="284" width="207.33333333333334" height="40" rx="5" fill="#244d3f"/>
+<text x="628.3333333333334" y="309" fill="#fff" font-size="14" text-anchor="middle">执行</text>
+<text x="24" y="360" font-size="14">第 1 轮后 A 完成、C 加入；第 2 轮后 B 完成、D 加入。</text>
+<text x="24" y="383" font-size="13">绿色：执行 / Decode　砖红：Prefill　留白：本轮未执行</text>
+</g></svg>

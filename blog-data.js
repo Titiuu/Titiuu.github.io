@@ -272,6 +272,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-11-10",
+    "title": "大模型推理批处理调度：请求形状、批处理机制、调度策略和优化目标",
+    "excerpt": "同一套推理引擎，离线压测时 GPU 利用率很高，接入在线业务后却可能出现首 token 等待过久、流式输出停顿，或者短请求迟迟完成不了。排查这些问题时，很容易直接调整 Batch Size、打开 Chunked Prefill，再比较吞吐有",
+    "slug": "2026-11-10-llm-batching-scheduling",
+    "path": "blogs/tech/2026-11-10-llm-batching-scheduling.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-11-06",
     "title": "KV Cache 优化技术体系：从分页管理到跨节点复用",
     "excerpt": "一个请求已经计算过的历史，为什么下一个请求还要重新算？一个模型的权重明明放得下，为什么长上下文请求一多，服务仍然会被显存卡住？把缓存搬到 CPU 后，为什么命中率提高了，首 token 延迟却可能变差？",

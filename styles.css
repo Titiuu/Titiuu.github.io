@@ -994,3 +994,10 @@ a.more-mark:hover {
     transition: none !important;
   }
 }
+
+.markdown-preview img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 22px auto;
+}

@@ -371,7 +371,7 @@ function setupReaderPage() {
       }
 
       preview.innerHTML = renderMarkdown(markdown);
-      enhanceRenderedMarkdown(preview);
+      enhanceRenderedMarkdown(preview, post.path);
       renderMermaidDiagrams(preview);
 
       if (containsMath(markdown)) {
@@ -469,10 +469,17 @@ function escapeHtml(value) {
 
 function renderInline(value) {
   let text = escapeHtml(value);
+  const images = [];
+  text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, (match, alt, src) => {
+    if (!/^(?:https?:\/\/|\.?\.?\/|[a-zA-Z0-9_-]+\/)/.test(src)) return match;
+    const token = `\u0000IMAGE${images.length}\u0000`;
+    images.push(`<img src="${src}" alt="${alt}" loading="lazy">`);
+    return token;
+  });
   text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
-  return text;
+  return text.replace(/\u0000IMAGE(\d+)\u0000/g, (_, index) => images[Number(index)]);
 }
 
 function renderTable(lines) {
@@ -517,7 +524,16 @@ function renderWithMarked(markdown) {
     );
 }
 
-function enhanceRenderedMarkdown(container) {
+function enhanceRenderedMarkdown(container, postPath) {
+  const postUrl = new URL(postPath, document.baseURI);
+  container.querySelectorAll("img[src]").forEach((image) => {
+    const src = image.getAttribute("src");
+    if (!src || /^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(src)) {
+      return;
+    }
+    image.setAttribute("src", new URL(src, postUrl).href);
+  });
+
   container.querySelectorAll("a[href]").forEach((link) => {
     if (/^https?:\/\//i.test(link.getAttribute("href"))) {
       link.target = "_blank";
