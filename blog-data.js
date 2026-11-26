@@ -272,6 +272,15 @@ window.BLOG_POSTS = [
   {
     "category": "tech",
     "categoryName": "技术分享",
+    "date": "2026-11-26",
+    "title": "大模型推理量化：数值表示、量化误差与 GPU 执行",
+    "excerpt": "量化用较少的二进制位近似表示模型中的数值。对相同形状的矩阵乘法，主乘加次数保持相同；如果硬件提供适用的低精度矩阵指令，更高的指令吞吐可以缩短计算时间。权重位宽降低后，模型占用的显存更少，读取同一份参数需要搬运的字节也更少。这三方面收益分别影",
+    "slug": "2026-11-26-llm-inference-quantization",
+    "path": "blogs/tech/2026-11-26-llm-inference-quantization.md"
+  },
+  {
+    "category": "tech",
+    "categoryName": "技术分享",
     "date": "2026-11-10",
     "title": "大模型推理批处理调度：请求形状、批处理机制、调度策略和优化目标",
     "excerpt": "同一套推理引擎，离线压测时 GPU 利用率很高，接入在线业务后却可能出现首 token 等待过久、流式输出停顿，或者短请求迟迟完成不了。排查这些问题时，很容易直接调整 Batch Size、打开 Chunked Prefill，再比较吞吐有",

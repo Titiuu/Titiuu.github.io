@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="465" viewBox="0 0 600 465" role="img" aria-labelledby="title description">
+  <title id="title">W4A16 与 INT8 W8A8 的线性层数据流</title>
+  <desc id="description">W4A16 在片上解包和反量化权重后执行半精度乘法。INT8 W8A8 先量化激活，再执行 INT8 乘法和 INT32 累加，最后恢复尺度。箭头表示处理顺序。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#50687b"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="598" height="463" rx="19" fill="#f5f8fb" stroke="#c4d2df"/>
+  <g font-family="system-ui, sans-serif" text-anchor="middle" fill="#172d43">
+    <text x="300" y="39" font-size="25" font-weight="700">线性层 Y = XWᵀ</text>
+    <rect x="14" y="60" width="279" height="386" rx="13" fill="#e2f3f1"/>
+    <rect x="307" y="60" width="279" height="386" rx="13" fill="#e9edfb"/>
+    <g font-size="24" font-weight="700">
+      <text x="153.5" y="96">W4A16</text>
+      <text x="446.5" y="96">INT8 W8A8</text>
+    </g>
+    <g fill="#fff" stroke="#9eb3c7">
+      <rect x="28" y="114" width="251" height="62" rx="8"/>
+      <rect x="321" y="114" width="251" height="62" rx="8"/>
+      <rect x="28" y="196" width="251" height="62" rx="8"/>
+      <rect x="321" y="196" width="251" height="62" rx="8"/>
+      <rect x="28" y="278" width="251" height="62" rx="8"/>
+      <rect x="321" y="278" width="251" height="62" rx="8"/>
+      <rect x="28" y="360" width="251" height="62" rx="8"/>
+      <rect x="321" y="360" width="251" height="62" rx="8"/>
+    </g>
+    <g font-size="21">
+      <text x="153.5" y="140"><tspan x="153.5">读取 A16 激活</tspan><tspan x="153.5" dy="24">及打包 W4、scale</tspan></text>
+      <text x="446.5" y="140"><tspan x="446.5">读取原始激活</tspan><tspan x="446.5" dy="24">及 W8 权重、scale</tspan></text>
+      <text x="153.5" y="222"><tspan x="153.5">片上解包 W4</tspan><tspan x="153.5" dy="24">应用 scale 转为半精度</tspan></text>
+      <text x="446.5" y="222"><tspan x="446.5">用静态或动态 scale</tspan><tspan x="446.5" dy="24">将激活编码为 INT8</tspan></text>
+      <text x="153.5" y="304"><tspan x="153.5">半精度乘法</tspan><tspan x="153.5" dy="24">用较宽类型累加</tspan></text>
+      <text x="446.5" y="304"><tspan x="446.5">INT8 乘法</tspan><tspan x="446.5" dy="24">INT32 累加</tspan></text>
+      <text x="153.5" y="398">转换并写回输出</text>
+      <text x="446.5" y="386"><tspan x="446.5">乘回输入与权重 scale</tspan><tspan x="446.5" dy="24">转换并写回输出</tspan></text>
+    </g>
+    <g fill="none" stroke="#50687b" stroke-width="1.6" marker-end="url(#arrow)">
+      <path d="M153.5 178v15"/><path d="M153.5 260v15"/><path d="M153.5 342v15"/>
+      <path d="M446.5 178v15"/><path d="M446.5 260v15"/><path d="M446.5 342v15"/>
+    </g>
+  </g>
+</svg>
