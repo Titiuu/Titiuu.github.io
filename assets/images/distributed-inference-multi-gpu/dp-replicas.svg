@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="343" viewBox="0 0 480 343" role="img" aria-labelledby="title desc"><title id="title">DP：请求进入独立副本</title><desc id="desc">副本可由多卡组成；图中假设每副本单卡。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="343" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">DP：请求进入独立副本</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">请求路由</text>
+<rect x="18.0" y="99" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="121" text-anchor="middle" font-size="14">A → GPU 0</text>
+<rect x="240.0" y="99" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="121" text-anchor="middle" font-size="14">B → GPU 1</text>
+<text x="18" y="166" font-size="15">每卡驻留</text>
+<rect x="18.0" y="175" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="197" text-anchor="middle" font-size="14">完整模型 + A 的 KV</text>
+<rect x="240.0" y="175" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="197" text-anchor="middle" font-size="14">完整模型 + B 的 KV</text>
+<text x="18" y="242" font-size="15">前向执行</text>
+<rect x="18.0" y="251" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="273" text-anchor="middle" font-size="14">A 独立推进</text>
+<rect x="240.0" y="251" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="273" text-anchor="middle" font-size="14">B 独立推进</text>
+<text x="18" y="327" font-size="14">副本可由多卡组成；图中假设每副本单卡</text></g></svg>

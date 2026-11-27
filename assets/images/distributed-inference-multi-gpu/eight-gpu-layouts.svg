@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="495" viewBox="0 0 480 495" role="img" aria-labelledby="title desc"><title id="title">八张 GPU：实例边界决定协作范围</title><desc id="desc">各方案都需单独验证模型与 KV 容量。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="495" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">八张 GPU：实例边界决定协作范围</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">DP=8：八个单卡实例</text>
+<rect x="18.0" y="99" width="49.5" height="34" rx="5" fill="#d7e8fa"/><text x="42.75" y="121" text-anchor="middle" font-size="14">0</text>
+<rect x="73.5" y="99" width="49.5" height="34" rx="5" fill="#c9e8df"/><text x="98.25" y="121" text-anchor="middle" font-size="14">1</text>
+<rect x="129.0" y="99" width="49.5" height="34" rx="5" fill="#f7dfb7"/><text x="153.75" y="121" text-anchor="middle" font-size="14">2</text>
+<rect x="184.5" y="99" width="49.5" height="34" rx="5" fill="#e2d9f2"/><text x="209.25" y="121" text-anchor="middle" font-size="14">3</text>
+<rect x="240.0" y="99" width="49.5" height="34" rx="5" fill="#d7e8fa"/><text x="264.75" y="121" text-anchor="middle" font-size="14">4</text>
+<rect x="295.5" y="99" width="49.5" height="34" rx="5" fill="#c9e8df"/><text x="320.25" y="121" text-anchor="middle" font-size="14">5</text>
+<rect x="351.0" y="99" width="49.5" height="34" rx="5" fill="#f7dfb7"/><text x="375.75" y="121" text-anchor="middle" font-size="14">6</text>
+<rect x="406.5" y="99" width="49.5" height="34" rx="5" fill="#e2d9f2"/><text x="431.25" y="121" text-anchor="middle" font-size="14">7</text>
+<text x="18" y="166" font-size="15">DP=4 × TP=2：四个双卡实例</text>
+<rect x="18.0" y="175" width="105.0" height="34" rx="5" fill="#d7e8fa"/><text x="70.5" y="197" text-anchor="middle" font-size="14">0,1</text>
+<rect x="129.0" y="175" width="105.0" height="34" rx="5" fill="#c9e8df"/><text x="181.5" y="197" text-anchor="middle" font-size="14">2,3</text>
+<rect x="240.0" y="175" width="105.0" height="34" rx="5" fill="#f7dfb7"/><text x="292.5" y="197" text-anchor="middle" font-size="14">4,5</text>
+<rect x="351.0" y="175" width="105.0" height="34" rx="5" fill="#e2d9f2"/><text x="403.5" y="197" text-anchor="middle" font-size="14">6,7</text>
+<text x="18" y="242" font-size="15">DP=2 × TP=4：两个四卡实例</text>
+<rect x="18.0" y="251" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="273" text-anchor="middle" font-size="14">0,1,2,3</text>
+<rect x="240.0" y="251" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="273" text-anchor="middle" font-size="14">4,5,6,7</text>
+<text x="18" y="318" font-size="15">TP=8：一个八卡实例</text>
+<rect x="18.0" y="327" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="349" text-anchor="middle" font-size="14">0,1,2,3,4,5,6,7</text>
+<text x="18" y="394" font-size="15">PD：两个资源池，内部布局另定</text>
+<rect x="18.0" y="403" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="425" text-anchor="middle" font-size="14">P：0,1</text>
+<rect x="240.0" y="403" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="425" text-anchor="middle" font-size="14">D：2,3,4,5,6,7</text>
+<text x="18" y="479" font-size="14">各方案都需单独验证模型与 KV 容量</text></g></svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="571" viewBox="0 0 480 571" role="img" aria-labelledby="title desc"><title id="title">PD：首 token 返回与交接分开计时</title><desc id="desc">无重叠教学时间线；实际系统首 token 策略可不同。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="571" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">PD：首 token 返回与交接分开计时</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">1 路由 / 容量准备</text>
+<rect x="18.0" y="99" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="121" text-anchor="middle" font-size="14">选择 P、D；准备目标空间</text>
+<text x="18" y="166" font-size="15">2 P 执行 prompt</text>
+<rect x="18.0" y="175" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="197" text-anchor="middle" font-size="14">生成 KV 与首 token</text>
+<text x="18" y="242" font-size="15">3 首 token 返回客户端</text>
+<rect x="18.0" y="251" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="273" text-anchor="middle" font-size="14">本图 TTFT 到此结束</text>
+<text x="18" y="318" font-size="15">4 KV 交接完成</text>
+<rect x="18.0" y="327" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="349" text-anchor="middle" font-size="14">P → D；等待必要分片就绪</text>
+<text x="18" y="394" font-size="15">5 D 生成第二及后续 token</text>
+<rect x="18.0" y="403" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="425" text-anchor="middle" font-size="14">交接会影响首个输出间隔</text>
+<text x="18" y="470" font-size="15">6 请求完成</text>
+<rect x="18.0" y="479" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="501" text-anchor="middle" font-size="14">D 回收本请求状态</text>
+<text x="18" y="555" font-size="14">无重叠教学时间线；实际系统首 token 策略可不同</text></g></svg>

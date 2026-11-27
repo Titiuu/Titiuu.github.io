@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="495" viewBox="0 0 480 495" role="img" aria-labelledby="title desc"><title id="title">DP Attention + EP：原 rank 收回输出</title><desc id="desc">同一批 GPU 切换数据布局，非独立完整模型副本。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="495" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">DP Attention + EP：原 rank 收回输出</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">本地 Attention 与 KV</text>
+<rect x="18.0" y="99" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="121" text-anchor="middle" font-size="14">G0：请求 A</text>
+<rect x="240.0" y="99" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="121" text-anchor="middle" font-size="14">G1：请求 B</text>
+<text x="18" y="166" font-size="15">路由：A→E1,E6；B→E3,E6</text>
+<rect x="18.0" y="175" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="197" text-anchor="middle" font-size="14">A → G0、G3</text>
+<rect x="240.0" y="175" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="197" text-anchor="middle" font-size="14">B → G1、G3</text>
+<text x="18" y="242" font-size="15">EP：专家按四卡分布</text>
+<rect x="18.0" y="251" width="105.0" height="34" rx="5" fill="#d7e8fa"/><text x="70.5" y="273" text-anchor="middle" font-size="14">G0:E0,1</text>
+<rect x="129.0" y="251" width="105.0" height="34" rx="5" fill="#c9e8df"/><text x="181.5" y="273" text-anchor="middle" font-size="14">G1:E2,3</text>
+<rect x="240.0" y="251" width="105.0" height="34" rx="5" fill="#f7dfb7"/><text x="292.5" y="273" text-anchor="middle" font-size="14">G2:E4,5</text>
+<rect x="351.0" y="251" width="105.0" height="34" rx="5" fill="#e2d9f2"/><text x="403.5" y="273" text-anchor="middle" font-size="14">G3:E6,7</text>
+<text x="18" y="318" font-size="15">Combine：返回请求原 rank</text>
+<rect x="18.0" y="327" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="349" text-anchor="middle" font-size="14">A 输出 → G0</text>
+<rect x="240.0" y="327" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="349" text-anchor="middle" font-size="14">B 输出 → G1</text>
+<text x="18" y="394" font-size="15">下一层本地 Attention</text>
+<rect x="18.0" y="403" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="425" text-anchor="middle" font-size="14">G0 保持 A 的 KV</text>
+<rect x="240.0" y="403" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="425" text-anchor="middle" font-size="14">G1 保持 B 的 KV</text>
+<text x="18" y="479" font-size="14">同一批 GPU 切换数据布局，非独立完整模型副本</text></g></svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="419" viewBox="0 0 480 419" role="img" aria-labelledby="title desc"><title id="title">EP：token 找到专家，再返回</title><desc id="desc">移动激活与元数据，专家权重驻留目标卡。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="419" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">EP：token 找到专家，再返回</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">四卡专家驻留</text>
+<rect x="18.0" y="99" width="105.0" height="34" rx="5" fill="#d7e8fa"/><text x="70.5" y="121" text-anchor="middle" font-size="14">G0:E0,1</text>
+<rect x="129.0" y="99" width="105.0" height="34" rx="5" fill="#c9e8df"/><text x="181.5" y="121" text-anchor="middle" font-size="14">G1:E2,3</text>
+<rect x="240.0" y="99" width="105.0" height="34" rx="5" fill="#f7dfb7"/><text x="292.5" y="121" text-anchor="middle" font-size="14">G2:E4,5</text>
+<rect x="351.0" y="99" width="105.0" height="34" rx="5" fill="#e2d9f2"/><text x="403.5" y="121" text-anchor="middle" font-size="14">G3:E6,7</text>
+<text x="18" y="166" font-size="15">token A 的 Top-2：E1、E6</text>
+<rect x="18.0" y="175" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="197" text-anchor="middle" font-size="14">A → G0 / E1</text>
+<rect x="240.0" y="175" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="197" text-anchor="middle" font-size="14">A → G3 / E6</text>
+<text x="18" y="242" font-size="15">Dispatch → 专家计算 → Combine</text>
+<rect x="18.0" y="251" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="273" text-anchor="middle" font-size="14">E1(A) → 原 rank</text>
+<rect x="240.0" y="251" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="273" text-anchor="middle" font-size="14">E6(A) → 原 rank</text>
+<text x="18" y="318" font-size="15">原 rank 加权合并</text>
+<rect x="18.0" y="327" width="438.0" height="34" rx="5" fill="#d7e8fa"/><text x="237.0" y="349" text-anchor="middle" font-size="14">输出 = p₁ E1(A) + p₆ E6(A)</text>
+<text x="18" y="403" font-size="14">移动激活与元数据，专家权重驻留目标卡</text></g></svg>

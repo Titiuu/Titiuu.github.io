@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="419" viewBox="0 0 480 419" role="img" aria-labelledby="title desc"><title id="title">CP：同一 Query 访问分片历史</title><desc id="desc">局部输出不能直接平均；公式见正文。教学示意，布局不按实际耗时或数据大小比例。</desc><rect width="480" height="419" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43">
+<text x="18" y="30" font-size="19">CP：同一 Query 访问分片历史</text><text x="18" y="54" font-size="14">教学示意 · 非实测 · 色块大小不表示工作量</text>
+<text x="18" y="90" font-size="15">Q 分发给两卡</text>
+<rect x="18.0" y="99" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="121" text-anchor="middle" font-size="14">GPU 0：Q</text>
+<rect x="240.0" y="99" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="121" text-anchor="middle" font-size="14">GPU 1：Q</text>
+<text x="18" y="166" font-size="15">历史沿 token 位置分片</text>
+<rect x="18.0" y="175" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="197" text-anchor="middle" font-size="14">KV：位置 0–3</text>
+<rect x="240.0" y="175" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="197" text-anchor="middle" font-size="14">KV：位置 4–7</text>
+<text x="18" y="242" font-size="15">本地计算 logits 与统计</text>
+<rect x="18.0" y="251" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="273" text-anchor="middle" font-size="14">m₀、l₀、u₀</text>
+<rect x="240.0" y="251" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="273" text-anchor="middle" font-size="14">m₁、l₁、u₁</text>
+<text x="18" y="318" font-size="15">全局最大值 → 重缩放 → 归一化</text>
+<rect x="18.0" y="327" width="216.0" height="34" rx="5" fill="#d7e8fa"/><text x="126.0" y="349" text-anchor="middle" font-size="14">m = max(m₀,m₁)</text>
+<rect x="240.0" y="327" width="216.0" height="34" rx="5" fill="#c9e8df"/><text x="348.0" y="349" text-anchor="middle" font-size="14">o = Σ缩放 u / Σ缩放 l</text>
+<text x="18" y="403" font-size="14">局部输出不能直接平均；公式见正文</text></g></svg>

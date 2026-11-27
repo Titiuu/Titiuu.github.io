@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="320" viewBox="0 0 480 320" role="img" aria-labelledby="title desc"><title id="title">专家负载与最慢卡等待</title><desc id="desc">四卡任务量12、58、9、21，相同宽度比例，最慢卡决定同步耗时。</desc><rect width="480" height="320" rx="12" fill="#f5f8fb"/><g font-family="system-ui,sans-serif" fill="#172d43"><text x="18" y="30" font-size="19">专家负载：同步等待最忙的卡</text><text x="18" y="55" font-size="14">教学示意 · 每个 assignment 成本相同</text>
+<text x="18" y="102" font-size="16">GPU 0</text><rect x="90" y="80" width="60" height="30" fill="#d7e8fa"/><text x="160" y="102" font-size="16">12</text>
+<text x="18" y="146" font-size="16">GPU 1</text><rect x="90" y="124" width="290" height="30" fill="#c9e8df"/><text x="390" y="146" font-size="16">58</text>
+<text x="18" y="190" font-size="16">GPU 2</text><rect x="90" y="168" width="45" height="30" fill="#f7dfb7"/><text x="145" y="190" font-size="16">9</text>
+<text x="18" y="234" font-size="16">GPU 3</text><rect x="90" y="212" width="105" height="30" fill="#e2d9f2"/><text x="205" y="234" font-size="16">21</text>
+<text x="18" y="285" font-size="16">理想利用率 = 100 / (4 × 58) = 43.1%</text><text x="18" y="307" font-size="14">忽略通信、其他算子及任务成本差异</text></g></svg>
